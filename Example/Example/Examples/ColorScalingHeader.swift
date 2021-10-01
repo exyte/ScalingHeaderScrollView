@@ -60,7 +60,7 @@ struct ColorScalingHeader: View {
 
 
 let colorSet: [Color] = [.red, .blue, .green, .black, .pink, .purple, .yellow,
-                            .red, .blue, .green, .black, .pink, .purple, .yellow]
+                         .red, .blue, .green, .black, .pink, .purple, .yellow]
 
 extension Color {
     var name: String {

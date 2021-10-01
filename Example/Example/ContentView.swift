@@ -21,27 +21,27 @@ struct ContentView: View {
         NavigationView {
             VStack(spacing: 32.0) {
                 Spacer()
-
+                
                 NavigationLink(destination: SimpleScalingHeader()) {
                     Text("Simple Scaling Header")
                 }
-
+                
                 NavigationLink(destination: MapScalingHeader()) {
                     Text("Map Scaling Header")
                 }
-
+                
                 NavigationLink(destination: ColorScalingHeader()) {
                     Text("Color Scaling Header")
                 }
-
+                
                 NavigationLink(destination: RequestScalingHeader()) {
                     Text("Request Scaling Header")
                 }
-
+                
                 NavigationLink(destination: TabScalingHeader()) {
                     Text("Tab Scaling Header")
                 }
-
+                
                 Spacer()
             }.offset(y: -50)
         }

@@ -11,7 +11,7 @@ import Introspect
 
 public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     
-	/// Required fields
+    /// Required fields
     @ViewBuilder public var header: (CGFloat) -> Header
     @ViewBuilder public var content: Content
     
@@ -46,10 +46,10 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     private var headerScale: CGFloat {
         noRefresh && !noHeaderScale ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
     }
-	
-	private var needToShowProgressView: Bool {
-		!noRefresh && (isLoading || isSpinning)
-	}
+    
+    private var needToShowProgressView: Bool {
+        !noRefresh && (isLoading || isSpinning)
+    }
     
     public init(header: @escaping (CGFloat) -> Header, @ViewBuilder content: @escaping () -> Content) {
         self.header = header
@@ -79,7 +79,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                             .scaleEffect(1.25)
                             .offset(x: 0, y: getOffsetForHeader() + progressViewOffset)
                     }
-
+                    
                     header(getCollapseProgress())
                         .frame(height: getHeightForHeaderView())
                         .clipped()
@@ -115,8 +115,8 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         }
         uiScrollView = scrollView
     }
-	
-	// MARK: - Private actions
+    
+    // MARK: - Private actions
     
     private func scrollToTopContent() {
         guard scrollToTop else { return }
@@ -133,8 +133,8 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         contentOffset.y = contentOffset.y < extraSpace / 2 ? 0 : max(extraSpace, contentOffset.y)
         uiScrollView?.setContentOffset(contentOffset, animated: true)
     }
-	
-	// MARK: - Private getters for heights and offsets
+    
+    // MARK: - Private getters for heights and offsets
     
     private func getScrollOffset() -> CGFloat {
         -(uiScrollView?.contentOffset.y ?? 0)

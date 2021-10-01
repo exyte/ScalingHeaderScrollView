@@ -66,7 +66,7 @@ struct TabScalingHeader: View {
         }
         .frame(height: 50.0)
     }
-
+    
     private var content: some View {
         ZStack {
             switch selectedScreen {
