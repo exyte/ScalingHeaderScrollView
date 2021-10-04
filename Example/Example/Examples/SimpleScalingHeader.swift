@@ -24,7 +24,7 @@ struct SimpleScalingHeader: View {
         .pullToRefresh(isLoading: $isLoading) {
             changeImage()
         }
-        .disableHeaderCollapse()
+        .allowsHeaderCollapse(false)
     }
     
     // MARK: - Private

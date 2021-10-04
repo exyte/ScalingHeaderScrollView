@@ -31,8 +31,8 @@ struct TabScalingHeader: View {
         } content: {
             content
         }
-        .disableHeaderScale()
-        .disableHeaderCollapse()
+        .allowHeaderScale(false)
+        .allowsHeaderCollapse(false)
         .scrollToTop(immediately: $scrollToTop)
     }
     

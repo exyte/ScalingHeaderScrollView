@@ -11,26 +11,33 @@ import Introspect
 
 public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     
-    /// Required fields
+    /// Public required properties, header and content should be pass to init
     @ViewBuilder public var header: (CGFloat) -> Header
     @ViewBuilder public var content: Content
     
-    @Binding public var isLoading: Bool
-    public var didPullToRefresh: (() -> Void)?
-    
-    @Binding public var scrollToTop: Bool
-    
+    /// should be showing or not a progress view
     @State private var isSpinning: Bool = false
+    
+    /// UIKit's UIScrollView
     @State private var uiScrollView: UIScrollView?
+    
+    /// UIScrollView delegate, needed for calling didPullToRefresh or didEndDragging
     @StateObject private var scrollViewDelegate = ScalingHeaderScrollViewDelegate()
+    
+    /// ScrollView's content frame, needed for calculation of frame changing
     @StateObject private var contentFrame = ViewFrame()
     
+    /// Private properties for modifiers, see descriptions in `Modifiers`  section
+    @Binding private var scrollToTop: Bool
+    @Binding private var isLoading: Bool
+    private var didPullToRefresh: (() -> Void)?
     private var maxHeight: CGFloat = 350.0
     private var minHeight: CGFloat = 150.0
-    private var noHeaderCollapse: Bool = false
-    private var noSnapping: Bool = false
-    private var noHeaderScale: Bool = false
+    private var allowsHeaderCollapse: Bool = true
+    private var allowHeaderSnap: Bool = true
+    private var allowHeaderScale: Bool = true
     
+    /// Private computed properties
     private var noRefresh: Bool {
         didPullToRefresh == nil
     }
@@ -44,12 +51,14 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     }
     
     private var headerScale: CGFloat {
-        noRefresh && !noHeaderScale ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
+        noRefresh && allowHeaderScale ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
     }
     
     private var needToShowProgressView: Bool {
         !noRefresh && (isLoading || isSpinning)
     }
+    
+    // MARK: - Init
     
     public init(header: @escaping (CGFloat) -> Header, @ViewBuilder content: @escaping () -> Content) {
         self.header = header
@@ -57,6 +66,8 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         _isLoading = .constant(false)
         _scrollToTop = .constant(false)
     }
+    
+    // MARK: - Body builder
     
     public var body: some View {
         ScrollView {
@@ -127,7 +138,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     }
     
     private func snapping() {
-        guard !noSnapping else { return }
+        guard allowHeaderSnap else { return }
         guard var contentOffset = uiScrollView?.contentOffset else { return }
         let extraSpace: CGFloat = maxHeight - minHeight
         contentOffset.y = contentOffset.y < extraSpace / 2 ? 0 : max(extraSpace, contentOffset.y)
@@ -150,7 +161,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         
         if offset < -extraSpace {
             let imageOffset = abs(min(-extraSpace, offset))
-            return noHeaderCollapse ? (minHeight - maxHeight) - offset : imageOffset
+            return allowsHeaderCollapse ? imageOffset : (minHeight - maxHeight) - offset
         } else if offset > 0 {
             return -offset
         }
@@ -158,7 +169,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     }
     
     private func getHeightForHeaderView() -> CGFloat {
-        guard !noHeaderCollapse else {
+        guard allowsHeaderCollapse else {
             return maxHeight
         }
         let offset = getScrollOffset()
@@ -182,6 +193,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
 extension ScalingHeaderScrollView {
     
+    /// allows set up callback and `isLoading` state for pull-to-refresh action
     public func pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._isLoading = isLoading
@@ -189,12 +201,14 @@ extension ScalingHeaderScrollView {
         return scalingHeaderScrollView
     }
     
+    /// allows scrolling to top content, need to change Binding to `true`
     public func scrollToTop(immediately: Binding<Bool>) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._scrollToTop = immediately
         return scalingHeaderScrollView
     }
     
+    /// changes min and max heights of Header, default `min = 150.0` and `max = 350.0`
     public func height(min: CGFloat = 150.0, max: CGFloat = 350.0) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.minHeight = min
@@ -202,21 +216,24 @@ extension ScalingHeaderScrollView {
         return scalingHeaderScrollView
     }
     
-    public func disableHeaderCollapse() -> ScalingHeaderScrollView {
+    /// allows enabling/disabling ability of header collapse
+    public func allowsHeaderCollapse(_ value: Bool) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.noHeaderCollapse = true
+        scalingHeaderScrollView.allowsHeaderCollapse = value
         return scalingHeaderScrollView
     }
     
-    public func disableHeaderSnap() -> ScalingHeaderScrollView {
+    /// allows enabling/disabling ability of header snap
+    public func allowHeaderSnap(_ value: Bool) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.noSnapping = true
+        scalingHeaderScrollView.allowHeaderSnap = true
         return scalingHeaderScrollView
     }
     
-    public func disableHeaderScale() -> ScalingHeaderScrollView {
+    /// allows enabling/disabling ability of header scale
+    public func allowHeaderScale(_ value: Bool) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.noHeaderScale = true
+        scalingHeaderScrollView.allowHeaderScale = true
         return scalingHeaderScrollView
     }
 }
