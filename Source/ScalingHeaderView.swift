@@ -34,8 +34,8 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     private var maxHeight: CGFloat = 350.0
     private var minHeight: CGFloat = 150.0
     private var allowsHeaderCollapse: Bool = true
-    private var allowHeaderSnap: Bool = true
-    private var allowHeaderScale: Bool = true
+    private var allowsHeaderSnap: Bool = true
+    private var allowsHeaderScale: Bool = true
     
     /// Private computed properties
 
@@ -53,7 +53,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Should the header enlarge while pulling down
     private var headerScaleOnPullDown: CGFloat {
-        noPullToRefresh && allowHeaderScale ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
+        noPullToRefresh && allowsHeaderScale ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
     }
     
     private var needToShowProgressView: Bool {
@@ -140,7 +140,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     }
     
     private func snapping() {
-        guard allowHeaderSnap else { return }
+        guard allowsHeaderSnap else { return }
         guard var contentOffset = uiScrollView?.contentOffset else { return }
         let extraSpace: CGFloat = maxHeight - minHeight
         contentOffset.y = contentOffset.y < extraSpace / 2 ? 0 : max(extraSpace, contentOffset.y)
@@ -228,14 +228,14 @@ extension ScalingHeaderScrollView {
     /// when scrolling down - enable/disable header scale
     public func allowsHeaderScale(_ value: Bool) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.allowHeaderScale = value
+        scalingHeaderScrollView.allowsHeaderScale = value
         return scalingHeaderScrollView
     }
     
     /// enable/disable header snap (once you lift your finger header snaps either to min or max height automatically)
     public func allowsHeaderSnap(_ value: Bool) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.allowHeaderSnap = value
+        scalingHeaderScrollView.allowsHeaderSnap = value
         return scalingHeaderScrollView
     }
 }

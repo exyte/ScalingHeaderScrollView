@@ -31,9 +31,9 @@ struct TabScalingHeader: View {
         } content: {
             content
         }
-        .allowHeaderScale(false)
+        .allowsHeaderScale(false)
         .allowsHeaderCollapse(false)
-        .scrollToTop(immediately: $scrollToTop)
+        .scrollToTop(resetScroll: $scrollToTop)
     }
     
     // MARK: - Private
