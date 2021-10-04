@@ -228,14 +228,14 @@ extension ScalingHeaderScrollView {
     /// when scrolling down - enable/disable header scale
     public func allowsHeaderScale(_ value: Bool) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.allowHeaderScale = true
+        scalingHeaderScrollView.allowHeaderScale = value
         return scalingHeaderScrollView
     }
     
     /// enable/disable header snap (once you lift your finger header snaps either to min or max height automatically)
     public func allowsHeaderSnap(_ value: Bool) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.allowHeaderSnap = true
+        scalingHeaderScrollView.allowHeaderSnap = value
         return scalingHeaderScrollView
     }
 }
