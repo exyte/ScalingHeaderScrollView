@@ -43,7 +43,8 @@ struct ContentView: View {
                 }
                 
                 Spacer()
-            }.offset(y: -50)
+            }
+            .offset(y: -50)
         }
     }
 }
