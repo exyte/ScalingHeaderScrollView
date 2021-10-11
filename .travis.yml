@@ -1,0 +1,12 @@
+language: swift
+osx_image: xcode13
+
+branches:
+    only:
+    - master
+
+script:
+- set -o pipefail && xcodebuild -project ScalingHeaderView.xcodeproj -scheme 'ScalingHeaderView' -sdk iphonesimulator15.0 ONLY_ACTIVE_ARCH=NO -destination 'platform=iOS Simulator,OS=15.0,name=iPhone 13 Pro' | xcpretty;
+
+notifications:
+    slack: exyte:rbHEfGcQnX1drc0KNL0HVudX
