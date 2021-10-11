@@ -15,7 +15,7 @@ struct SimpleScalingHeader: View {
     @State private var isLoading: Bool = false
     
     var body: some View {
-        ScalingHeaderScrollView { _ in
+        ScalingHeaderView { _ in
             Image(selectedImage)
         } content: {
             Text(defaultDescription)

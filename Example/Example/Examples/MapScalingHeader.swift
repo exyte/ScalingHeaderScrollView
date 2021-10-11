@@ -18,7 +18,7 @@ struct MapScalingHeader: View {
         span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
     
     var body: some View {
-        ScalingHeaderScrollView { _ in
+        ScalingHeaderView { _ in
             Map(coordinateRegion: $region)
         } content: {
             Text(defaultDescription)

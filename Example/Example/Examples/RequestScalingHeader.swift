@@ -16,7 +16,7 @@ struct RequestScalingHeader: View {
     @ObservedObject private var imageLoader = ImageLoaderService()
     
     var body: some View {
-        ScalingHeaderScrollView { _ in
+        ScalingHeaderView { _ in
             ZStack {
                 Rectangle()
                     .fill(.gray.opacity(0.15))

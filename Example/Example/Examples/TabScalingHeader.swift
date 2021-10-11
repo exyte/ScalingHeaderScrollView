@@ -19,7 +19,7 @@ struct TabScalingHeader: View {
     @State private var scrollToTop: Bool = false
     
     var body: some View {
-        ScalingHeaderScrollView { _ in
+        ScalingHeaderView { _ in
             VStack(alignment: .center, spacing: 0) {
                 Image("image_1")
                     .resizable()

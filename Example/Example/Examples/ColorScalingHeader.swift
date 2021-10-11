@@ -15,7 +15,7 @@ struct ColorScalingHeader: View {
     @State private var selectedColor: Color = .green
     
     var body: some View {
-        ScalingHeaderScrollView { _ in
+        ScalingHeaderView { _ in
             selectedColor
         } content: {
             AutosizingList {
