@@ -33,7 +33,7 @@ struct ContentView: View {
             ZStack {
                 Rectangle()
                     .fill(.gray.opacity(0.15))
-                Image(uiImage: image)
+                Image("header")
             }
         } content: {
             Text("↓ Pull to refresh ↓")
