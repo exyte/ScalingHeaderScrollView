@@ -3,22 +3,22 @@
 import PackageDescription
 
 let package = Package(
-	name: "PopupView",
+	name: "ScalingHeaderView",
 	platforms: [
-		.macOS(.v10_15),
-        .iOS(.v13),
+		.macOS(.v11),
+        .iOS(.v14),
         .watchOS(.v6),
-        .tvOS(.v13)
+        .tvOS(.v14)
     ],
     products: [
     	.library(
-    		name: "PopupView", 
-    		targets: ["PopupView"]
+    		name: "ScalingHeaderView", 
+    		targets: ["ScalingHeaderView"]
     	)
     ],
     targets: [
     	.target(
-    		name: "PopupView",
+    		name: "ScalingHeaderView",
             path: "Source"
         )
     ],
