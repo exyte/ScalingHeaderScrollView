@@ -10,6 +10,14 @@ import SwiftUI
 import ScalingHeaderView
 
 struct ContentView: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    var backButton: some View {
+        Button(action: {self.presentationMode.wrappedValue.dismiss() }) {
+            Image(systemName: "arrow.backward")
+                .frame(width: 40, height: 40)
+        }
+    }
     
     init() {
         UINavigationBar.appearance().barTintColor = .clear
