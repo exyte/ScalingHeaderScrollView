@@ -41,6 +41,10 @@ struct ContentView: View {
                 NavigationLink(destination: TabScalingHeader()) {
                     Text("Tab Scaling Header")
                 }
+
+                NavigationLink( destination: ProfileScreen()) {
+                        Text("Profile Screen")
+                }
                 
                 Spacer()
             }
