@@ -12,8 +12,8 @@ import Introspect
 public struct ScalingHeaderView<Header: View, Content: View>: View {
     
     /// Public required properties, header and content should be passed to init
-    @ViewBuilder public var header: (CGFloat) -> Header
-    @ViewBuilder public var content: Content
+    public var header: (CGFloat) -> Header
+    public var content: Content
     
     /// Should the progress view be showing or not
     @State private var isSpinning: Bool = false
@@ -62,7 +62,7 @@ public struct ScalingHeaderView<Header: View, Content: View>: View {
     
     // MARK: - Init
     
-    public init(header: @escaping (CGFloat) -> Header, @ViewBuilder content: @escaping () -> Content) {
+    public init(@ViewBuilder header: @escaping (CGFloat) -> Header, @ViewBuilder content: @escaping () -> Content) {
         self.header = header
         self.content = content()
         _isLoading = .constant(false)
@@ -87,7 +87,7 @@ public struct ScalingHeaderView<Header: View, Content: View>: View {
                 ZStack(alignment: .topLeading) {
                     if needToShowProgressView {
                         ProgressView()
-                            .progressViewStyle(.circular)
+                            .progressViewStyle(CircularProgressViewStyle())
                             .frame(width: UIScreen.main.bounds.width, height: getHeightForLoadingView())
                             .scaleEffect(1.25)
                             .offset(x: 0, y: getOffsetForHeader() + progressViewOffset)

@@ -10,7 +10,7 @@ import SwiftUI
 
 public struct AutosizingList<Content: View>: View {
     
-    @ViewBuilder var content: Content
+    var content: Content
     
     @State private var observation: NSKeyValueObservation?
     @State private var tableContentHeight: CGFloat = 0.0

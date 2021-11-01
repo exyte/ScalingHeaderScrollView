@@ -19,7 +19,7 @@ struct RequestScalingHeader: View {
         ScalingHeaderView { _ in
             ZStack {
                 Rectangle()
-                    .fill(.gray.opacity(0.15))
+                    .fill(Color.gray.opacity(0.15))
                 Image(uiImage: image)
             }
         } content: {
