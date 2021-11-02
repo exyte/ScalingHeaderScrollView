@@ -10,14 +10,14 @@ import SwiftUI
 import ScalingHeaderView
 
 struct ProfileScreen: View {
-    @ObservedObject private var profileViewModel = ProfileScreenViewModel()
+    @ObservedObject private var viewModel = ProfileScreenViewModel()
 
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         ZStack {
             ScalingHeaderView { _ in
-                Image(profileViewModel.avatarImage)
+                Image(viewModel.avatarImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } content: {
@@ -78,18 +78,18 @@ struct ProfileScreen: View {
     }
 
     private var userName: some View {
-        Text(profileViewModel.userName)
+        Text(viewModel.userName)
             .font(.custom("Circe-Bold", size: 24))
     }
 
     private var profession: some View {
-        Text(profileViewModel.profession)
+        Text(viewModel.profession)
             .foregroundColor(.init(white: 0.2))
             .font(.custom("Circe-Regular", size: 16))
     }
 
     private var address: some View {
-        Text(profileViewModel.address)
+        Text(viewModel.address)
             .foregroundColor(.init(white: 0.6))
             .font(.custom("Circe-Regular", size: 16))
     }
@@ -104,13 +104,13 @@ struct ProfileScreen: View {
     }
 
     private var grade: some View {
-        Text(String(format: "%.1f", profileViewModel.grade))
+        Text(String(format: "%.1f", viewModel.grade))
             .foregroundColor(Color(UIColor(hex: "#ffac0cff")!))
             .font(.custom("Circe-Bold", size: 18))
     }
 
     private var reviewCount: some View {
-        Text("\(profileViewModel.reviewCount) reviews")
+        Text("\(viewModel.reviewCount) reviews")
             .foregroundColor(.init(white: 0.6))
             .font(.custom("Circe-Regular", size: 16))
     }
@@ -119,8 +119,39 @@ struct ProfileScreen: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Skils")
                 .font(.custom("Circe-Bold", size: 18))
-            
+
+            HStack {
+                ForEach((0 ..< 3)) { col in
+                    skillView(for: viewModel.skils[col])
+                }
+            }
+            HStack {
+                ForEach((0 ..< 3)) { col in
+                    skillView(for: viewModel.skils[col + 3])
+                }
+            }
+
+
+
         }
+    }
+
+    func skillView(for skill: String) -> some View {
+        let color = UIColor(hex: "#374BFEFF")!
+
+        return Text(skill)
+            .padding(.top, 5)
+            .padding(.bottom, 5)
+            .padding(.leading, 14)
+            .padding(.trailing, 14)
+            .font(.custom("Circe", size: 16))
+            .foregroundColor(Color(color))
+            .lineLimit(1)
+            .background(
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Color(color.withAlphaComponent(0.08)))
+                    .overlay( RoundedRectangle(cornerRadius: 6).stroke(Color(color)))
+            )
     }
 }
 
