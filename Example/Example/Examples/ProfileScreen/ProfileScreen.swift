@@ -59,6 +59,7 @@ struct ProfileScreen: View {
                     reviews
                     skills
                     description
+                    portfolio
                 }
                 .padding(.top, 40)
                 .padding(.leading, 24)
@@ -156,6 +157,20 @@ struct ProfileScreen: View {
         Text(viewModel.description)
             .foregroundColor(.init(white: 0.2))
             .font(.custom("Circe", size: 16))
+    }
+
+    private var portfolio: some View {
+        LazyVGrid(columns: [
+            GridItem(.flexible(minimum: 100)),
+            GridItem(.flexible(minimum: 100)),
+            GridItem(.flexible(minimum: 100))
+        ]) {
+            ForEach(viewModel.portfolio, id: \.self) { imageName in
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+            }
+        }
     }
 }
 

@@ -20,4 +20,5 @@ class ProfileScreenViewModel: ObservableObject {
     @Published var description: String = """
     Hello! I am a Pennsylvania-based designer and researcher working with interactive web, moving image and futurescaping. She explores platforms and subversive technologies, unpacking their political and cultural implications.
     """
+    @Published var portfolio: [String] = ["profile1", "profile2", "profile3", "profile4", "profile5", "profile6", "profile7", "profile8", "profile9"]
 }
