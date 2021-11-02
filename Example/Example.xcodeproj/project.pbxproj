@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C6539522730E30700B49BF9 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6539512730E30700B49BF9 /* UIColor+hex.swift */; };
 		0CC48E4D272FCE6900B57D1D /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC48E4C272FCE6900B57D1D /* ProfileScreen.swift */; };
 		0CC48E51272FD09800B57D1D /* ProfileScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC48E50272FD09800B57D1D /* ProfileScreenViewModel.swift */; };
+		0CC48E5B2730349600B57D1D /* circe-extrabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CC48E552730349600B57D1D /* circe-extrabold.ttf */; };
+		0CC48E5C2730349600B57D1D /* circe-extralight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CC48E562730349600B57D1D /* circe-extralight.ttf */; };
+		0CC48E5D2730349600B57D1D /* circe-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CC48E572730349600B57D1D /* circe-bold.ttf */; };
+		0CC48E5E2730349600B57D1D /* circe-thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CC48E582730349600B57D1D /* circe-thin.ttf */; };
+		0CC48E5F2730349600B57D1D /* circe-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CC48E592730349600B57D1D /* circe-light.ttf */; };
+		0CC48E602730349600B57D1D /* circe.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CC48E5A2730349600B57D1D /* circe.ttf */; };
 		5B1CDFFF26F354D100C76DB7 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1CDFFE26F354D100C76DB7 /* ExampleApp.swift */; };
 		5B1CE00126F354D100C76DB7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1CE00026F354D100C76DB7 /* ContentView.swift */; };
 		5B1CE00326F354D500C76DB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B1CE00226F354D500C76DB7 /* Assets.xcassets */; };
@@ -23,8 +30,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C6539512730E30700B49BF9 /* UIColor+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
 		0CC48E4C272FCE6900B57D1D /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 		0CC48E50272FD09800B57D1D /* ProfileScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenViewModel.swift; sourceTree = "<group>"; };
+		0CC48E552730349600B57D1D /* circe-extrabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "circe-extrabold.ttf"; sourceTree = "<group>"; };
+		0CC48E562730349600B57D1D /* circe-extralight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "circe-extralight.ttf"; sourceTree = "<group>"; };
+		0CC48E572730349600B57D1D /* circe-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "circe-bold.ttf"; sourceTree = "<group>"; };
+		0CC48E582730349600B57D1D /* circe-thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "circe-thin.ttf"; sourceTree = "<group>"; };
+		0CC48E592730349600B57D1D /* circe-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "circe-light.ttf"; sourceTree = "<group>"; };
+		0CC48E5A2730349600B57D1D /* circe.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = circe.ttf; sourceTree = "<group>"; };
 		1C4359AB0F706ECAE1FA6C55 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5B1CDFFB26F354D100C76DB7 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B1CDFFE26F354D100C76DB7 /* ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; usesTabs = 0; };
@@ -63,6 +77,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		0C6539502730E2E700B49BF9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0C6539512730E30700B49BF9 /* UIColor+hex.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		0CC48E4F272FD07600B57D1D /* ProfileScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +92,27 @@
 				0CC48E50272FD09800B57D1D /* ProfileScreenViewModel.swift */,
 			);
 			path = ProfileScreen;
+			sourceTree = "<group>";
+		};
+		0CC48E532730342D00B57D1D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0CC48E542730343500B57D1D /* Circle */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		0CC48E542730343500B57D1D /* Circle */ = {
+			isa = PBXGroup;
+			children = (
+				0CC48E572730349600B57D1D /* circe-bold.ttf */,
+				0CC48E552730349600B57D1D /* circe-extrabold.ttf */,
+				0CC48E562730349600B57D1D /* circe-extralight.ttf */,
+				0CC48E592730349600B57D1D /* circe-light.ttf */,
+				0CC48E582730349600B57D1D /* circe-thin.ttf */,
+				0CC48E5A2730349600B57D1D /* circe.ttf */,
+			);
+			path = Circle;
 			sourceTree = "<group>";
 		};
 		5B1CDFF226F354D100C76DB7 = {
@@ -94,6 +137,7 @@
 		5B1CDFFD26F354D100C76DB7 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				0CC48E532730342D00B57D1D /* Fonts */,
 				A7C3BC822702F679001A46FB /* Examples */,
 				5B1CDFFE26F354D100C76DB7 /* ExampleApp.swift */,
 				5B1CE00026F354D100C76DB7 /* ContentView.swift */,
@@ -123,6 +167,7 @@
 		A7C3BC822702F679001A46FB /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				0C6539502730E2E700B49BF9 /* Extensions */,
 				0CC48E4F272FD07600B57D1D /* ProfileScreen */,
 				A7C3BC852702F6DF001A46FB /* MockData.swift */,
 				A7C3BC832702F69C001A46FB /* SimpleScalingHeader.swift */,
@@ -195,7 +240,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B1CE00626F354D500C76DB7 /* Preview Assets.xcassets in Resources */,
+				0CC48E5B2730349600B57D1D /* circe-extrabold.ttf in Resources */,
+				0CC48E5D2730349600B57D1D /* circe-bold.ttf in Resources */,
+				0CC48E602730349600B57D1D /* circe.ttf in Resources */,
+				0CC48E5F2730349600B57D1D /* circe-light.ttf in Resources */,
 				5B1CE00326F354D500C76DB7 /* Assets.xcassets in Resources */,
+				0CC48E5E2730349600B57D1D /* circe-thin.ttf in Resources */,
+				0CC48E5C2730349600B57D1D /* circe-extralight.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +306,7 @@
 				A7C3BC862702F6DF001A46FB /* MockData.swift in Sources */,
 				0CC48E4D272FCE6900B57D1D /* ProfileScreen.swift in Sources */,
 				A7C3BC8D27048818001A46FB /* RequestScalingHeader.swift in Sources */,
+				0C6539522730E30700B49BF9 /* UIColor+hex.swift in Sources */,
 				A7C3BC882702FAD1001A46FB /* MapScalingHeader.swift in Sources */,
 				A7C3BC842702F69C001A46FB /* SimpleScalingHeader.swift in Sources */,
 				5B1CDFFF26F354D100C76DB7 /* ExampleApp.swift in Sources */,

@@ -14,12 +14,6 @@ struct ProfileScreen: View {
 
     @Environment(\.presentationMode) var presentationMode
 
-    var backButton: some View {
-        Button("", action: {self.presentationMode.wrappedValue.dismiss() })
-            .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
-
-    }
-
     var body: some View {
         ZStack {
             ScalingHeaderView { _ in
@@ -27,27 +21,106 @@ struct ProfileScreen: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } content: {
-
+                profilerContentView
             }
 
-            VStack {
-                HStack {
-                    Spacer()
-                    Button("", action: {})
-                        .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
-                        .padding(.trailing, 17)
-                        .padding(.top, 50)
-                }
-                Spacer()
-            }
-            .border(Color.black)
-            .ignoresSafeArea()
-
-
-
+            infoButton
         }
+        .ignoresSafeArea()
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
+    }
+
+    private var backButton: some View {
+        Button("", action: {self.presentationMode.wrappedValue.dismiss() })
+            .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+
+    }
+
+    private var infoButton: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button("", action: {})
+                    .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
+                    .padding(.trailing, 17)
+                    .padding(.top, 50)
+            }
+            Spacer()
+        }
+        .ignoresSafeArea()
+    }
+
+    private var profilerContentView: some View {
+        VStack {
+            HStack {
+                VStack(alignment: .leading, spacing: 20) {
+                    personalInfo
+                    reviews
+                    skills
+                }
+                .padding(.top, 40)
+                .padding(.leading, 24)
+
+                Spacer()
+            }
+        }
+    }
+
+    private var personalInfo: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            userName
+            VStack(alignment: .leading) {
+                profession
+                address
+            }
+        }
+    }
+
+    private var userName: some View {
+        Text(profileViewModel.userName)
+            .font(.custom("Circe-Bold", size: 24))
+    }
+
+    private var profession: some View {
+        Text(profileViewModel.profession)
+            .foregroundColor(.init(white: 0.2))
+            .font(.custom("Circe-Regular", size: 16))
+    }
+
+    private var address: some View {
+        Text(profileViewModel.address)
+            .foregroundColor(.init(white: 0.6))
+            .font(.custom("Circe-Regular", size: 16))
+    }
+
+    private var reviews: some View {
+        HStack(alignment: .center , spacing: 8) {
+            Image("Star")
+                .offset(y: -3)
+            grade
+            reviewCount
+        }
+    }
+
+    private var grade: some View {
+        Text(String(format: "%.1f", profileViewModel.grade))
+            .foregroundColor(Color(UIColor(hex: "#ffac0cff")!))
+            .font(.custom("Circe-Bold", size: 18))
+    }
+
+    private var reviewCount: some View {
+        Text("\(profileViewModel.reviewCount) reviews")
+            .foregroundColor(.init(white: 0.6))
+            .font(.custom("Circe-Regular", size: 16))
+    }
+
+    private var skills: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Skils")
+                .font(.custom("Circe-Bold", size: 18))
+            
+        }
     }
 }
 
@@ -73,6 +146,8 @@ private struct CircleButtonStyle: ButtonStyle {
 
 struct ProfileScreen_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileScreen()
+        Group {
+            ProfileScreen()
+        }
     }
 }
