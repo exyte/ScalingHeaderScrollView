@@ -58,6 +58,7 @@ struct ProfileScreen: View {
                     personalInfo
                     reviews
                     skills
+                    description
                 }
                 .padding(.top, 40)
                 .padding(.leading, 24)
@@ -130,9 +131,6 @@ struct ProfileScreen: View {
                     skillView(for: viewModel.skils[col + 3])
                 }
             }
-
-
-
         }
     }
 
@@ -152,6 +150,12 @@ struct ProfileScreen: View {
                     .fill(Color(color.withAlphaComponent(0.08)))
                     .overlay( RoundedRectangle(cornerRadius: 6).stroke(Color(color)))
             )
+    }
+
+    private var description: some View {
+        Text(viewModel.description)
+            .foregroundColor(.init(white: 0.2))
+            .font(.custom("Circe", size: 16))
     }
 }
 

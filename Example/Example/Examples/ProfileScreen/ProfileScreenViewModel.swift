@@ -17,4 +17,7 @@ class ProfileScreenViewModel: ObservableObject {
     @Published var grade: Double = 4.8
     @Published var reviewCount: Int = 1708
     @Published var skils: [String] = ["UX research", "Wireframing", "UX writing", "Coding", "Analytical", "UI prototyping"]
+    @Published var description: String = """
+    Hello! I am a Pennsylvania-based designer and researcher working with interactive web, moving image and futurescaping. She explores platforms and subversive technologies, unpacking their political and cultural implications.
+    """
 }
