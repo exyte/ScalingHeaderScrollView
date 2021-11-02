@@ -25,6 +25,7 @@ struct ProfileScreen: View {
             }
 
             infoButton
+            hireButton
         }
         .ignoresSafeArea()
         .navigationBarBackButtonHidden(true)
@@ -41,7 +42,7 @@ struct ProfileScreen: View {
         VStack {
             HStack {
                 Spacer()
-                Button("", action: {})
+                Button("", action: { print( "Info" ) })
                     .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
                     .padding(.trailing, 17)
                     .padding(.top, 50)
@@ -49,6 +50,28 @@ struct ProfileScreen: View {
             Spacer()
         }
         .ignoresSafeArea()
+    }
+
+    private var hireButton: some View {
+        VStack {
+            Spacer()
+            ZStack {
+                VisualEffectView(effect: UIBlurEffect(style: .regular))
+                    .frame(height: 180)
+                    .padding(.bottom, -100)
+                HStack {
+                    Button("Hire", action: { print("hire") })
+                        .buttonStyle(HireButtonStyle())
+                        .padding(.leading, 15)
+                        .padding(.trailing, 15)
+                        .frame(width: 396, height: 60, alignment: .bottom)
+                }
+            }
+
+        }
+        .ignoresSafeArea()
+        .padding(.bottom, 40)
+
     }
 
     private var profilerContentView: some View {
@@ -190,8 +213,22 @@ private struct CircleButtonStyle: ButtonStyle {
                         .padding(12))
             .frame(width: 40, height: 40)
     }
+}
 
+private struct HireButtonStyle: ButtonStyle {
+    var foreground = Color.white
 
+    func makeBody(configuration: Configuration) -> some View {
+        RoundedRectangle(cornerRadius: 8)
+            .fill(Color(UIColor(hex: "#374BFEFF")!))
+            .overlay(configuration.label.foregroundColor(foreground))
+    }
+}
+
+private struct VisualEffectView: UIViewRepresentable {
+    var effect: UIVisualEffect?
+    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
+    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
 }
 
 struct ProfileScreen_Previews: PreviewProvider {
