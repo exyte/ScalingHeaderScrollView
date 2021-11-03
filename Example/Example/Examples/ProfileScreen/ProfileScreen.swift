@@ -62,8 +62,7 @@ struct ProfileScreen: View {
                 HStack {
                     Button("Hire", action: { print("hire") })
                         .buttonStyle(HireButtonStyle())
-                        .padding(.leading, 15)
-                        .padding(.trailing, 15)
+                        .padding(.horizontal, 15)
                         .frame(width: 396, height: 60, alignment: .bottom)
                 }
             }
@@ -164,10 +163,8 @@ struct ProfileScreen: View {
     func skillView(for skill: String) -> some View {
 
         return Text(skill)
-            .padding(.top, 5)
-            .padding(.bottom, 5)
-            .padding(.leading, 14)
-            .padding(.trailing, 14)
+            .padding(.vertical, 5)
+            .padding(.horizontal, 14)
             .font(.custom("Circe", size: 16))
             .foregroundColor(Color.hex("#374BFE"))
             .lineLimit(1)
