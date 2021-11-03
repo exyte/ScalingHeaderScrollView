@@ -83,6 +83,7 @@ struct ProfileScreen: View {
                     skills
                     description
                     portfolio
+                    Color.clear.frame(height: 100)
                 }
                 .padding(.top, 40)
                 .padding(.leading, 24)
