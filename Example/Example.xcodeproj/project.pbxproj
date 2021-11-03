@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C6539522730E30700B49BF9 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6539512730E30700B49BF9 /* UIColor+hex.swift */; };
+		0C6539522730E30700B49BF9 /* Color+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6539512730E30700B49BF9 /* Color+hex.swift */; };
 		0CC48E4D272FCE6900B57D1D /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC48E4C272FCE6900B57D1D /* ProfileScreen.swift */; };
 		0CC48E51272FD09800B57D1D /* ProfileScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC48E50272FD09800B57D1D /* ProfileScreenViewModel.swift */; };
 		0CC48E5B2730349600B57D1D /* circe-extrabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CC48E552730349600B57D1D /* circe-extrabold.ttf */; };
@@ -30,7 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C6539512730E30700B49BF9 /* UIColor+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
+		0C6539512730E30700B49BF9 /* Color+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+hex.swift"; sourceTree = "<group>"; };
 		0CC48E4C272FCE6900B57D1D /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 		0CC48E50272FD09800B57D1D /* ProfileScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenViewModel.swift; sourceTree = "<group>"; };
 		0CC48E552730349600B57D1D /* circe-extrabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "circe-extrabold.ttf"; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		0C6539502730E2E700B49BF9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				0C6539512730E30700B49BF9 /* UIColor+hex.swift */,
+				0C6539512730E30700B49BF9 /* Color+hex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -306,7 +306,7 @@
 				A7C3BC862702F6DF001A46FB /* MockData.swift in Sources */,
 				0CC48E4D272FCE6900B57D1D /* ProfileScreen.swift in Sources */,
 				A7C3BC8D27048818001A46FB /* RequestScalingHeader.swift in Sources */,
-				0C6539522730E30700B49BF9 /* UIColor+hex.swift in Sources */,
+				0C6539522730E30700B49BF9 /* Color+hex.swift in Sources */,
 				A7C3BC882702FAD1001A46FB /* MapScalingHeader.swift in Sources */,
 				A7C3BC842702F69C001A46FB /* SimpleScalingHeader.swift in Sources */,
 				5B1CDFFF26F354D100C76DB7 /* ExampleApp.swift in Sources */,

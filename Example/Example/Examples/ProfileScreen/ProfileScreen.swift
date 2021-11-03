@@ -105,18 +105,19 @@ struct ProfileScreen: View {
 
     private var userName: some View {
         Text(viewModel.userName)
+            .foregroundColor(Color.hex("#0C0C0C"))
             .font(.custom("Circe-Bold", size: 24))
     }
 
     private var profession: some View {
         Text(viewModel.profession)
-            .foregroundColor(.init(white: 0.2))
+            .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
             .font(.custom("Circe-Regular", size: 16))
     }
 
     private var address: some View {
         Text(viewModel.address)
-            .foregroundColor(.init(white: 0.6))
+            .foregroundColor(Color.hex("#0C0C0C").opacity(0.4))
             .font(.custom("Circe-Regular", size: 16))
     }
 
@@ -131,19 +132,20 @@ struct ProfileScreen: View {
 
     private var grade: some View {
         Text(String(format: "%.1f", viewModel.grade))
-            .foregroundColor(Color(UIColor(hex: "#ffac0cff")!))
+            .foregroundColor(Color.hex("#FFAC0C"))
             .font(.custom("Circe-Bold", size: 18))
     }
 
     private var reviewCount: some View {
         Text("\(viewModel.reviewCount) reviews")
-            .foregroundColor(.init(white: 0.6))
+            .foregroundColor(Color.hex("#0C0C0C").opacity(0.4))
             .font(.custom("Circe-Regular", size: 16))
     }
 
     private var skills: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Skils")
+                .foregroundColor(Color.hex("#0C0C0C"))
                 .font(.custom("Circe-Bold", size: 18))
 
             HStack {
@@ -160,7 +162,6 @@ struct ProfileScreen: View {
     }
 
     func skillView(for skill: String) -> some View {
-        let color = UIColor(hex: "#374BFEFF")!
 
         return Text(skill)
             .padding(.top, 5)
@@ -168,18 +169,18 @@ struct ProfileScreen: View {
             .padding(.leading, 14)
             .padding(.trailing, 14)
             .font(.custom("Circe", size: 16))
-            .foregroundColor(Color(color))
+            .foregroundColor(Color.hex("#374BFE"))
             .lineLimit(1)
             .background(
                 RoundedRectangle(cornerRadius: 6)
-                    .fill(Color(color.withAlphaComponent(0.08)))
-                    .overlay( RoundedRectangle(cornerRadius: 6).stroke(Color(color)))
+                    .fill(Color.hex("#374BFE").opacity(0.08))
+                    .overlay( RoundedRectangle(cornerRadius: 6).stroke(Color.hex("#374BFE")))
             )
     }
 
     private var description: some View {
         Text(viewModel.description)
-            .foregroundColor(.init(white: 0.2))
+            .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
             .font(.custom("Circe", size: 16))
     }
 
@@ -221,7 +222,7 @@ private struct HireButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         RoundedRectangle(cornerRadius: 8)
-            .fill(Color(UIColor(hex: "#374BFEFF")!))
+            .fill(Color.hex("#374BFE"))
             .overlay(configuration.label.foregroundColor(foreground))
     }
 }
