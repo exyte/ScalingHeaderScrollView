@@ -10,20 +10,30 @@ import SwiftUI
 import ScalingHeaderView
 
 struct ProfileScreen: View {
+    
     @ObservedObject private var viewModel = ProfileScreenViewModel()
-
     @Environment(\.presentationMode) var presentationMode
+    
+    private let minHeight = 94.0
+    private let maxHeight = 372.0
 
     var body: some View {
         ZStack {
-            ScalingHeaderView { _ in
-                Image(viewModel.avatarImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
+            ScalingHeaderView { height in
+                ZStack {
+                    Color.white.edgesIgnoringSafeArea(.all)
+                    smallHeader
+                        .opacity(1 - (height - minHeight) / (maxHeight - minHeight))
+                    largeHeader
+                        .opacity((height - minHeight) / (maxHeight - minHeight))
+                }
             } content: {
                 profilerContentView
             }
-
+            .height(min: minHeight, max: maxHeight)
+            .allowsHeaderCollapse(true)
+            .allowsHeaderScale(false)
+            
             infoButton
             hireButton
         }
@@ -35,7 +45,6 @@ struct ProfileScreen: View {
     private var backButton: some View {
         Button("", action: {self.presentationMode.wrappedValue.dismiss() })
             .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
-
     }
 
     private var infoButton: some View {
@@ -66,13 +75,69 @@ struct ProfileScreen: View {
                         .frame(width: 396, height: 60, alignment: .bottom)
                 }
             }
-
         }
         .ignoresSafeArea()
         .padding(.bottom, 40)
-
     }
-
+    
+    private var smallHeader: some View {
+        VStack {
+            HStack(spacing: 12.0) {
+                Image(viewModel.avatarImage)
+                    .resizable()
+                    .frame(width: 40.0, height: 40.0)
+                    .clipShape(RoundedRectangle(cornerRadius: 6.0))
+                
+                Text(viewModel.userName)
+                    .font(.custom("Circe", size: 17))
+            }
+            .padding(.top, 44.0)
+            Spacer()
+        }
+    }
+    
+    private var largeHeader: some View {
+        ZStack {
+            Image(viewModel.avatarImage)
+                .resizable()
+                .scaledToFill()
+                .frame(height: maxHeight)
+            
+            VStack {
+                Spacer()
+                
+                HStack(spacing: 4.0) {
+                    Capsule()
+                        .frame(width: 40.0, height: 3.0)
+                        .foregroundColor(.white)
+                    
+                    Capsule()
+                        .frame(width: 40.0, height: 3.0)
+                        .foregroundColor(.white.opacity(0.2))
+                    
+                    Capsule()
+                        .frame(width: 40.0, height: 3.0)
+                        .foregroundColor(.white.opacity(0.2))
+                }
+                
+                ZStack(alignment: .leading) {
+                    VisualEffectView(effect: UIBlurEffect(style: .regular))
+                        .clipShape(RoundedRectangle(cornerRadius: 40.0, style: .circular))
+                        .offset(y: 10.0)
+                    RoundedRectangle(cornerRadius: 40.0, style: .circular)
+                        .foregroundColor(.clear)
+                        .background(
+                            LinearGradient(gradient: Gradient(colors: [.white.opacity(0.0), .white]), startPoint: .top, endPoint: .bottom)
+                        )
+                    userName
+                        .padding(.leading, 24.0)
+                        .padding(.top, 10.0)
+                }
+                .frame(height: 80.0)
+            }
+        }
+    }
+    
     private var profilerContentView: some View {
         VStack {
             HStack {
@@ -84,21 +149,16 @@ struct ProfileScreen: View {
                     portfolio
                     Color.clear.frame(height: 100)
                 }
-                .padding(.top, 40)
                 .padding(.leading, 24)
-
                 Spacer()
             }
         }
     }
 
     private var personalInfo: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            userName
-            VStack(alignment: .leading) {
-                profession
-                address
-            }
+        VStack(alignment: .leading) {
+            profession
+            address
         }
     }
 
@@ -161,8 +221,7 @@ struct ProfileScreen: View {
     }
 
     func skillView(for skill: String) -> some View {
-
-        return Text(skill)
+        Text(skill)
             .padding(.vertical, 5)
             .padding(.horizontal, 14)
             .font(.custom("Circe", size: 16))

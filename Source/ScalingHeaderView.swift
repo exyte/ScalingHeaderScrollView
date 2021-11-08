@@ -93,7 +93,7 @@ public struct ScalingHeaderView<Header: View, Content: View>: View {
                             .offset(x: 0, y: getOffsetForHeader() + progressViewOffset)
                     }
                     
-                    header(getCollapseProgress())
+                    header(getHeightForHeaderView())
                         .frame(height: getHeightForHeaderView())
                         .clipped()
                         .offset(x: 0, y: getOffsetForHeader())
