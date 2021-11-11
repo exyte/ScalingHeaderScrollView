@@ -12,51 +12,54 @@ import ScalingHeaderView
 struct ContentView: View {
     @Environment(\.presentationMode) var presentationMode
 
-    var backButton: some View {
-        Button(action: {self.presentationMode.wrappedValue.dismiss() }) {
-            Image(systemName: "arrow.backward")
-                .frame(width: 40, height: 40)
-        }
-    }
-    
-    init() {
-        UINavigationBar.appearance().barTintColor = .clear
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-    }
+    @State var simplePresented = false
+    @State var mapPresented = false
+    @State var colorPresented = false
+    @State var requestPresented = false
+    @State var tabPresented = false
+    @State var profilePresented = false
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 32.0) {
-                Spacer()
-                
-                NavigationLink(destination: SimpleScalingHeader()) {
-                    Text("Simple Scaling Header")
-                }
-                
-                NavigationLink(destination: MapScalingHeader()) {
-                    Text("Map Scaling Header")
-                }
-                
-                NavigationLink(destination: ColorScalingHeader()) {
-                    Text("Color Scaling Header")
-                }
-                
-                NavigationLink(destination: RequestScalingHeader()) {
-                    Text("Request Scaling Header")
-                }
-                
-                NavigationLink(destination: TabScalingHeader()) {
-                    Text("Tab Scaling Header")
-                }
-
-                NavigationLink( destination: ProfileScreen()) {
-                        Text("Profile Screen")
-                }
-                
-                Spacer()
+        VStack(spacing: 32.0) {
+            ExampleView(isPresented: $simplePresented, name: "Simple Scaling Header") {
+                SimpleScalingHeader()
             }
-            .offset(y: -50)
+
+            ExampleView(isPresented: $mapPresented, name: "Map Scaling Header") {
+                MapScalingHeader()
+            }
+
+            ExampleView(isPresented: $colorPresented, name: "Color Scaling Header") {
+                ColorScalingHeader()
+            }
+
+            ExampleView(isPresented: $requestPresented, name: "Request Scaling Header") {
+                RequestScalingHeader()
+            }
+
+            ExampleView(isPresented: $tabPresented, name: "Tab Scaling Header") {
+                TabScalingHeader()
+            }
+
+            ExampleView(isPresented: $profilePresented, name: "Profile Screen") {
+                ProfileScreen()
+            }
+        }
+    }
+}
+
+struct ExampleView<Content: View>: View {
+
+    @Binding var isPresented: Bool
+    var name: String
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        Button(name) {
+            isPresented = true
+        }
+        .fullScreenCover(isPresented: $isPresented) {
+            content()
         }
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 import Combine
 
 class ProfileScreenViewModel: ObservableObject {
+    
     @Published var avatarImage: String = "profileAvatar"
     @Published var userName: String = "Alisa Millford"
     @Published var profession: String = "UX/UI designer"

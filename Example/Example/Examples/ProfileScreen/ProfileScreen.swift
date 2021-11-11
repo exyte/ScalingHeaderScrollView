@@ -14,44 +14,37 @@ struct ProfileScreen: View {
     @ObservedObject private var viewModel = ProfileScreenViewModel()
     @Environment(\.presentationMode) var presentationMode
     
-    private let minHeight = 94.0
+    private let minHeight = 110.0
     private let maxHeight = 372.0
 
     var body: some View {
         ZStack {
-            ScalingHeaderView { height in
+            ScalingHeaderView { progress in
                 ZStack {
                     Color.white.edgesIgnoringSafeArea(.all)
-                    smallHeader
-                        .opacity(1 - (height - minHeight) / (maxHeight - minHeight))
-                    largeHeader
-                        .opacity((height - minHeight) / (maxHeight - minHeight))
+                    largeHeader(progress: progress)
                 }
             } content: {
                 profilerContentView
             }
             .height(min: minHeight, max: maxHeight)
-            .allowsHeaderCollapse(true)
-            .allowsHeaderScale(false)
+            .allowsHeaderCollapse(false)
+            .allowsHeaderScale(true)
             
-            infoButton
-            hireButton
+            topButtons
         }
         .ignoresSafeArea()
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: backButton)
     }
 
-    private var backButton: some View {
-        Button("", action: {self.presentationMode.wrappedValue.dismiss() })
-            .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
-    }
-
-    private var infoButton: some View {
+    private var topButtons: some View {
         VStack {
             HStack {
+                Button("", action: { self.presentationMode.wrappedValue.dismiss() })
+                    .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+                    .padding(.leading, 17)
+                    .padding(.top, 50)
                 Spacer()
-                Button("", action: { print( "Info" ) })
+                Button("", action: { print("Info") })
                     .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
                     .padding(.trailing, 17)
                     .padding(.top, 50)
@@ -81,27 +74,24 @@ struct ProfileScreen: View {
     }
     
     private var smallHeader: some View {
-        VStack {
-            HStack(spacing: 12.0) {
-                Image(viewModel.avatarImage)
-                    .resizable()
-                    .frame(width: 40.0, height: 40.0)
-                    .clipShape(RoundedRectangle(cornerRadius: 6.0))
-                
-                Text(viewModel.userName)
-                    .font(.custom("Circe", size: 17))
-            }
-            .padding(.top, 44.0)
-            Spacer()
+        HStack(spacing: 12.0) {
+            Image(viewModel.avatarImage)
+                .resizable()
+                .frame(width: 40.0, height: 40.0)
+                .clipShape(RoundedRectangle(cornerRadius: 6.0))
+
+            Text(viewModel.userName)
+                .font(.custom("Circe", size: 17))
         }
     }
     
-    private var largeHeader: some View {
+    private func largeHeader(progress: CGFloat) -> some View {
         ZStack {
             Image(viewModel.avatarImage)
                 .resizable()
                 .scaledToFill()
                 .frame(height: maxHeight)
+                .opacity(1 - progress)
             
             VStack {
                 Spacer()
@@ -121,17 +111,27 @@ struct ProfileScreen: View {
                 }
                 
                 ZStack(alignment: .leading) {
+
                     VisualEffectView(effect: UIBlurEffect(style: .regular))
-                        .clipShape(RoundedRectangle(cornerRadius: 40.0, style: .circular))
+                        .mask(Rectangle().cornerRadius(40, corners: [.topLeft, .topRight]))
                         .offset(y: 10.0)
+                        .frame(height: 80.0)
+
                     RoundedRectangle(cornerRadius: 40.0, style: .circular)
                         .foregroundColor(.clear)
                         .background(
                             LinearGradient(gradient: Gradient(colors: [.white.opacity(0.0), .white]), startPoint: .top, endPoint: .bottom)
                         )
+
                     userName
                         .padding(.leading, 24.0)
                         .padding(.top, 10.0)
+                        .opacity(1 - max(0, min(1, (progress - 0.75) * 4.0)))
+
+                    smallHeader
+                        .padding(.leading, 85.0)
+                        .opacity(progress)
+                        .opacity(max(0, min(1, (progress - 0.75) * 4.0)))
                 }
                 .frame(height: 80.0)
             }
@@ -149,8 +149,7 @@ struct ProfileScreen: View {
                     portfolio
                     Color.clear.frame(height: 100)
                 }
-                .padding(.leading, 24)
-                Spacer()
+                .padding(.horizontal, 24)
             }
         }
     }
@@ -230,7 +229,7 @@ struct ProfileScreen: View {
             .background(
                 RoundedRectangle(cornerRadius: 6)
                     .fill(Color.hex("#374BFE").opacity(0.08))
-                    .overlay( RoundedRectangle(cornerRadius: 6).stroke(Color.hex("#374BFE")))
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.hex("#374BFE")))
             )
     }
 
@@ -253,40 +252,6 @@ struct ProfileScreen: View {
             }
         }
     }
-}
-
-
-
-private struct CircleButtonStyle: ButtonStyle {
-    var foreground = Color.black
-    var background = Color.white
-
-    var imageName: String
-
-    func makeBody(configuration: Configuration) -> some View {
-        Circle()
-            .fill(background)
-            .overlay(Image(systemName: imageName)
-                        .foregroundColor(foreground)
-                        .padding(12))
-            .frame(width: 40, height: 40)
-    }
-}
-
-private struct HireButtonStyle: ButtonStyle {
-    var foreground = Color.white
-
-    func makeBody(configuration: Configuration) -> some View {
-        RoundedRectangle(cornerRadius: 8)
-            .fill(Color.hex("#374BFE"))
-            .overlay(configuration.label.foregroundColor(foreground))
-    }
-}
-
-private struct VisualEffectView: UIViewRepresentable {
-    var effect: UIVisualEffect?
-    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
-    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
 }
 
 struct ProfileScreen_Previews: PreviewProvider {
