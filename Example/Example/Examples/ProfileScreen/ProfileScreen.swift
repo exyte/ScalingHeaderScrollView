@@ -202,7 +202,7 @@ struct ProfileScreen: View {
 
     private var skills: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Skils")
+            Text("Skills")
                 .foregroundColor(Color.hex("#0C0C0C"))
                 .font(.custom("Circe-Bold", size: 18))
 
