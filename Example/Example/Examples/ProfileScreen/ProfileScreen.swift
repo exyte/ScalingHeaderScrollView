@@ -32,6 +32,7 @@ struct ProfileScreen: View {
             .allowsHeaderScale(true)
             
             topButtons
+            hireButton
         }
         .ignoresSafeArea()
     }
