@@ -18,6 +18,7 @@ struct ContentView: View {
     @State var requestPresented = false
     @State var tabPresented = false
     @State var profilePresented = false
+    @State var bookingPresented = false
     
     var body: some View {
         VStack(spacing: 32.0) {
@@ -43,6 +44,10 @@ struct ContentView: View {
 
             ExampleView(isPresented: $profilePresented, name: "Profile Screen") {
                 ProfileScreen()
+            }
+            
+            ExampleView(isPresented: $bookingPresented, name: "Booking Screen") {
+                BookingScreen()
             }
         }
     }
