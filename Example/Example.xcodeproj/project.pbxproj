@@ -19,6 +19,7 @@
 		4C3D148427476789005C589C /* BookingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3D148327476789005C589C /* BookingScreen.swift */; };
 		4C3D1486274767E7005C589C /* BookingScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3D1485274767E7005C589C /* BookingScreenViewModel.swift */; };
 		4C3D148927476977005C589C /* CommonHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3D148827476977005C589C /* CommonHelpers.swift */; };
+		4C3D148D27479B96005C589C /* BookingScreenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3D148C27479B96005C589C /* BookingScreenHelper.swift */; };
 		5B1CDFFF26F354D100C76DB7 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1CDFFE26F354D100C76DB7 /* ExampleApp.swift */; };
 		5B1CE00126F354D100C76DB7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1CE00026F354D100C76DB7 /* ContentView.swift */; };
 		5B1CE00326F354D500C76DB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B1CE00226F354D500C76DB7 /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 		4C3D148327476789005C589C /* BookingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingScreen.swift; sourceTree = "<group>"; };
 		4C3D1485274767E7005C589C /* BookingScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingScreenViewModel.swift; sourceTree = "<group>"; };
 		4C3D148827476977005C589C /* CommonHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonHelpers.swift; sourceTree = "<group>"; };
+		4C3D148C27479B96005C589C /* BookingScreenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingScreenHelper.swift; sourceTree = "<group>"; };
 		5B1CDFFB26F354D100C76DB7 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B1CDFFE26F354D100C76DB7 /* ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; usesTabs = 0; };
 		5B1CE00026F354D100C76DB7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; usesTabs = 0; };
@@ -129,6 +131,7 @@
 			children = (
 				4C3D148327476789005C589C /* BookingScreen.swift */,
 				4C3D1485274767E7005C589C /* BookingScreenViewModel.swift */,
+				4C3D148C27479B96005C589C /* BookingScreenHelper.swift */,
 			);
 			path = BookingScreen;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				5BB2A975273CFE610080FA93 /* ProfileHelpers.swift in Sources */,
 				0C6539522730E30700B49BF9 /* Color+hex.swift in Sources */,
 				A7C3BC882702FAD1001A46FB /* MapScalingHeader.swift in Sources */,
+				4C3D148D27479B96005C589C /* BookingScreenHelper.swift in Sources */,
 				A7C3BC842702F69C001A46FB /* SimpleScalingHeader.swift in Sources */,
 				5B1CDFFF26F354D100C76DB7 /* ExampleApp.swift in Sources */,
 			);

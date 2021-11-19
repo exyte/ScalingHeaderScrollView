@@ -25,4 +25,5 @@ class BookingScreenViewModel: ObservableObject {
     Ideal for relaxing holidays, the Capo Bay has a spa center which includes a sauna, hot tub, steam bath, hammam, Vichy shower, a fully equipped gym and a 14 m heated indoor lap pool. Recreation facilities include a modern fitness center and a scuba diving school.
     """
     
+    @Published var price: Int = 560
 }

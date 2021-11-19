@@ -28,6 +28,7 @@ struct BookingScreen: View {
             .allowsHeaderScale(true)
             
             topButtons
+            footer
         }
         .ignoresSafeArea()
     }
@@ -51,10 +52,49 @@ struct BookingScreen: View {
         .ignoresSafeArea()
     }
     
+    private var footer: some View {
+        VStack {
+            Spacer()
+            ZStack {
+                Rectangle()
+                    .fill(.white)
+                    .frame(height: 180)
+                    .padding(.bottom, -100)
+                HStack {
+                    price
+                    Spacer()
+                    bookButton
+                }
+            }
+        }
+        .ignoresSafeArea()
+        .padding(.bottom, 40)
+    }
+    
+    private var price: some View {
+        HStack {
+            Text("$ \(viewModel.price)")
+                .foregroundColor(.black)
+                .font(.custom("Circe-Bold", size: 24))
+            Text("/night")
+                .foregroundColor(.black)
+                .font(.custom("Circe", size: 16))
+        }
+        .padding(.leading, 16)
+    }
+    
+    private var bookButton: some View {
+        Button("Book now", action: { print("book") })
+            .buttonStyle(BookButtonStyle())
+            .padding(.trailing, 16)
+            .frame(width: 211, height: 60, alignment: .bottom)
+    }
+    
     private var bookingContentView: some View {
         VStack {
             contentHeader
             details
+            Color.clear.frame(height: 100)
         }
         .padding(.top, 40)
         .padding(.horizontal, 24)
