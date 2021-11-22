@@ -42,7 +42,7 @@ struct BookingScreen: View {
                 Button("", action: { print("Share") })
                     .buttonStyle(CircleButtonStyle(imageName: "arrowshape.turn.up.forward.fill"))
                 Button("", action: { print("Like") })
-                    .buttonStyle(CircleButtonStyle(foreground: Color.hex("#F62154"), imageName: "heart.fill"))
+                    .buttonStyle(CircleButtonStyle(foreground: .appRed, imageName: "heart.fill"))
                     .padding(.trailing, 16)
             }
             Spacer()
@@ -73,11 +73,9 @@ struct BookingScreen: View {
     private var price: some View {
         HStack {
             Text("$ \(viewModel.price)")
-                .foregroundColor(.black)
-                .font(.custom("Circe-Bold", size: 24))
+                .fontBold(color: .black, size: 24)
             Text("/night")
-                .foregroundColor(.black)
-                .font(.custom("Circe", size: 16))
+                .fontRegular(color: .black, size: 16)
         }
         .padding(.leading, 16)
     }
@@ -112,8 +110,7 @@ struct BookingScreen: View {
     
     private var placeName: some View {
         Text(viewModel.placeName)
-            .foregroundColor(Color.hex("#0C0C0C"))
-            .font(.custom("Circe-Bold", size: 24))
+            .fontBold(color: .appDarkGray, size: 24)
     }
     
     private var stars: some View {
@@ -121,19 +118,17 @@ struct BookingScreen: View {
             Image("Star")
                 .offset(y: -3)
             Text(String(format: "%.1f", viewModel.stars))
-                .foregroundColor(Color.hex("#FFAC0C"))
-                .font(.custom("Circe-Bold", size: 18))
+                .fontBold(color: .appYellow, size: 18)
         }
     }
     
     private var address: some View {
         HStack(spacing: 6.5) {
             Image(systemName: "mappin")
-                .foregroundColor(Color.hex("#1874E0"))
+                .foregroundColor(.appBookingBlue)
                 .frame(width: 11, height: 14)
             Text(viewModel.address)
-                .foregroundColor(Color.hex("#1874E0"))
-                .font(.custom("Circe", size: 16))
+                .fontRegular(color: .appBookingBlue, size: 16)
             Spacer()
 
         }
@@ -152,8 +147,7 @@ struct BookingScreen: View {
     private var detailsHeader: some View {
         HStack {
             Text("Details")
-                .foregroundColor(Color.hex("#0C0C0C"))
-                .font(.custom("Circe-Bold", size: 18))
+                .fontBold(color: .appDarkGray, size: 18)
             Spacer()
         }
     }
@@ -161,8 +155,7 @@ struct BookingScreen: View {
     private var roomDesription: some View {
         HStack {
             Text(viewModel.roomDesription)
-                .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
-                .font(.custom("Circe", size: 16))
+                .fontRegular(color: .appGray, size: 16)
             Spacer()
         }
     }
@@ -189,8 +182,7 @@ struct BookingScreen: View {
                         .scaledToFit()
                         .frame(width: 25, height: 21)
                     Text(title)
-                        .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
-                        .font(.custom("Circe", size: 12))
+                        .fontRegular(color: .appGray, size: 12)
                 }
                 .padding(.top, 21)
             )
@@ -199,8 +191,7 @@ struct BookingScreen: View {
     
     private var description: some View {
         Text(viewModel.description)
-            .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
-            .font(.custom("Circe", size: 16))
+            .fontRegular(color: .appGray, size: 16)
             .padding(.top, 32)
     }
 }

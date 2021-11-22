@@ -82,7 +82,7 @@ struct ProfileScreen: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6.0))
 
             Text(viewModel.userName)
-                .font(.custom("Circe", size: 17))
+                .fontRegular(color: .appDarkGray, size: 17)
         }
     }
     
@@ -164,20 +164,17 @@ struct ProfileScreen: View {
 
     private var userName: some View {
         Text(viewModel.userName)
-            .foregroundColor(Color.hex("#0C0C0C"))
-            .font(.custom("Circe-Bold", size: 24))
+            .fontBold(color: .appDarkGray, size: 24)
     }
 
     private var profession: some View {
         Text(viewModel.profession)
-            .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
-            .font(.custom("Circe-Regular", size: 16))
+            .fontRegular(color: .appGray, size: 16)
     }
 
     private var address: some View {
         Text(viewModel.address)
-            .foregroundColor(Color.hex("#0C0C0C").opacity(0.4))
-            .font(.custom("Circe-Regular", size: 16))
+            .fontRegular(color: .appLightGray, size: 16)
     }
 
     private var reviews: some View {
@@ -191,22 +188,18 @@ struct ProfileScreen: View {
 
     private var grade: some View {
         Text(String(format: "%.1f", viewModel.grade))
-            .foregroundColor(Color.hex("#FFAC0C"))
-            .font(.custom("Circe-Bold", size: 18))
+            .fontBold(color: .appYellow, size: 18)
     }
 
     private var reviewCount: some View {
         Text("\(viewModel.reviewCount) reviews")
-            .foregroundColor(Color.hex("#0C0C0C").opacity(0.4))
-            .font(.custom("Circe-Regular", size: 16))
+            .fontRegular(color: .appLightGray, size: 16)
     }
 
     private var skills: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Skills")
-                .foregroundColor(Color.hex("#0C0C0C"))
-                .font(.custom("Circe-Bold", size: 18))
-
+                .fontBold(color: .appDarkGray, size: 18)
             HStack {
                 ForEach((0 ..< 3)) { col in
                     skillView(for: viewModel.skils[col])
@@ -224,20 +217,18 @@ struct ProfileScreen: View {
         Text(skill)
             .padding(.vertical, 5)
             .padding(.horizontal, 14)
-            .font(.custom("Circe", size: 16))
-            .foregroundColor(Color.hex("#374BFE"))
+            .fontRegular(color: .appProfileBlue, size: 16)
             .lineLimit(1)
             .background(
                 RoundedRectangle(cornerRadius: 6)
-                    .fill(Color.hex("#374BFE").opacity(0.08))
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.hex("#374BFE")))
+                    .fill(Color.appProfileBlue.opacity(0.08))
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.appProfileBlue))
             )
     }
 
     private var description: some View {
         Text(viewModel.description)
-            .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
-            .font(.custom("Circe", size: 16))
+            .fontRegular(color: .appGray, size: 15)
     }
 
     private var portfolio: some View {

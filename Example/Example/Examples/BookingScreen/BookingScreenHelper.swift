@@ -14,7 +14,7 @@ struct BookButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         RoundedRectangle(cornerRadius: 8)
-            .fill(Color.hex("#1874E0"))
+            .fill(Color.appBookingBlue)
             .overlay(configuration.label.foregroundColor(foreground))
     }
 }
