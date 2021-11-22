@@ -2,12 +2,13 @@
 //  BookingScreen.swift
 //  Example
 //
-//  Created by danil.kristalev on 19.11.2021.
+//  Created by Danil Kristalev on 19.11.2021.
 //  Copyright © 2021 Exyte. All rights reserved.
 //
 
 import SwiftUI
 import ScalingHeaderView
+import MapKit
 
 struct BookingScreen: View {
     
@@ -18,7 +19,9 @@ struct BookingScreen: View {
         ZStack {
             ScalingHeaderView { progress in
                 ZStack {
-                   //TODO: Add header
+                    Map(coordinateRegion: $viewModel.mapCenterRegion, interactionModes: [], annotationItems: viewModel.hotels) {
+                        MapMarker(coordinate: $0.coordinate)
+                    }
                 }
             } content: {
                 bookingContentView
@@ -163,9 +166,8 @@ struct BookingScreen: View {
     private var badges: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(viewModel.badges.indices) { index in
-                    let (imageName, title) = viewModel.badges[index]
-                    badgeView(image: imageName, title: title)
+                ForEach(viewModel.badges, id: \.self) { badge in
+                    badgeView(image: badge.imageName, title: badge.label)
                 }
             }
         }

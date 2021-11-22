@@ -2,28 +2,67 @@
 //  BookingViewModel.swift
 //  Example
 //
-//  Created by danil.kristalev on 19.11.2021.
+//  Created by Danil Kristalev on 19.11.2021.
 //  Copyright © 2021 Exyte. All rights reserved.
 //
 
 import Foundation
+import MapKit
+import Combine
 
 class BookingScreenViewModel: ObservableObject {
-    @Published var placeName: String = "Capo Bay Hotel"
-    @Published var stars: Double = 4.9
-    @Published var address: String = "2, Iasonos Street, 5311 Pritaras, Cyprus"
-    @Published var roomDesription: String = "2 beds • 2 bedroom • 1 kitchen • 1 bath"
-    @Published var badges: [(String, String)] = [("wifi", "Wi-fi"),("tv", "TV"), ("creditcard", "Card"), ("fork.knife", "Breakfast"), ("car","Parking")]
+    @Published var placeName: String = ""
+    @Published var stars: Double = 0.0
+    @Published var address: String = ""
+    @Published var roomDesription: String = ""
+    @Published var badges: [Badge] = []
+    @Published var price: Int = 0
+    @Published var description: String = ""
     
-    @Published var description: String = """
-    The Capo Bay Hotel in Protaras, Cyprus is exceptionally located in the heart of Protaras. This beach hotel in Protaras features gardens with running waters and fish ponds lead down to the waterfront and the Blue Flag Fig Tree Bay.
-
-    Capo Bay guest rooms are equipped with air conditioning, satellite TV and hot drink facilities. Free WiFi is available throughout. Several rooms face the Mediterranean Sea.
-
-    Buffet breakfast is served every morning, and the hotel’s restaurant provides far-reaching sea views. Lunch and dinner are served at the Koi lounge bar, at the a la carte restaurant or the pool bar when the weather is warm.
-
-    Ideal for relaxing holidays, the Capo Bay has a spa center which includes a sauna, hot tub, steam bath, hammam, Vichy shower, a fully equipped gym and a 14 m heated indoor lap pool. Recreation facilities include a modern fitness center and a scuba diving school.
-    """
+    @Published private(set) var currentHotel: Hotel = .capoBayHotel
     
-    @Published var price: Int = 560
+    @Published var mapCenterRegion = MKCoordinateRegion()
+    @Published var hotels: [Hotel] = []
+    
+    private var mapService = MapService()
+    
+    init() {
+        $currentHotel
+            .map(\.name)
+            .assign(to: &$placeName)
+        
+        $currentHotel
+            .map(\.stars)
+            .assign(to: &$stars)
+        
+        $currentHotel
+            .map(\.address)
+            .assign(to: &$address)
+        
+        $currentHotel
+            .map(\.address)
+            .assign(to: &$address)
+        
+        $currentHotel
+            .map(\.roomDescription)
+            .assign(to: &$roomDesription)
+        
+        $currentHotel
+            .map(\.badges)
+            .assign(to: &$badges)
+        
+        $currentHotel
+            .map(\.price)
+            .assign(to: &$price)
+        
+        $currentHotel
+            .map(\.description)
+            .assign(to: &$description)
+        
+        mapCenterRegion = mapService.mapCenterRegion
+        
+        mapService.hotels.publisher
+            .collect()
+            .assign(to: &$hotels)
+    }
 }
