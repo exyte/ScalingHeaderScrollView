@@ -14,12 +14,11 @@ struct BookingScreen: View {
     @ObservedObject private var viewModel = BookingScreenViewModel()
     @Environment(\.presentationMode) var presentationMode
     
-    
     var body: some View {
         ZStack {
             ScalingHeaderView { progress in
                 ZStack {
-                   
+                   //TODO: Add header
                 }
             } content: {
                 bookingContentView
@@ -109,7 +108,6 @@ struct BookingScreen: View {
             }
             address
         }
-        
     }
     
     private var placeName: some View {
@@ -130,7 +128,7 @@ struct BookingScreen: View {
     
     private var address: some View {
         HStack(spacing: 6.5) {
-            Image(systemName:  "mappin")
+            Image(systemName: "mappin")
                 .foregroundColor(Color.hex("#1874E0"))
                 .frame(width: 11, height: 14)
             Text(viewModel.address)
@@ -166,7 +164,6 @@ struct BookingScreen: View {
                 .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
                 .font(.custom("Circe", size: 16))
             Spacer()
-            
         }
     }
     
@@ -195,7 +192,7 @@ struct BookingScreen: View {
                         .foregroundColor(Color.hex("#0C0C0C").opacity(0.8))
                         .font(.custom("Circe", size: 12))
                 }
-                    .padding(.top, 21)
+                .padding(.top, 21)
             )
             .frame(width: 80, height: 80)
     }
