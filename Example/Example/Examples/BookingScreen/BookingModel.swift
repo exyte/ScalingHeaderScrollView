@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import MapKit
 
-struct Hotel: Identifiable {
+struct Hotel: Identifiable, Equatable {
     let id = UUID()
     let name: String
     let stars: Double
@@ -20,6 +20,10 @@ struct Hotel: Identifiable {
     let price: Int
     let coordinate: CLLocationCoordinate2D
     let description: String
+    
+    static func ==(lhs: Hotel, rhs: Hotel) -> Bool {
+        return lhs.name == rhs.name
+    }
 }
 
 struct Badge: Identifiable, Hashable {

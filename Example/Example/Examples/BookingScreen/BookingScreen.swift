@@ -19,8 +19,14 @@ struct BookingScreen: View {
         ZStack {
             ScalingHeaderView { progress in
                 ZStack {
-                    Map(coordinateRegion: $viewModel.mapCenterRegion, interactionModes: [], annotationItems: viewModel.hotels) {
-                        MapMarker(coordinate: $0.coordinate)
+                    Map(coordinateRegion: $viewModel.mapCenterRegion, interactionModes: [], annotationItems: viewModel.hotels) { place in
+                        MapAnnotation(coordinate: place.coordinate) {
+                            mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
+                                .offset(y: -15)
+                                .onTapGesture {
+                                    viewModel.show(hotel: place)
+                                }
+                        }
                     }
                 }
             } content: {
@@ -195,6 +201,23 @@ struct BookingScreen: View {
         Text(viewModel.description)
             .fontRegular(color: .appGray, size: 16)
             .padding(.top, 32)
+    }
+    
+    private func mapMarker(isSelected: Bool = false, price: Int) -> some View {
+        Text("$ \(price)")
+            .padding(.horizontal, 12)
+            .padding(.vertical, 5)
+            .fontBold(color: isSelected ? .white : .black, size: 14)
+            .background(
+                ZStack {
+                    Triangle()
+                        .fill(isSelected ? Color.appBookingBlue : .white)
+                        .offset(y: 16)
+                        .frame(width: 12, height: 8)
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(isSelected ? Color.appBookingBlue : .white)
+                }
+            )
     }
 }
 

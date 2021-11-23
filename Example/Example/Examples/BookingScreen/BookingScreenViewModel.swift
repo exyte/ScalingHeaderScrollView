@@ -65,4 +65,8 @@ class BookingScreenViewModel: ObservableObject {
             .collect()
             .assign(to: &$hotels)
     }
+    
+    func show(hotel: Hotel) {
+        currentHotel = hotel
+    }
 }

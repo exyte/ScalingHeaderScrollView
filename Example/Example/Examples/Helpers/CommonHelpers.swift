@@ -2,7 +2,7 @@
 //  CommonHelpers.swift
 //  Example
 //
-//  Created by danil.kristalev on 19.11.2021.
+//  Created by Danil Kristalev on 19.11.2021.
 //  Copyright © 2021 Exyte. All rights reserved.
 //
 
