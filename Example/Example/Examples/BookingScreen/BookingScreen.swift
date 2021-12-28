@@ -19,15 +19,7 @@ struct BookingScreen: View {
         ZStack {
             ScalingHeaderView { progress in
                 ZStack {
-                    Map(coordinateRegion: $viewModel.mapCenterRegion, interactionModes: [], annotationItems: viewModel.hotels) { place in
-                        MapAnnotation(coordinate: place.coordinate) {
-                            mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
-                                .offset(y: -15)
-                                .onTapGesture {
-                                    viewModel.select(hotel: place)
-                                }
-                        }
-                    }
+                    scaledMap(progress)
                 }
             } content: {
                 bookingContentView
@@ -39,6 +31,21 @@ struct BookingScreen: View {
             footer
         }
         .ignoresSafeArea()
+    }
+    
+    private func scaledMap(_ progress: CGFloat) -> some View {
+        if viewModel.scale.distance(to: progress) >= 0.001 || viewModel.scale.distance(to: progress) <= -0.001 {
+            viewModel.scale = progress
+        }
+        return Map(coordinateRegion: $viewModel.mapCenterRegion, interactionModes: [], annotationItems: viewModel.hotels) { place in
+            MapAnnotation(coordinate: place.coordinate) {
+                mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
+                    .offset(y: -15)
+                    .onTapGesture {
+                        viewModel.select(hotel: place)
+                    }
+            }
+        }
     }
     
     private var topButtons: some View { 
