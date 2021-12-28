@@ -11,6 +11,7 @@ import MapKit
 import Combine
 
 class BookingScreenViewModel: ObservableObject {
+    
     @Published var placeName: String = ""
     @Published var stars: Double = 0.0
     @Published var address: String = ""
@@ -66,7 +67,7 @@ class BookingScreenViewModel: ObservableObject {
             .assign(to: &$hotels)
     }
     
-    func show(hotel: Hotel) {
+    func select(hotel: Hotel) {
         currentHotel = hotel
     }
 }

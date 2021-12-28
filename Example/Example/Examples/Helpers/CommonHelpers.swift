@@ -26,6 +26,7 @@ struct CircleButtonStyle: ButtonStyle {
 }
 
 extension Color {
+    
     static let appDarkGray = Color.hex("#0C0C0C")
     static let appGray = Color.hex("#0C0C0C").opacity(0.8)
     static let appLightGray = Color.hex("#0C0C0C").opacity(0.4)
@@ -37,11 +38,11 @@ extension Color {
     
     //Profile
     static let appProfileBlue = Color.hex("#374BFE")
-    
 }
 
 
 extension View {
+    
     func fontBold(color: Color, size: CGFloat) -> some View {
         foregroundColor(color).font(.custom("Circe-Bold", size: size))
     }

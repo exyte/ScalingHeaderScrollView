@@ -11,6 +11,7 @@ import SwiftUI
 import MapKit
 
 struct Hotel: Identifiable, Equatable {
+    
     let id = UUID()
     let name: String
     let stars: Double
@@ -22,16 +23,15 @@ struct Hotel: Identifiable, Equatable {
     let description: String
     
     static func ==(lhs: Hotel, rhs: Hotel) -> Bool {
-        return lhs.name == rhs.name
+        return lhs.id == rhs.id
     }
 }
 
 struct Badge: Identifiable, Hashable {
+    
+    let id = UUID()
     let label: String
     let imageName: String
-    var id: String {
-        "\(label)-\(imageName)"
-    }
     
     static func ==(lhs: Badge, rhs: Badge) -> Bool {
         lhs.id == rhs.id
@@ -49,6 +49,7 @@ struct Badge: Identifiable, Hashable {
 }
 
 extension Hotel {
+    
     static let capoBayHotel = Hotel (
         name: "Capo Bay Hotel",
         stars: 4.9,
@@ -115,6 +116,7 @@ extension Hotel {
 }
 
 struct MapService {
+    
     let hotels: [Hotel] = [.capoBayHotel, .figTreeBayVilla, .protarasPlazaHotel]
     
     let mapCenterRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude:  35.01266423456241, longitude: 34.057450219436646), latitudinalMeters: 400, longitudinalMeters: 400)

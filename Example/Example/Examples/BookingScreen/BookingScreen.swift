@@ -24,7 +24,7 @@ struct BookingScreen: View {
                             mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
                                 .offset(y: -15)
                                 .onTapGesture {
-                                    viewModel.show(hotel: place)
+                                    viewModel.select(hotel: place)
                                 }
                         }
                     }
@@ -139,7 +139,6 @@ struct BookingScreen: View {
             Text(viewModel.address)
                 .fontRegular(color: .appBookingBlue, size: 16)
             Spacer()
-
         }
     }
     

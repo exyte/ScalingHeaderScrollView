@@ -11,7 +11,7 @@ import SwiftUI
 struct BookButtonStyle: ButtonStyle {
 
     var foreground = Color.white
-
+    
     func makeBody(configuration: Configuration) -> some View {
         RoundedRectangle(cornerRadius: 8)
             .fill(Color.appBookingBlue)
@@ -20,6 +20,7 @@ struct BookButtonStyle: ButtonStyle {
 }
 
 struct Triangle: Shape {
+    
     func path(in rect: CGRect) -> Path {
         var path = Path()
         
