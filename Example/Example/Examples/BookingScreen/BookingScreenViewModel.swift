@@ -19,7 +19,6 @@ class BookingScreenViewModel: ObservableObject {
     @Published var badges: [Badge] = []
     @Published var price: Int = 0
     @Published var description: String = ""
-    @Published var scale: CGFloat = 0.0
     
     @Published private(set) var currentHotel: Hotel = .capoBayHotel
     
@@ -66,15 +65,6 @@ class BookingScreenViewModel: ObservableObject {
         mapService.hotels.publisher
             .collect()
             .assign(to: &$hotels)
-        
-        $scale
-            .map { [mapService] value in
-                // 0 - zoom in. Minimum value is 400.
-                // 1 - zoom out. Maximum value is 600.
-                let currentScaleValue = 400 + 200 * value
-                return MKCoordinateRegion(center:  mapService.mapCenterRegion.center, latitudinalMeters: currentScaleValue, longitudinalMeters: currentScaleValue)
-            }
-            .assign(to: &$mapCenterRegion)
     }
     
     func select(hotel: Hotel) {
