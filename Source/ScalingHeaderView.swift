@@ -158,8 +158,6 @@ public struct ScalingHeaderView<Header: View, Content: View>: View {
                 snapScrollPosition()
             }
         }
-        scrollViewDelegate.headerHeight = headerHeight
-        scrollViewDelegate.headerOffsetY = getOffsetForHeader()
         uiScrollView = scrollView
     }
     
