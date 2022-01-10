@@ -18,7 +18,7 @@ struct BookingScreen: View {
     var body: some View {
         ZStack {
             ScalingHeaderView {
-                Map(coordinateRegion: $viewModel.mapCenterRegion, interactionModes: [], annotationItems: viewModel.hotels) { place in
+                Map(coordinateRegion: $viewModel.mapCenterRegion, annotationItems: viewModel.hotels) { place in
                     MapAnnotation(coordinate: place.coordinate) {
                         mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
                             .offset(y: -15)
