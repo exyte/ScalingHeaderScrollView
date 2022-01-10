@@ -15,7 +15,7 @@ struct SimpleScalingHeader: View {
     @State private var isLoading: Bool = false
     
     var body: some View {
-        ScalingHeaderView { _ in
+        ScalingHeaderView {
             Image(selectedImage)
         } content: {
             Text(defaultDescription)
@@ -24,7 +24,7 @@ struct SimpleScalingHeader: View {
         .pullToRefresh(isLoading: $isLoading) {
             changeImage()
         }
-        .allowsHeaderCollapse(false)
+        .allowsHeaderCollapse()
     }
     
     // MARK: - Private

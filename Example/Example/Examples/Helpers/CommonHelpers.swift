@@ -40,13 +40,12 @@ extension Color {
     static let appProfileBlue = Color.hex("#374BFE")
 }
 
-
 extension View {
-    
+
     func fontBold(color: Color, size: CGFloat) -> some View {
         foregroundColor(color).font(.custom("Circe-Bold", size: size))
     }
-    
+
     func fontRegular(color: Color, size: CGFloat) -> some View {
         foregroundColor(color).font(.custom("Circe", size: size))
     }

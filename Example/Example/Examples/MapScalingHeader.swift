@@ -18,7 +18,7 @@ struct MapScalingHeader: View {
         span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
     
     var body: some View {
-        ScalingHeaderView { _ in
+        ScalingHeaderView {
             Map(coordinateRegion: $region)
         } content: {
             Text(defaultDescription)
@@ -39,6 +39,7 @@ struct MapScalingHeader: View {
                 latitude: Double.random(in: -90...90),
                 longitude: Double.random(in: -180...180)
             )
+            isLoading = false
         }
     }
 }

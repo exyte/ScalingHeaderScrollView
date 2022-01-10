@@ -19,8 +19,8 @@ struct TabScalingHeader: View {
     @State private var scrollToTop: Bool = false
     
     var body: some View {
-        ScalingHeaderView { _ in
-            VStack(alignment: .center, spacing: 0) {
+        ScalingHeaderView {
+            VStack(spacing: 0) {
                 Image("image_1")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -31,8 +31,6 @@ struct TabScalingHeader: View {
         } content: {
             content
         }
-        .allowsHeaderScale(false)
-        .allowsHeaderCollapse(false)
         .scrollToTop(resetScroll: $scrollToTop)
     }
     

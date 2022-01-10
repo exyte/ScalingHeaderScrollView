@@ -17,23 +17,19 @@ struct BookingScreen: View {
     
     var body: some View {
         ZStack {
-            ScalingHeaderView { progress in
-                ZStack {
-                    Map(coordinateRegion: $viewModel.mapCenterRegion, interactionModes: [], annotationItems: viewModel.hotels) { place in
-                        MapAnnotation(coordinate: place.coordinate) {
-                            mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
-                                .offset(y: -15)
-                                .onTapGesture {
-                                    viewModel.select(hotel: place)
-                                }
-                        }
+            ScalingHeaderView {
+                Map(coordinateRegion: $viewModel.mapCenterRegion, interactionModes: [], annotationItems: viewModel.hotels) { place in
+                    MapAnnotation(coordinate: place.coordinate) {
+                        mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
+                            .offset(y: -15)
+                            .onTapGesture {
+                                viewModel.select(hotel: place)
+                            }
                     }
                 }
             } content: {
                 bookingContentView
             }
-            .allowsHeaderCollapse(false)
-            .allowsHeaderScale(true)
             
             topButtons
             footer

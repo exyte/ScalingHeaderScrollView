@@ -13,13 +13,15 @@ struct ProfileScreen: View {
     
     @ObservedObject private var viewModel = ProfileScreenViewModel()
     @Environment(\.presentationMode) var presentationMode
+
+    @State var progress: CGFloat = 0
     
     private let minHeight = 110.0
     private let maxHeight = 372.0
 
     var body: some View {
         ZStack {
-            ScalingHeaderView { progress in
+            ScalingHeaderView {
                 ZStack {
                     Color.white.edgesIgnoringSafeArea(.all)
                     largeHeader(progress: progress)
@@ -28,8 +30,8 @@ struct ProfileScreen: View {
                 profilerContentView
             }
             .height(min: minHeight, max: maxHeight)
-            .allowsHeaderCollapse(false)
-            .allowsHeaderScale(true)
+            .progress($progress)
+            .allowsHeaderGrowth()
             
             topButtons
             hireButton
