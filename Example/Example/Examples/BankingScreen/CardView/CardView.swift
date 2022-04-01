@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CardView: View {
-    @State var isCollapsed = false
+    @Binding var isCollapsed: Bool
     
     var banance: String {
         let formatter = NumberFormatter()
@@ -99,7 +99,7 @@ struct CardView: View {
                             
                             Text("TOM HOLLAND")
                                 .foregroundColor(Color.white)
-                                .font(.custom("Circe", size: 15))
+                                .font(.custom("Circe-Bold", size: 15))
                         }
                         
                         Spacer()
@@ -122,12 +122,7 @@ struct CardView: View {
             }
         }
         .frame(width: 364, height: isCollapsed ? 94 : 230)
-        .shadow( color: Color.hex("#4327F3"), radius: 16)
+        .shadow( color: Color.hex("#4327F3").opacity(0.6), radius: 16, y: 8)
     }
 }
 
-struct CardView_Previews: PreviewProvider {
-    static var previews: some View {
-        CardView(isCollapsed: false)
-    }
-}

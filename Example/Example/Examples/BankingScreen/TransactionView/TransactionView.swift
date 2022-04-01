@@ -40,6 +40,6 @@ struct TransactionView: View {
 
 struct TransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionView(transaction: BankTransaction(iconName: "Asos", date: "29.10.2021" , title: "Assos", category: "Сlothes and accessories", balance: -36.67))
+        TransactionView(transaction: BankTransaction(iconName: "Asos", date: nil , title: "Assos", category: "Сlothes and accessories", balance: -36.67))
     }
 }

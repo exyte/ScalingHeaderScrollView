@@ -18,6 +18,7 @@ struct ContentView: View {
     @State var requestPresented = false
     @State var tabPresented = false
     @State var profilePresented = false
+    @State var bankingPresented = false
     
     var body: some View {
         VStack(spacing: 32.0) {
@@ -43,6 +44,10 @@ struct ContentView: View {
 
             ExampleView(isPresented: $profilePresented, name: "Profile Screen") {
                 ProfileScreen()
+            }
+            
+            ExampleView(isPresented: $bankingPresented, name: "Banking Screen") {
+                BankingScreen()
             }
         }
     }
