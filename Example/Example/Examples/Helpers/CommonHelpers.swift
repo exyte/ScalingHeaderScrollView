@@ -49,7 +49,7 @@ extension View {
         foregroundColor(color).font(.custom("Circe-Bold", size: size))
     }
 
-    func fontRegular(color: Color, size: CGFloat) -> some View {
+    func fontRegular(color: Color = .black, size: CGFloat) -> some View {
         foregroundColor(color).font(.custom("Circe", size: size))
     }
 }

@@ -139,28 +139,12 @@
 		4C342D19277D5CEF00D2D779 /* BankingScreen */ = {
 			isa = PBXGroup;
 			children = (
-				4C342D21277D7F2300D2D779 /* CardView */,
-				4C342D1A277D5CFE00D2D779 /* TransactionView */,
 				4C342D24277D98F200D2D779 /* BankingScreen.swift */,
 				4C342D26277DA2D700D2D779 /* BankingService.swift */,
-			);
-			path = BankingScreen;
-			sourceTree = "<group>";
-		};
-		4C342D1A277D5CFE00D2D779 /* TransactionView */ = {
-			isa = PBXGroup;
-			children = (
 				4C342D1D277D6C2C00D2D779 /* TransactionView.swift */,
-			);
-			path = TransactionView;
-			sourceTree = "<group>";
-		};
-		4C342D21277D7F2300D2D779 /* CardView */ = {
-			isa = PBXGroup;
-			children = (
 				4C342D22277D7F3500D2D779 /* CardView.swift */,
 			);
-			path = CardView;
+			path = BankingScreen;
 			sourceTree = "<group>";
 		};
 		5B1CDFF226F354D100C76DB7 = {

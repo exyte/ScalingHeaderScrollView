@@ -9,7 +9,8 @@
 import Foundation
 
 
-struct BankTransaction {
+struct BankTransaction: Identifiable {
+    let id = UUID()
     let iconName: String
     let date: Date?
     let title: String
@@ -35,5 +36,9 @@ struct BankingService {
     let transactions: [BankTransaction] = [.asosTransaction,
                                            .sevenElevenTransaction1, .paypalTransaction1, .goldApple,
                                            .appStore, .sevenElevenTransaction2,
+                                           .bookStore, .paypalTransaction2, .sevenElevenTransaction3,
+                                           .asosTransaction,
+                                           .sevenElevenTransaction1, .paypalTransaction1, .goldApple,
+                                           .appStore, .sevenElevenTransaction2,
                                            .bookStore, .paypalTransaction2, .sevenElevenTransaction3]
- }
+}

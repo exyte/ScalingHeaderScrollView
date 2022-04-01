@@ -10,8 +10,8 @@ import SwiftUI
 import ScalingHeaderView
 
 struct BankingScreen: View {
+    
     @Environment(\.presentationMode) var presentationMode
-    @State var isCollapsed: Bool = false
     @State var progress: CGFloat = 0
     
     let service = BankingService()
@@ -21,27 +21,24 @@ struct BankingScreen: View {
             ScalingHeaderView {
                 ZStack {
                     Color.hex("#EFF3F5").edgesIgnoringSafeArea(.all)
-                    CardView(isCollapsed: $isCollapsed)
+                    CardView(progress: progress)
                         .padding(.top, 130)
                         .padding(.bottom, 40)
-                        .onTapGesture {
-                            isCollapsed.toggle()
-                        }
                     VStack {
                         Text("Visa Card")
-                            .font(.custom("Circe", size: 17))
+                            .fontRegular(size: 17)
                             .padding(.top, 75)
                         Spacer()
                     }
-                    
                 }
             } content: {
-                
-                
+                ForEach(service.transactions) { transaction in
+                    TransactionView(transaction: transaction)
+                }
             }
-            .height(max: 372)
+            .height(min: 220, max: 372)
             .progress($progress)
-            .allowsHeaderGrowth()
+            .allowsHeaderCollapse()
             
             topButtons
         }
