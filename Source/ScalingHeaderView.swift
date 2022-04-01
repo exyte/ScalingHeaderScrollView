@@ -152,6 +152,9 @@ public struct ScalingHeaderView<Header: View, Content: View>: View {
                 didPullToRefresh()
             }
         }
+        scrollViewDelegate.didScroll = {
+            self.progress = getCollapseProgress()
+        }
         scrollViewDelegate.didEndDragging = {
             isSpinning = false
             if allowsHeaderSnapFlag {
