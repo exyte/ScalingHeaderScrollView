@@ -12,12 +12,13 @@ import ScalingHeaderView
 struct BankingScreen: View {
     @Environment(\.presentationMode) var presentationMode
     @State var isCollapsed: Bool = false
+    @State var progress: CGFloat = 0
     
     let service = BankingService()
     
     var body: some View {
         ZStack {
-            ScalingHeaderView { progress in
+            ScalingHeaderView {
                 ZStack {
                     Color.hex("#EFF3F5").edgesIgnoringSafeArea(.all)
                     CardView(isCollapsed: $isCollapsed)
@@ -39,8 +40,8 @@ struct BankingScreen: View {
                 
             }
             .height(max: 372)
-            .allowsHeaderCollapse(false)
-            .allowsHeaderScale(true)
+            .progress($progress)
+            .allowsHeaderGrowth()
             
             topButtons
         }

@@ -11,14 +11,19 @@ import UIKit
 final class ScalingHeaderScrollViewDelegate: NSObject, ObservableObject, UIScrollViewDelegate {
     
     var didPullToRefresh: () -> Void = { }
-    var didEndDragging: (CGPoint) -> Void = { _ in }
-    
+    var didScroll: () -> Void = {}
+    var didEndDragging = {}
+
     // MARK: - UIScrollViewDelegate
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        didScroll()
+    }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView.contentOffset.y < -60 {
             didPullToRefresh()
         }
-        didEndDragging(scrollView.contentOffset)
+        didEndDragging()
     }
 }
