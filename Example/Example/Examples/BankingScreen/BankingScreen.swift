@@ -24,23 +24,26 @@ struct BankingScreen: View {
                     CardView(progress: progress)
                         .padding(.top, 130)
                         .padding(.bottom, 40)
-                    VStack {
-                        Text("Visa Card")
-                            .fontRegular(size: 17)
-                            .padding(.top, 75)
-                        Spacer()
-                    }
                 }
             } content: {
+                Color.white.frame(height: 15)
                 ForEach(service.transactions) { transaction in
                     TransactionView(transaction: transaction)
                 }
+                Color.white.frame(height: 15)
             }
             .height(min: 220, max: 372)
             .progress($progress)
             .allowsHeaderCollapse()
             
             topButtons
+
+            VStack {
+                Text("Visa Card")
+                    .fontRegular(size: 17)
+                    .padding(.top, 63)
+                Spacer()
+            }
         }
         .ignoresSafeArea()
     }

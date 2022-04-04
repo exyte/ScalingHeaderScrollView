@@ -32,7 +32,7 @@ struct TransactionView: View {
             
             Text("\(String(format: "%.2f", transaction.balance)) $")
                 .foregroundColor(transaction.balance > 0 ? Color.hex("#01B74E") : Color.hex("#0C0C0C"))
-                .font(.custom("Circe-Bold", size: 16))
+                .fontBold(size: 16)
         }
         .padding(.horizontal, 24)
     }
@@ -40,6 +40,6 @@ struct TransactionView: View {
 
 struct TransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionView(transaction: BankTransaction(iconName: "Asos", date: nil, title: "Assos", category: "Сlothes and accessories", balance: -36.67))
+        TransactionView(transaction: BankTransaction(iconName: "Asos", date: nil, title: "Asos", category: "Сlothes and accessories", balance: -36.67))
     }
 }

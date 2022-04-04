@@ -45,7 +45,7 @@ extension Color {
 
 extension View {
 
-    func fontBold(color: Color, size: CGFloat) -> some View {
+    func fontBold(color: Color = .black, size: CGFloat) -> some View {
         foregroundColor(color).font(.custom("Circe-Bold", size: size))
     }
 
