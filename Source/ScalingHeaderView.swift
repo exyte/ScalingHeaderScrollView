@@ -121,21 +121,21 @@ public struct ScalingHeaderView<Header: View, Content: View>: View {
                             .progressViewStyle(CircularProgressViewStyle())
                             .frame(width: UIScreen.main.bounds.width, height: getHeightForLoadingView())
                             .scaleEffect(1.25)
-                            .offset(x: 0, y: getOffsetForHeader() + progressViewOffset)
+                            .offset(y: getOffsetForHeader() + progressViewOffset)
                     }
                     
                     header
                         .frame(height: headerHeight)
                         .clipped()
-                        .offset(x: 0, y: getOffsetForHeader())
+                        .offset(y: getOffsetForHeader())
                         .allowsHitTesting(true)
                         .scaleEffect(headerScaleOnPullDown)
                 }
-                .offset(x: 0, y: getGeometryReaderVsScrollView(geometry))
+                .offset(y: getGeometryReaderVsScrollView(geometry))
             }
             .background(Color.clear)
             .frame(height: maxHeight)
-            .offset(x: 0, y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
+            .offset(y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
         }
         .introspectScrollView { scrollView in
             configure(scrollView: scrollView)

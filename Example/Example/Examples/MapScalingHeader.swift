@@ -11,6 +11,8 @@ import ScalingHeaderView
 import MapKit
 
 struct MapScalingHeader: View {
+
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var isLoading: Bool = false
     @State private var region = MKCoordinateRegion(
@@ -18,16 +20,23 @@ struct MapScalingHeader: View {
         span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
     
     var body: some View {
-        ScalingHeaderView {
-            Map(coordinateRegion: $region)
-        } content: {
-            Text(defaultDescription)
-                .padding()
-        }
-        .height(min: 250.0, max: 500.0)
-        .pullToRefresh(isLoading: $isLoading) {
-            updateRegion()
-            isLoading = false
+        ZStack(alignment: .topLeading) {
+            ScalingHeaderView {
+                Map(coordinateRegion: $region)
+            } content: {
+                Text(defaultDescription)
+                    .padding()
+            }
+            .height(min: 250.0, max: 500.0)
+            .pullToRefresh(isLoading: $isLoading) {
+                updateRegion()
+                isLoading = false
+            }
+            .ignoresSafeArea()
+
+            Button("", action: { self.presentationMode.wrappedValue.dismiss() })
+                .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+                .padding(.leading, 16)
         }
     }
     

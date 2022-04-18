@@ -22,39 +22,44 @@ struct ContentView: View {
     @State var bookingPresented = false
     
     var body: some View {
-        VStack(spacing: 32.0) {
-            ExampleView(isPresented: $simplePresented, name: "Simple Scaling Header") {
-                SimpleScalingHeader()
+        List {
+            Section(header: Text("Simple Examples")) {
+                ExampleView(isPresented: $simplePresented, name: "Simple Scaling Header") {
+                    SimpleScalingHeader()
+                }
+
+                ExampleView(isPresented: $mapPresented, name: "Map Scaling Header") {
+                    MapScalingHeader()
+                }
+
+                ExampleView(isPresented: $colorPresented, name: "Color Scaling Header") {
+                    ColorScalingHeader()
+                }
+
+                ExampleView(isPresented: $requestPresented, name: "Request Scaling Header") {
+                    RequestScalingHeader()
+                }
+
+                ExampleView(isPresented: $tabPresented, name: "Tab Scaling Header") {
+                    TabScalingHeader()
+                }
             }
 
-            ExampleView(isPresented: $mapPresented, name: "Map Scaling Header") {
-                MapScalingHeader()
-            }
+            Section(header: Text("Beautiful Examples")) {
+                ExampleView(isPresented: $profilePresented, name: "Profile Screen") {
+                    ProfileScreen()
+                }
 
-            ExampleView(isPresented: $colorPresented, name: "Color Scaling Header") {
-                ColorScalingHeader()
-            }
+                ExampleView(isPresented: $bookingPresented, name: "Booking Screen") {
+                    BookingScreen()
+                }
 
-            ExampleView(isPresented: $requestPresented, name: "Request Scaling Header") {
-                RequestScalingHeader()
-            }
-
-            ExampleView(isPresented: $tabPresented, name: "Tab Scaling Header") {
-                TabScalingHeader()
-            }
-
-            ExampleView(isPresented: $profilePresented, name: "Profile Screen") {
-                ProfileScreen()
-            }
-
-            ExampleView(isPresented: $bookingPresented, name: "Booking Screen") {
-                BookingScreen()
-            }
-
-            ExampleView(isPresented: $bankingPresented, name: "Banking Screen") {
-                BankingScreen()
+                ExampleView(isPresented: $bankingPresented, name: "Banking Screen") {
+                    BankingScreen()
+                }
             }
         }
+        .listStyle(.grouped)
     }
 }
 

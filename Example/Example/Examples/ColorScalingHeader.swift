@@ -11,20 +11,29 @@ import ScalingHeaderView
 import Introspect
 
 struct ColorScalingHeader: View {
+
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var selectedColor: Color = .green
     
     var body: some View {
-        ScalingHeaderView {
-            selectedColor
-        } content: {
-            AutosizingList {
-                scrollContent
-            }.introspectScrollView { scrollView in
-                scrollView.isScrollEnabled = false
+        ZStack(alignment: .topLeading) {
+            ScalingHeaderView {
+                selectedColor
+            } content: {
+                AutosizingList {
+                    scrollContent
+                }.introspectScrollView { scrollView in
+                    scrollView.isScrollEnabled = false
+                }
             }
+            .height(min: 110)
+            .ignoresSafeArea()
+            
+            Button("", action: { self.presentationMode.wrappedValue.dismiss() })
+                .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+                .padding(.leading, 16)
         }
-        .height(min: 90)
     }
     
     // MARK: - Private

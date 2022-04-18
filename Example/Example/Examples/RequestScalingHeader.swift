@@ -10,33 +10,42 @@ import SwiftUI
 import ScalingHeaderView
 
 struct RequestScalingHeader: View {
+
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var isLoading: Bool = false
     @State private var image: UIImage = UIImage()
     @ObservedObject private var imageLoader = ImageLoaderService()
     
     var body: some View {
-        ScalingHeaderView {
-            ZStack {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.15))
-                Image(uiImage: image)
+        ZStack(alignment: .topLeading) {
+            ScalingHeaderView {
+                ZStack {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.15))
+                    Image(uiImage: image)
+                }
+            } content: {
+                Text("↓ Pull to refresh ↓")
+                    .multilineTextAlignment(.center)
+                    .padding()
             }
-        } content: {
-            Text("↓ Pull to refresh ↓")
-                .multilineTextAlignment(.center)
-                .padding()
-        }
-        .pullToRefresh(isLoading: $isLoading) {
-            imageLoader.load()
-        }
-        .height(min: 90.0, max: 300.0)
-        .onReceive(imageLoader.$image) { image in
-            isLoading = false
-            self.image = image
-        }
-        .onAppear {
-            imageLoader.load()
+            .pullToRefresh(isLoading: $isLoading) {
+                imageLoader.load()
+            }
+            .height(min: 90.0, max: 300.0)
+            .onReceive(imageLoader.$image) { image in
+                isLoading = false
+                self.image = image
+            }
+            .onAppear {
+                imageLoader.load()
+            }
+            .ignoresSafeArea()
+            
+            Button("", action: { self.presentationMode.wrappedValue.dismiss() })
+                .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+                .padding(.leading, 16)
         }
     }
 }

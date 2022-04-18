@@ -10,21 +10,33 @@ import SwiftUI
 import ScalingHeaderView
 
 struct SimpleScalingHeader: View {
-    
+
+    @Environment(\.presentationMode) var presentationMode
+
     @State private var selectedImage: String = "image_1"
     @State private var isLoading: Bool = false
     
     var body: some View {
-        ScalingHeaderView {
-            Image(selectedImage)
-        } content: {
-            Text(defaultDescription)
-                .padding()
+        ZStack(alignment: .topLeading) {
+            ScalingHeaderView {
+                Image(selectedImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .clipped()
+            } content: {
+                Text(defaultDescription)
+                    .padding()
+            }
+            .pullToRefresh(isLoading: $isLoading) {
+                changeImage()
+            }
+            .allowsHeaderCollapse()
+            .ignoresSafeArea()
+
+            Button("", action: { self.presentationMode.wrappedValue.dismiss() })
+                .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+                .padding(.leading, 16)
         }
-        .pullToRefresh(isLoading: $isLoading) {
-            changeImage()
-        }
-        .allowsHeaderCollapse()
     }
     
     // MARK: - Private

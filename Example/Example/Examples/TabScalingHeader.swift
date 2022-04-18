@@ -15,23 +15,32 @@ struct TabScalingHeader: View {
         case first, second, third
     }
     
+    @Environment(\.presentationMode) var presentationMode
+    
     @State private var selectedScreen: Screen = .first
     @State private var scrollToTop: Bool = false
     
     var body: some View {
-        ScalingHeaderView {
-            VStack(spacing: 0) {
-                Image("image_1")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                
-                tabBar
+        ZStack(alignment: .topLeading) {
+            ScalingHeaderView {
+                VStack(spacing: 0) {
+                    Image("image_1")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                    
+                    tabBar
+                }
+                .frame(width: UIScreen.main.bounds.width)
+            } content: {
+                content
             }
-            .frame(width: UIScreen.main.bounds.width)
-        } content: {
-            content
+            .scrollToTop(resetScroll: $scrollToTop)
+            .ignoresSafeArea()
+            
+            Button("", action: { self.presentationMode.wrappedValue.dismiss() })
+                .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
+                .padding(.leading, 16)
         }
-        .scrollToTop(resetScroll: $scrollToTop)
     }
     
     // MARK: - Private
