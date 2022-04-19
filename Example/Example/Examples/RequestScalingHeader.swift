@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderView
+import ScalingHeaderScrollView
 
 struct RequestScalingHeader: View {
 
@@ -19,7 +19,7 @@ struct RequestScalingHeader: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderView {
+            ScalingHeaderScrollView {
                 ZStack {
                     Rectangle()
                         .fill(Color.gray.opacity(0.15))

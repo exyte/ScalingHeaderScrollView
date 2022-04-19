@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderView
+import ScalingHeaderScrollView
 
 struct SimpleScalingHeader: View {
 
@@ -18,7 +18,7 @@ struct SimpleScalingHeader: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderView {
+            ScalingHeaderScrollView {
                 Image(selectedImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)

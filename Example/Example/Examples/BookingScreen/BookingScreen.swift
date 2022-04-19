@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderView
+import ScalingHeaderScrollView
 import MapKit
 
 struct BookingScreen: View {
@@ -17,7 +17,7 @@ struct BookingScreen: View {
     
     var body: some View {
         ZStack {
-            ScalingHeaderView {
+            ScalingHeaderScrollView {
                 Map(coordinateRegion: $viewModel.mapCenterRegion, annotationItems: viewModel.hotels) { place in
                     MapAnnotation(coordinate: place.coordinate) {
                         mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)

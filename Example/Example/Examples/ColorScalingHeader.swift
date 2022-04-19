@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderView
+import ScalingHeaderScrollView
 import Introspect
 
 struct ColorScalingHeader: View {
@@ -18,7 +18,7 @@ struct ColorScalingHeader: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderView {
+            ScalingHeaderScrollView {
                 selectedColor
             } content: {
                 AutosizingList {

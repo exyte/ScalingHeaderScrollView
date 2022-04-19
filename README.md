@@ -29,13 +29,13 @@ ___
 [![Platform](https://img.shields.io/cocoapods/p/ScalingHeaderScrollView.svg?style=flat)](http://cocoapods.org/pods/ScalingHeaderScrollView)
 
 # Usage
-1. Put your header and content bodies code into a ScalingHeaderView constructor.     
+1. Put your header and content bodies code into a ScalingHeaderScrollView constructor.     
 2. Set the necessary modifiers, see below.      
 ```swift
 struct ContentView: View {
 
     var body: some View {
-       ScalingHeaderView {
+       ScalingHeaderScrollView {
             ZStack {
                 Rectangle()
                     .fill(.gray.opacity(0.15))
@@ -86,9 +86,9 @@ enable (disabled by default) header snap (once you lift your finger header snaps
 
 ## Examples
 
-To try ScalingHeaderView examples:
+To try ScalingHeaderScrollView examples:
 - Clone the repo `https://github.com/exyte/ScalingHeaderScrollView.git`
-- Open terminal and run `cd <ScalingHeaderViewRepo>/Example/`
+- Open terminal and run `cd <ScalingHeaderScrollViewRepo>/Example/`
 - Run `pod install` to install all dependencies
 - Run open `Example.xcworkspace/` to open project in the Xcode
 - Try it!
@@ -97,15 +97,15 @@ To try ScalingHeaderView examples:
 
 ### [CocoaPods](http://cocoapods.org)
 
-To install `ScalingHeaderView`, simply add the following line to your Podfile:
+To install `ScalingHeaderScrollView`, simply add the following line to your Podfile:
 
 ```ruby
-pod 'ScalingHeaderView'
+pod 'ScalingHeaderScrollView'
 ```
 
 ### [Carthage](http://github.com/Carthage/Carthage)
 
-To integrate `ScalingHeaderView` into your Xcode project using Carthage, specify it in your `Cartfile`
+To integrate `ScalingHeaderScrollView` into your Xcode project using Carthage, specify it in your `Cartfile`
 
 ```ogdl
 github "Exyte/ScalingHeaderScrollView"

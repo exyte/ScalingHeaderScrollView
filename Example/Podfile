@@ -2,7 +2,7 @@
 use_frameworks!
 
 def pods
-  pod 'ScalingHeaderView', :path => '../'
+  pod 'ScalingHeaderScrollView', :path => '../'
 end
  
 target 'Example' do

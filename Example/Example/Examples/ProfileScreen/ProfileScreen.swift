@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderView
+import ScalingHeaderScrollView
 
 struct ProfileScreen: View {
     
@@ -21,7 +21,7 @@ struct ProfileScreen: View {
 
     var body: some View {
         ZStack {
-            ScalingHeaderView {
+            ScalingHeaderScrollView {
                 ZStack {
                     Color.white.edgesIgnoringSafeArea(.all)
                     largeHeader(progress: progress)

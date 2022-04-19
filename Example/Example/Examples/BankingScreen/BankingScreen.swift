@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderView
+import ScalingHeaderScrollView
 
 struct BankingScreen: View {
     
@@ -18,7 +18,7 @@ struct BankingScreen: View {
     
     var body: some View {
         ZStack {
-            ScalingHeaderView {
+            ScalingHeaderScrollView {
                 ZStack {
                     Color.hex("#EFF3F5").edgesIgnoringSafeArea(.all)
                     CardView(progress: progress)

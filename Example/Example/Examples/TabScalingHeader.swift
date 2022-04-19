@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderView
+import ScalingHeaderScrollView
 
 struct TabScalingHeader: View {
     
@@ -22,7 +22,7 @@ struct TabScalingHeader: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderView {
+            ScalingHeaderScrollView {
                 VStack(spacing: 0) {
                     Image("image_1")
                         .resizable()

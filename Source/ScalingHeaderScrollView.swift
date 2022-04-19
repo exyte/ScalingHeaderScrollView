@@ -1,6 +1,6 @@
 //
-//  ScalingHeaderView.swift
-//  ScalingHeaderView
+//  ScalingHeaderScrollView.swift
+//  ScalingHeaderScrollView
 //
 //  Created by Alisa Mylnikova on 16/09/2021.
 //  Copyright © 2021 Exyte. All rights reserved.
@@ -9,7 +9,7 @@
 import SwiftUI
 import Introspect
 
-public struct ScalingHeaderView<Header: View, Content: View>: View {
+public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     
     /// Content on the top, which will be collapsed
     public var header: Header
@@ -222,17 +222,17 @@ public struct ScalingHeaderView<Header: View, Content: View>: View {
 
 // MARK: - Modifiers 
 
-extension ScalingHeaderView {
+extension ScalingHeaderScrollView {
 
     /// Passes current collapse progress value into progress binding
-    public func collapseProgress(_ progress: Binding<CGFloat>) -> ScalingHeaderView {
+    public func collapseProgress(_ progress: Binding<CGFloat>) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._progress = progress
         return scalingHeaderScrollView
     }
     
     /// Allows to set up callback and `isLoading` state for pull-to-refresh action
-    public func pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void) -> ScalingHeaderView {
+    public func pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._isLoading = isLoading
         scalingHeaderScrollView.didPullToRefresh = perform
@@ -240,14 +240,14 @@ extension ScalingHeaderView {
     }
     
     /// Allows content scroll reset, need to change Binding to `true`
-    public func scrollToTop(resetScroll: Binding<Bool>) -> ScalingHeaderView {
+    public func scrollToTop(resetScroll: Binding<Bool>) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._scrollToTop = resetScroll
         return scalingHeaderScrollView
     }
     
     /// Changes min and max heights of Header
-    public func height(min: CGFloat = 150.0, max: CGFloat = 350.0) -> ScalingHeaderView {
+    public func height(min: CGFloat = 150.0, max: CGFloat = 350.0) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.minHeight = min
         scalingHeaderScrollView.maxHeight = max
@@ -255,21 +255,21 @@ extension ScalingHeaderView {
     }
     
     /// When scrolling up - switch between actual header collapse and simply moving it up
-    public func allowsHeaderCollapse() -> ScalingHeaderView {
+    public func allowsHeaderCollapse() -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.allowsHeaderCollapseFlag = true
         return scalingHeaderScrollView
     }
 
     /// When scrolling down - enable/disable header scale
-    public func allowsHeaderGrowth() -> ScalingHeaderView {
+    public func allowsHeaderGrowth() -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.allowsHeaderGrowthFlag = true
         return scalingHeaderScrollView
     }
     
     /// Enable/disable header snap (once you lift your finger header snaps either to min or max height automatically)
-    public func allowsHeaderSnap() -> ScalingHeaderView {
+    public func allowsHeaderSnap() -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.allowsHeaderSnapFlag = true
         return scalingHeaderScrollView

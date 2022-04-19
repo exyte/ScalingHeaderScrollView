@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import ScalingHeaderView
+import ScalingHeaderScrollView
 import MapKit
 
 struct MapScalingHeader: View {
@@ -21,7 +21,7 @@ struct MapScalingHeader: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderView {
+            ScalingHeaderScrollView {
                 Map(coordinateRegion: $region)
             } content: {
                 Text(defaultDescription)
