@@ -224,8 +224,8 @@ public struct ScalingHeaderView<Header: View, Content: View>: View {
 
 extension ScalingHeaderView {
 
-    /// Allows content scroll reset, need to change Binding to `true`
-    public func progress(_ progress: Binding<CGFloat>) -> ScalingHeaderView {
+    /// Passes current collapse progress value into progress binding
+    public func collapseProgress(_ progress: Binding<CGFloat>) -> ScalingHeaderView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._progress = progress
         return scalingHeaderScrollView

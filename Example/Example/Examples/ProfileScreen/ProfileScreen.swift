@@ -30,7 +30,7 @@ struct ProfileScreen: View {
                 profilerContentView
             }
             .height(min: minHeight, max: maxHeight)
-            .progress($progress)
+            .collapseProgress($progress)
             .allowsHeaderGrowth()
             
             topButtons

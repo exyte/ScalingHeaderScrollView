@@ -109,8 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				0CC48E4C272FCE6900B57D1D /* ProfileScreen.swift */,
-				0CC48E50272FD09800B57D1D /* ProfileScreenViewModel.swift */,
 				5BB2A974273CFE610080FA93 /* ProfileHelpers.swift */,
+				0CC48E50272FD09800B57D1D /* ProfileScreenViewModel.swift */,
 			);
 			path = ProfileScreen;
 			sourceTree = "<group>";
@@ -140,9 +140,9 @@
 			isa = PBXGroup;
 			children = (
 				4C342D24277D98F200D2D779 /* BankingScreen.swift */,
-				4C342D26277DA2D700D2D779 /* BankingService.swift */,
 				4C342D1D277D6C2C00D2D779 /* TransactionView.swift */,
 				4C342D22277D7F3500D2D779 /* CardView.swift */,
+				4C342D26277DA2D700D2D779 /* BankingService.swift */,
 			);
 			path = BankingScreen;
 			sourceTree = "<group>";
@@ -191,9 +191,9 @@
 		5B4BE8CF27F6D538000A7FE7 /* BookingScreen */ = {
 			isa = PBXGroup;
 			children = (
-				5B4BE8D027F6D538000A7FE7 /* BookingScreenHelper.swift */,
 				5B4BE8D127F6D538000A7FE7 /* BookingScreen.swift */,
 				5B4BE8D227F6D538000A7FE7 /* BookingScreenViewModel.swift */,
+				5B4BE8D027F6D538000A7FE7 /* BookingScreenHelper.swift */,
 				5B4BE8D327F6D538000A7FE7 /* BookingModel.swift */,
 			);
 			name = BookingScreen;

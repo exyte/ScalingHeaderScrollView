@@ -1,9 +1,15 @@
 <img src="https://github.com/exyte/ScalingHeaderScrollView/blob/master/Assets/header.png">
-<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/demo.gif" width="480" />
+<p float="left">
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/1.gif" width="100" />
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/2.gif" width="100" /> 
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/3.gif" width="100" />
+</p>
+
+</br>
 
 <p><h1 align="left">Scaling Header View</h1></p>
 
-<p><h4>Scaling Header View library written with SwiftUI</h4></p>
+<p><h4>A scroll view with its header skrinking as you scroll. Written with SwiftUI</h4></p>
 
 ___
 
@@ -23,13 +29,13 @@ ___
 [![Platform](https://img.shields.io/cocoapods/p/ScalingHeaderScrollView.svg?style=flat)](http://cocoapods.org/pods/ScalingHeaderScrollView)
 
 # Usage
-1. Put your header and content bodies code into a ScalingHeaderView constructor.
-2. Set the necessary modifiers, see below.
+1. Put your header and content bodies code into a ScalingHeaderView constructor.     
+2. Set the necessary modifiers, see below.      
 ```swift
 struct ContentView: View {
 
     var body: some View {
-       ScalingHeaderView { height in
+       ScalingHeaderView {
             ZStack {
                 Rectangle()
                     .fill(.gray.opacity(0.15))
@@ -49,7 +55,11 @@ struct ContentView: View {
 `content` - `@ViewBuilder` for your content  
 
 ### Available modifiers, optional  
-allows set up callback and `isLoading` state for pull-to-refresh action  
+passes current collapse progress value into progress binding: 0 for not collapsed at all, 1 - for fully collapsed       
+```swift
+.collapseProgress(_ progress: Binding<CGFloat>)
+```
+allows set up callback and `isLoading` state for pull-to-refresh action   
 ```swift
 .pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void)
 ```
@@ -63,15 +73,15 @@ allows set up callback and `isLoading` state for pull-to-refresh action
 ```
 when scrolling up - switch between actual header collapse and simply moving it up  
 ```swift
-.allowsHeaderCollapse(_ value: Bool)
+.allowsHeaderCollapse()
 ```
 when scrolling down - enable/disable header scale    
 ```swift
-.allowsHeaderScale(_ value: Bool)
+.allowsHeaderGrowth()
 ```
 enable/disable header snap (once you lift your finger header snaps either to min or max height automatically)     
 ```swift
-.allowsHeaderSnap(_ value: Bool)
+.allowsHeaderSnap()
 ```
 
 ## Examples

@@ -33,7 +33,7 @@ struct BankingScreen: View {
                 Color.white.frame(height: 15)
             }
             .height(min: 220, max: 372)
-            .progress($progress)
+            .collapseProgress($progress)
             .allowsHeaderCollapse()
             
             topButtons

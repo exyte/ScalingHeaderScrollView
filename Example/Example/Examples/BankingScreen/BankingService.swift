@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 struct BankTransaction: Identifiable {
     let id = UUID()
     let iconName: String
