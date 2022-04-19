@@ -1,8 +1,8 @@
 <img src="https://github.com/exyte/ScalingHeaderScrollView/blob/master/Assets/header.png">
 <p float="left">
-  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/1.gif" width="100" />
-  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/2.gif" width="100" /> 
-  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/3.gif" width="100" />
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/1.gif" width="200" />
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/2.gif" width="200" /> 
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/3.gif" width="200" />
 </p>
 
 </br>
@@ -71,15 +71,15 @@ allows set up callback and `isLoading` state for pull-to-refresh action
 ```swift
 .height(min: CGFloat = 150.0, max: CGFloat = 350.0)
 ```
-when scrolling up - switch between actual header collapse and simply moving it up  
+when scrolling up - switch between actual header collapse and simply moving it up (by default moving up)
 ```swift
 .allowsHeaderCollapse()
 ```
-when scrolling down - enable/disable header scale    
+when scrolling down - enable (disabled by default) header scale    
 ```swift
 .allowsHeaderGrowth()
 ```
-enable/disable header snap (once you lift your finger header snaps either to min or max height automatically)     
+enable (disabled by default) header snap (once you lift your finger header snaps either to min or max height automatically)     
 ```swift
 .allowsHeaderSnap()
 ```
