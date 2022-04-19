@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/exyte/ScalingHeaderView.git'
   s.license          = 'MIT'
   s.author           = { 'Exyte' => 'info@exyte.com' }
-  s.source           = { :git => 'https://github.com/exyte/ScalingHeaderView.git', :tag => s.version.to_s }
+  s.source           = { :git => 'git@github.com:exyte/ScalingHeaderScrollView.git', :tag => s.version.to_s }
   s.social_media_url = 'http://exyte.com'
 
   s.ios.deployment_target = '14.0'
