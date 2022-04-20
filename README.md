@@ -8,7 +8,7 @@
 </br>
 <p><h1 align="left">Scaling Header Scroll View</h1></p>
 
-<p><h4>A SwiftUI scroll view with a sticky header which shrinks as you scroll</h4></p>
+<p><h4>A scroll view with a sticky header which shrinks as you scroll. Written with SwiftUI.</h4></p>
 
 ___
 
