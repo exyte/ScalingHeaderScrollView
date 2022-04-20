@@ -1,14 +1,14 @@
 <img src="https://github.com/exyte/ScalingHeaderScrollView/blob/master/Assets/header.png">
 <p float="left">
-  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/1.gif" width="200" />
-  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/2.gif" width="200" /> 
-  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/3.gif" width="200" />
+  <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/1.gif" width="200" />
+  <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/2.gif" width="200" /> 
+  <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/3.gif" width="200" />
 </p>
 
 </br>
-<p><h1 align="left">Scaling Header View</h1></p>
+<p><h1 align="left">Scaling Header Scroll View</h1></p>
 
-<p><h4>A scroll view with a sticky header which shrinks as you scroll. Written with SwiftUI.</h4></p>
+<p><h4>A SwiftUI scroll view with a sticky header which shrinks as you scroll</h4></p>
 
 ___
 
