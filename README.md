@@ -1,4 +1,4 @@
-<img src="https://github.com/exyte/ScalingHeaderScrollView/blob/master/Assets/header.png">
+<img src="https://github.com/exyte/media/blob/master/common/header.png">
 <p float="left">
   <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/1.gif" width="200" />
   <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/2.gif" width="200" /> 
