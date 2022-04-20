@@ -1,7 +1,7 @@
 <img src="https://github.com/exyte/ScalingHeaderScrollView/blob/master/Assets/header.png">
-<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/1.gif" width="200" />
-<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/2.gif" width="200" />
-<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/3.gif" width="200" />
+<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/1.gif" width="180" />
+<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/2.gif" width="180" />
+<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/3.gif" width="180" />
 
 <p><h1 align="left">Scaling Header View</h1></p>
 
