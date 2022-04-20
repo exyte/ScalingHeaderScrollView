@@ -1,18 +1,19 @@
 <img src="https://github.com/exyte/ScalingHeaderScrollView/blob/master/Assets/header.png">
-<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/1.gif" width="180" />
-<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/2.gif" width="180" />
-<img align="right" src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/3.gif" width="180" />
+<p float="left">
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/1.gif" width="200" />
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/2.gif" width="200" /> 
+  <img src="https://raw.githubusercontent.com/exyte/ScalingHeaderScrollView/master/Assets/3.gif" width="200" />
+</p>
 
+</br>
 <p><h1 align="left">Scaling Header View</h1></p>
 
-<p><h4>A flexible sticky header library written with SwiftUI</h4></p>
+<p><h4>A scroll view with a sticky header which shrinks as you scroll. Written with SwiftUI.</h4></p>
 
 ___
 
 <p> We are a development agency building
   <a href="https://clutch.co/profile/exyte#review-731233?utm_medium=referral&utm_source=github.com&utm_campaign=phenomenal_to_clutch">phenomenal</a> apps.</p>
-
-</br> 
 
 <a href="https://exyte.com/contacts"><img src="https://i.imgur.com/vGjsQPt.png" width="134" height="34"></a> <a href="https://twitter.com/exyteHQ"><img src="https://i.imgur.com/DngwSn1.png" width="165" height="34"></a>
 
