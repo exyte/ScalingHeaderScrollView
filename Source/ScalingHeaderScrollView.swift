@@ -59,7 +59,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Allow force snap to closest position after lifting the finger, i.e. forbid to be left in unfinished state
     private var allowsHeaderSnapFlag: Bool = false
     
-    /// Shows or hidde the indictor for the scrollview
+    /// Shows or hides the indicator for the scrollView
     private var showsIndicators: Bool = true
     
     /// Private computed properties
@@ -279,7 +279,7 @@ extension ScalingHeaderScrollView {
     }
     
     /// Hiddes scroll indicators
-    public func hiddeIndicators() -> ScalingHeaderScrollView {
+    public func hideScrollIndicators() -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.showsIndicators = false
         return scalingHeaderScrollView
