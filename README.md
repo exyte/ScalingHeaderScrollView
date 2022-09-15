@@ -112,7 +112,7 @@ github "Exyte/ScalingHeaderScrollView"
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/exyte/ScalingHeaderScrollView.git", from: "1.0.0")
+    .package(url: "https://github.com/exyte/ScalingHeaderScrollView.git")
 ]
 ```
 
