@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "ScalingHeaderScrollView",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v14)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
