@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ScalingHeaderScrollView"
-  s.version          = "0.0.4"
+  s.version          = "0.0.5"
   s.summary          = "A scroll view with a sticky header which shrinks as you scroll. Written with SwiftUI."
 
   s.homepage         = 'https://github.com/exyte/ScalingHeaderScrollView.git'

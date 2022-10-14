@@ -15,7 +15,9 @@ class ViewFrame: ObservableObject {
     @Published var frame: CGRect {
         willSet {
             if newValue.minY == 0 && newValue != startingRect {
-                startingRect = newValue
+                DispatchQueue.main.async { [weak self] in
+                    self?.startingRect = newValue
+                }
             }
         }
     }
@@ -39,10 +41,10 @@ struct FrameGetter: ViewModifier {
         content
             .background(
                 GeometryReader { proxy -> AnyView in
-                    let rect = proxy.frame(in: .global)
-                    // This avoids an infinite layout loop
-                    if rect.integral != self.frame.integral {
-                        DispatchQueue.main.async {
+                    DispatchQueue.main.async {
+                        let rect = proxy.frame(in: .global)
+                        // This avoids an infinite layout loop
+                        if rect.integral != self.frame.integral {
                             self.frame = rect
                         }
                     }
