@@ -1,4 +1,4 @@
-<img src="https://github.com/exyte/media/blob/master/common/header.png">
+<img src="https://raw.githubusercontent.com/exyte/media/master/common/header.png">
 <p float="left">
   <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/1.gif" width="200" />
   <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/2.gif" width="200" /> 
@@ -92,6 +92,14 @@ To try ScalingHeaderScrollView examples:
 
 ## Installation
 
+### [Swift Package Manager](https://swift.org/package-manager/)
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/exyte/ScalingHeaderScrollView.git")
+]
+```
+
 ### [CocoaPods](http://cocoapods.org)
 
 To install `ScalingHeaderScrollView`, simply add the following line to your Podfile:
@@ -108,15 +116,19 @@ To integrate `ScalingHeaderScrollView` into your Xcode project using Carthage, s
 github "Exyte/ScalingHeaderScrollView"
 ```
 
-### [Swift Package Manager](https://swift.org/package-manager/)
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/exyte/ScalingHeaderScrollView.git")
-]
-```
-
 ## Requirements
 
 * iOS 14+
 * Xcode 12+ 
+
+## Our other open source SwiftUI libraries
+[PopupView](https://github.com/exyte/PopupView) - Toasts and popups library    
+[Grid](https://github.com/exyte/Grid) - The most powerful Grid container       
+[MediaPicker](https://github.com/exyte/mediapicker) - Customizable media picker     
+[ConcentricOnboarding](https://github.com/exyte/ConcentricOnboarding) - Animated onboarding flow    
+[FloatingButton](https://github.com/exyte/FloatingButton) - Floating button menu    
+[ActivityIndicatorView](https://github.com/exyte/ActivityIndicatorView) - A number of animated loading indicators    
+[ProgressIndicatorView](https://github.com/exyte/ProgressIndicatorView) - A number of animated progress indicators    
+[SVGView](https://github.com/exyte/SVGView) - SVG parser    
+[LiquidSwipe](https://github.com/exyte/LiquidSwipe) - Liquid navigation animation    
+
