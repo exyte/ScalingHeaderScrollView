@@ -141,7 +141,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             .offset(y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
         }
         .introspectScrollView { scrollView in
-            configure(scrollView: scrollView)
+            if self.uiScrollView == nil {
+                configure(scrollView: scrollView)
+            }
         }
     }
     
