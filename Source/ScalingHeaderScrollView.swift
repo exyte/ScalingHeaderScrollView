@@ -164,7 +164,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                 snapScrollPosition()
             }
         }
-        uiScrollView = scrollView
+        DispatchQueue.main.async {
+            uiScrollView = scrollView
+        }
     }
     
     // MARK: - Private actions
