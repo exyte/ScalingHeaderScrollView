@@ -64,12 +64,12 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     
     /// Private computed properties
 
-    private var noPullToRefresh: Bool {
-        didPullToRefresh == nil
+    private var hasPullToRefresh: Bool {
+        didPullToRefresh != nil
     }
     
     private var contentOffset: CGFloat {
-        isLoading && !noPullToRefresh ? maxHeight + 32.0 : maxHeight
+        isLoading && hasPullToRefresh ? maxHeight + 32.0 : maxHeight
     }
     
     private var progressViewOffset: CGFloat {
@@ -83,11 +83,12 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Scaling for header: to enlarge while pulling down
     private var headerScaleOnPullDown: CGFloat {
-        noPullToRefresh && allowsHeaderGrowthFlag ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
+        !hasPullToRefresh && allowsHeaderGrowthFlag ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
     }
     
     private var needToShowProgressView: Bool {
-        !noPullToRefresh && (isLoading || isSpinning)
+        print(hasPullToRefresh, isLoading, isSpinning)
+        return hasPullToRefresh && (isLoading || isSpinning)
     }
     
     // MARK: - Init
@@ -103,45 +104,47 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     // MARK: - Body builder
     
     public var body: some View {
-        ScrollView(showsIndicators: showsIndicators) {
-            content
-                .offset(y: contentOffset)
-                .frameGetter($contentFrame.frame)
-                .onChange(of: contentFrame.frame) { frame in
-                    isSpinning = frame.minY > 20.0
-                }
-                .onChange(of: scrollToTop) { value in
-                    if value {
-                        scrollToTop = false
-                        setScrollPositionToTop()
+        GeometryReader { globalGeometry in
+            ScrollView(showsIndicators: showsIndicators) {
+                content
+                    .offset(y: contentOffset)
+                    .frameGetter($contentFrame.frame)
+                    .onChange(of: contentFrame.frame) { frame in
+                        isSpinning = frame.minY - globalGeometry.frame(in: .global).minY > 20.0
                     }
-                }
-            
-            GeometryReader { geometry in
-                ZStack(alignment: .topLeading) {
-                    if needToShowProgressView {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .frame(width: UIScreen.main.bounds.width, height: getHeightForLoadingView())
-                            .scaleEffect(1.25)
-                            .offset(y: getOffsetForHeader() + progressViewOffset)
+                    .onChange(of: scrollToTop) { value in
+                        if value {
+                            scrollToTop = false
+                            setScrollPositionToTop()
+                        }
                     }
-                    
-                    header
-                        .frame(height: headerHeight)
-                        .clipped()
-                        .offset(y: getOffsetForHeader())
-                        .allowsHitTesting(true)
-                        .scaleEffect(headerScaleOnPullDown)
+
+                GeometryReader { scrollGeometry in
+                    ZStack(alignment: .topLeading) {
+                        if needToShowProgressView {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .frame(width: UIScreen.main.bounds.width, height: getHeightForLoadingView())
+                                .scaleEffect(1.25)
+                                .offset(y: getOffsetForHeader() + progressViewOffset)
+                        }
+
+                        header
+                            .frame(height: headerHeight)
+                            .clipped()
+                            .offset(y: getOffsetForHeader())
+                            .allowsHitTesting(true)
+                            .scaleEffect(headerScaleOnPullDown)
+                    }
+                    .offset(y: getGeometryReaderVsScrollView(scrollGeometry: scrollGeometry, globalGeometry: globalGeometry))
                 }
-                .offset(y: getGeometryReaderVsScrollView(geometry))
+                .background(Color.clear)
+                .frame(height: maxHeight)
+                .offset(y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
             }
-            .background(Color.clear)
-            .frame(height: maxHeight)
-            .offset(y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
-        }
-        .introspectScrollView { scrollView in
-            configure(scrollView: scrollView)
+            .introspectScrollView { scrollView in
+                configure(scrollView: scrollView)
+            }
         }
     }
     
@@ -190,8 +193,8 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         -(uiScrollView?.contentOffset.y ?? 0)
     }
     
-    private func getGeometryReaderVsScrollView(_ geometry: GeometryProxy) -> CGFloat {
-        getScrollOffset() - geometry.frame(in: .global).minY
+    private func getGeometryReaderVsScrollView(scrollGeometry: GeometryProxy, globalGeometry: GeometryProxy) -> CGFloat {
+        getScrollOffset() - scrollGeometry.frame(in: .global).minY + globalGeometry.frame(in: .global).minY
     }
     
     private func getOffsetForHeader() -> CGFloat {
@@ -209,10 +212,10 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     
     private func getHeightForHeaderView() -> CGFloat {
         let offset = getScrollOffset()
-        if noPullToRefresh {
-            return max(minHeight, maxHeight + offset)
-        } else {
+        if hasPullToRefresh {
             return min(max(minHeight, maxHeight + offset), maxHeight)
+        } else {
+            return max(minHeight, maxHeight + offset)
         }
     }
     
