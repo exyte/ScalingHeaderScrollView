@@ -21,11 +21,8 @@ struct ColorScalingHeader: View {
             ScalingHeaderScrollView {
                 selectedColor
             } content: {
-                AutosizingList {
-                    scrollContent
-                }.introspectScrollView { scrollView in
-                    scrollView.isScrollEnabled = false
-                }
+                scrollContent
+                    .padding()
             }
             .height(min: 110)
             .ignoresSafeArea()
