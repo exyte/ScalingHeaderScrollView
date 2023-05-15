@@ -55,29 +55,50 @@ passes current collapse progress value into progress binding: 0 for not collapse
 ```swift
 .collapseProgress(_ progress: Binding<CGFloat>)
 ```
+
 allows set up callback and `isLoading` state for pull-to-refresh action   
 ```swift
 .pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void)
 ```
+
  allows content scroll reset, need to change Binding to `true`  
 ```swift
 .scrollToTop(resetScroll: Binding<Bool>)
 ```
+
  changes min and max heights of Header, default `min = 150.0` and `max = 350.0`  
 ```swift
 .height(min: CGFloat = 150.0, max: CGFloat = 350.0)
 ```
+
 when scrolling up - switch between actual header collapse and simply moving it up (by default moving up)
 ```swift
 .allowsHeaderCollapse()
 ```
+
 when scrolling down - enable (disabled by default) header scale    
 ```swift
 .allowsHeaderGrowth()
 ```
+
 enable (disabled by default) header snap (once you lift your finger header snaps either to min or max height automatically)     
 ```swift
 .allowsHeaderSnap()
+```
+
+Set custom positions for header snap (explained previous point). Specify any amount of values in 0...1 to set snapping points, 0 - fully collapsed header, 1 - fully expanded  
+```swift
+.headerSnappingPositions(snapPositions: [CGFloat])
+```
+
+Set custom initial position to which scroll view will be automatically snapped to. Specify a value in 0...1, 0 - fully collapsed header, 1 - fully expanded  
+```swift
+.initialSnapPosition(initialSnapPosition: CGFloat)
+```
+
+hide scroll indicators (false by default)  
+```swift
+.hideScrollIndicators()
 ```
 
 ## Examples

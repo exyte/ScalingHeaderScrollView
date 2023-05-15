@@ -55,12 +55,17 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Allow enlarging while pulling down
     private var allowsHeaderGrowthFlag: Bool = false
-
-    /// Allow force snap to closest position after lifting the finger, i.e. forbid to be left in unfinished state
-    private var allowsHeaderSnapFlag: Bool = false
     
     /// Shows or hides the indicator for the scrollView
     private var showsIndicators: Bool = true
+
+    /// Allow force snap to closest position after lifting the finger, i.e. forbid to be left in unfinished state
+    /// Specify any amount of values in 0...1 to set snapping points, 0 - fully collapsed header, 1 - fully expanded
+    private var headerSnappingPositions: [CGFloat] = []
+
+    /// Use this to set initial scroll position to anything other than fully expanded
+    /// Set a value in 0...1, 0 - fully collapsed header, 1 - fully expanded
+    private var initialSnapPosition: CGFloat?
     
     /// Private computed properties
 
@@ -87,8 +92,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     }
     
     private var needToShowProgressView: Bool {
-        print(hasPullToRefresh, isLoading, isSpinning)
-        return hasPullToRefresh && (isLoading || isSpinning)
+        hasPullToRefresh && (isLoading || isSpinning)
     }
     
     // MARK: - Init
@@ -145,6 +149,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             .introspectScrollView { scrollView in
                 configure(scrollView: scrollView)
             }
+            .onAppear {
+                snapInitialScrollPosition()
+            }
         }
     }
     
@@ -163,12 +170,15 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         }
         scrollViewDelegate.didEndDragging = {
             isSpinning = false
-            if allowsHeaderSnapFlag {
+            if !headerSnappingPositions.isEmpty {
                 snapScrollPosition()
             }
         }
         DispatchQueue.main.async {
-            uiScrollView = scrollView
+            if uiScrollView != scrollView {
+                uiScrollView = scrollView
+                snapInitialScrollPosition()
+            }
         }
     }
     
@@ -182,9 +192,33 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     
     private func snapScrollPosition() {
         guard var contentOffset = uiScrollView?.contentOffset else { return }
+
         let extraSpace: CGFloat = maxHeight - minHeight
-        contentOffset.y = contentOffset.y < extraSpace / 2 ? 0 : max(extraSpace, contentOffset.y)
-        uiScrollView?.setContentOffset(contentOffset, animated: true)
+        let offset = contentOffset.y
+        for i in 0..<headerSnappingPositions.count - 1 {
+            let first = headerSnappingPositions[i] * extraSpace
+            let second = headerSnappingPositions[i+1] * extraSpace
+            if offset > first, offset < second {
+                let result: CGFloat
+                if (offset - first) < (second - offset) { // closer to first point
+                    result = first
+                } else {
+                    result = second
+                }
+                contentOffset.y = result
+                uiScrollView?.setContentOffset(contentOffset, animated: true)
+                return
+            }
+        }
+    }
+
+    private func snapInitialScrollPosition() {
+        if let initialSnapPosition = initialSnapPosition {
+            guard var contentOffset = uiScrollView?.contentOffset else { return }
+            let extraSpace: CGFloat = maxHeight - minHeight
+            contentOffset.y = initialSnapPosition * extraSpace
+            uiScrollView?.setContentOffset(contentOffset, animated: true)
+        }
     }
     
     // MARK: - Private getters for heights and offsets
@@ -263,30 +297,44 @@ extension ScalingHeaderScrollView {
     }
     
     /// When scrolling up - switch between actual header collapse and simply moving it up
-    public func allowsHeaderCollapse() -> ScalingHeaderScrollView {
+    public func allowsHeaderCollapse(_ allows: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.allowsHeaderCollapseFlag = true
+        scalingHeaderScrollView.allowsHeaderCollapseFlag = allows
         return scalingHeaderScrollView
     }
 
     /// When scrolling down - enable/disable header scale
-    public func allowsHeaderGrowth() -> ScalingHeaderScrollView {
+    public func allowsHeaderGrowth(_ allows: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.allowsHeaderGrowthFlag = true
+        scalingHeaderScrollView.allowsHeaderGrowthFlag = allows
         return scalingHeaderScrollView
     }
-    
+
     /// Enable/disable header snap (once you lift your finger header snaps either to min or max height automatically)
     public func allowsHeaderSnap() -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.allowsHeaderSnapFlag = true
+        scalingHeaderScrollView.headerSnappingPositions = [0, 1]
+        return scalingHeaderScrollView
+    }
+    
+    /// Set positions for header snap (once you lift your finger header snaps to closest allowed position)
+    public func headerSnappingPositions(snapPositions: [CGFloat]) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.headerSnappingPositions = snapPositions
+        return scalingHeaderScrollView
+    }
+
+    /// Use this to set initial scroll position to anything other than fully expanded
+    public func initialSnapPosition(initialSnapPosition: CGFloat) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.initialSnapPosition = initialSnapPosition
         return scalingHeaderScrollView
     }
     
     /// Hiddes scroll indicators
-    public func hideScrollIndicators() -> ScalingHeaderScrollView {
+    public func hideScrollIndicators(_ hide: Bool = false) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.showsIndicators = false
+        scalingHeaderScrollView.showsIndicators = hide
         return scalingHeaderScrollView
     }
 }

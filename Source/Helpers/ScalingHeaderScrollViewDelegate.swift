@@ -26,4 +26,8 @@ final class ScalingHeaderScrollViewDelegate: NSObject, ObservableObject, UIScrol
         }
         didEndDragging()
     }
+
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        didEndDragging()
+    }
 }

@@ -27,7 +27,9 @@ struct MapScalingHeader: View {
                 Text(defaultDescription)
                     .padding()
             }
-            .height(min: 250.0, max: 500.0)
+            .height(min: 150.0, max: UIScreen.main.bounds.height - 150)
+            .headerSnappingPositions(snapPositions: [0, 0.5, 1])
+            .initialSnapPosition(initialSnapPosition: 0.5)
             .pullToRefresh(isLoading: $isLoading) {
                 updateRegion()
                 isLoading = false
