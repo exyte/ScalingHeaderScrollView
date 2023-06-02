@@ -166,7 +166,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             }
         }
         scrollViewDelegate.didScroll = {
-            self.progress = getCollapseProgress()
+            DispatchQueue.main.async {
+                self.progress = getCollapseProgress()
+            }
         }
         scrollViewDelegate.didEndDragging = {
             isSpinning = false
