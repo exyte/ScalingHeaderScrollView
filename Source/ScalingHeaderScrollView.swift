@@ -67,6 +67,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Set a value in 0...1, 0 - fully collapsed header, 1 - fully expanded
     private var initialSnapPosition: CGFloat?
     
+    /// Clipped or not header
+    private var headerIsClipped: Bool = true
+    
     /// Private computed properties
 
     private var hasPullToRefresh: Bool {
@@ -135,7 +138,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
                         header
                             .frame(height: headerHeight)
-                            .clipped()
+                            .clipped(isClipped: headerIsClipped)
                             .offset(y: getOffsetForHeader())
                             .allowsHitTesting(true)
                             .scaleEffect(headerScaleOnPullDown)
@@ -264,6 +267,20 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     }
 }
 
+// MARK: - Extension View
+
+extension View {
+    
+    @ViewBuilder
+    func clipped(isClipped: Bool) -> some View {
+        if isClipped {
+            self.clipped()
+        } else {
+            self
+        }
+    }
+}
+
 // MARK: - Modifiers 
 
 extension ScalingHeaderScrollView {
@@ -337,6 +354,13 @@ extension ScalingHeaderScrollView {
     public func hideScrollIndicators(_ hide: Bool = false) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.showsIndicators = hide
+        return scalingHeaderScrollView
+    }
+    
+    /// Header clipped
+    public func headerIsClipped(_ isClipped: Bool = true) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.headerIsClipped = isClipped
         return scalingHeaderScrollView
     }
 }
