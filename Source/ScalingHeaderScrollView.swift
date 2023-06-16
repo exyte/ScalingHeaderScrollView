@@ -34,6 +34,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Interpolation from 0 to 1 of current collapse progress
     @Binding private var progress: CGFloat
+    
+    /// Current scroll offset Y value
+    @Binding private var scrollOffset: CGFloat
 
     /// Automatically sets to true, if pull to refresh is triggered. Manually set to false to hide loading indicator.
     @Binding private var isLoading: Bool
@@ -104,6 +107,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         self.header = header()
         self.content = content()
         _progress = .constant(0)
+        _scrollOffset = .constant(0)
         _isLoading = .constant(false)
         _scrollToTop = .constant(false)
     }
@@ -171,6 +175,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         scrollViewDelegate.didScroll = {
             DispatchQueue.main.async {
                 self.progress = getCollapseProgress()
+                self.scrollOffset = -getScrollOffset()
             }
         }
         scrollViewDelegate.didEndDragging = {
@@ -289,6 +294,13 @@ extension ScalingHeaderScrollView {
     public func collapseProgress(_ progress: Binding<CGFloat>) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._progress = progress
+        return scalingHeaderScrollView
+    }
+    
+    /// Passes current scroll offset value into binding
+    public func scrollOffset(_ scrollOffset: Binding<CGFloat>) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView._scrollOffset = scrollOffset
         return scalingHeaderScrollView
     }
     
