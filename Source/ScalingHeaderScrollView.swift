@@ -70,6 +70,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Set a value in 0...1, 0 - fully collapsed header, 1 - fully expanded
     private var initialSnapPosition: CGFloat?
     
+    /// Alignment for header content
+    private var headerAlignment: Alignment = .center
+    
     /// Clipped or not header
     private var headerIsClipped: Bool = true
     
@@ -141,7 +144,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                         }
 
                         header
-                            .frame(height: headerHeight)
+                            .frame(height: headerHeight, alignment: headerAlignment)
                             .clipped(isClipped: headerIsClipped)
                             .offset(y: getOffsetForHeader())
                             .allowsHitTesting(true)
@@ -373,6 +376,13 @@ extension ScalingHeaderScrollView {
     public func headerIsClipped(_ isClipped: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.headerIsClipped = isClipped
+        return scalingHeaderScrollView
+    }
+    
+    /// Header alignment
+    public func headerAlignment(_ alignment: Alignment) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.headerAlignment = alignment
         return scalingHeaderScrollView
     }
 }
