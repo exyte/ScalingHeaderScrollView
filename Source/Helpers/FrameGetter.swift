@@ -45,7 +45,8 @@ struct FrameGetter: ViewModifier {
         content
             .background(
                 GeometryReader { proxy in
-                    Color.clear.preference(key: FrameRectPreferenceKey.self, value: proxy.frame(in: .global))
+                    EmptyView()
+                        .preference(key: FrameRectPreferenceKey.self, value: proxy.frame(in: .global))
                 }
             )
             .onPreferenceChange(FrameRectPreferenceKey.self) { rect in
