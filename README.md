@@ -1,4 +1,9 @@
-<img src="https://raw.githubusercontent.com/exyte/media/master/common/header.png">
+<img src="https://github.com/exyte/ScalingHeaderScrollView/assets/1358172/ec08aeee-36fb-459b-a8db-4b2d30659094"><br>
+
+<a href="https://exyte.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/exyte/ScalingHeaderScrollView/assets/1358172/560b9dd7-79f1-495a-8055-06274ea7e839" width="85" height="16"><img src="https://github.com/exyte/ScalingHeaderScrollView/assets/1358172/1a15cbb4-7688-46ae-b1ce-d7ff9f8f74c7" width="85" height="16"></picture>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/exyteHQ"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/exyte/ScalingHeaderScrollView/assets/1358172/e3108b41-8b00-4bdf-b1b8-fa25cbcdae2d" width="85" height="16"><img src="https://github.com/exyte/ScalingHeaderScrollView/assets/1358172/11aa6906-139c-4b5b-88f8-bb51722fb2e5" width="85" height="16">
+</picture></a> <a href="https://exyte.com/contacts"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/exyte/ScalingHeaderScrollView/assets/1358172/87d5514c-edf4-4e8d-bb7e-d3103b36342f" width="131" height="25" align="right"><img src="https://github.com/exyte/ScalingHeaderScrollView/assets/1358172/a387ea3c-90ef-4c94-89d9-2b3ffa15db62" width="131" height="25" align="right"></picture></a>
+___
+
 <p float="left">
   <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/1.gif" width="200" />
   <img src="https://raw.githubusercontent.com/exyte/media/master/ScalingHeaderScrollView/2.gif" width="200" /> 
@@ -6,16 +11,6 @@
 </p>
 
 </br>
-<p><h1 align="left">Scaling Header Scroll View</h1></p>
-
-<p><h4>A scroll view with a sticky header which shrinks as you scroll. Written with SwiftUI.</h4></p>
-
-___
-
-<p> We are a development agency building
-  <a href="https://clutch.co/profile/exyte#review-731233?utm_medium=referral&utm_source=github.com&utm_campaign=phenomenal_to_clutch">phenomenal</a> apps.</p>
-
-<a href="https://exyte.com/contacts"><img src="https://i.imgur.com/vGjsQPt.png" width="134" height="34"></a> <a href="https://twitter.com/exyteHQ"><img src="https://i.imgur.com/DngwSn1.png" width="165" height="34"></a>
 
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fexyte%2FScalingHeaderScrollView%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/exyte/ScalingHeaderScrollView)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fexyte%2FScalingHeaderScrollView%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/exyte/ScalingHeaderScrollView)
