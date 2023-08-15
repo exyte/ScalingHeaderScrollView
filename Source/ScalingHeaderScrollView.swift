@@ -27,13 +27,15 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     @StateObject private var scrollViewDelegate = ScalingHeaderScrollViewDelegate()
 
     /// ScrollView's header frame, needed for calculation of frame changing
-//    @StateObject private var headerFrame = ViewFrame()
+    //    @StateObject private var headerFrame = ViewFrame()
 
     /// ScrollView's content frame, needed for calculation of frame changing
     @StateObject private var contentFrame = ViewFrame()
-
+    
     /// Interpolation from 0 to 1 of current collapse progress
     @Binding private var progress: CGFloat
+    
+    @Binding private var headerSizeWasChanged: Bool
     
     /// Current scroll offset Y value
     @Binding private var scrollOffset: CGFloat
@@ -56,6 +58,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Allow collapsing while scrolling up
     private var allowsHeaderCollapseFlag: Bool = false
 
+    /// Animation, when header size will be changed
+    private var headerAnimation: Animation?
+    
     /// Allow enlarging while pulling down
     private var allowsHeaderGrowthFlag: Bool = false
     
@@ -113,6 +118,8 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         _scrollOffset = .constant(0)
         _isLoading = .constant(false)
         _scrollToTop = .constant(false)
+        _headerSizeWasChanged = .constant(false)
+
     }
     
     // MARK: - Body builder
@@ -121,7 +128,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         GeometryReader { globalGeometry in
             ScrollView(showsIndicators: showsIndicators) {
                 content
-                    .offset(y: contentOffset)
+                    .offset(y: headerSizeWasChanged ? minHeight : contentOffset)
                     .frameGetter($contentFrame.frame)
                     .onChange(of: contentFrame.frame) { frame in
                         isSpinning = frame.minY - globalGeometry.frame(in: .global).minY > 20.0
@@ -142,10 +149,10 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                                 .scaleEffect(1.25)
                                 .offset(y: getOffsetForHeader() + progressViewOffset)
                         }
-
                         header
-                            .frame(height: headerHeight, alignment: headerAlignment)
+                            .frame(height: headerSizeWasChanged ? minHeight : headerHeight, alignment: headerAlignment)
                             .clipped(isClipped: headerIsClipped)
+                          
                             .offset(y: getOffsetForHeader())
                             .allowsHitTesting(true)
                             .scaleEffect(headerScaleOnPullDown)
@@ -154,6 +161,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                 }
                 .background(Color.clear)
                 .frame(height: maxHeight)
+                .animation(headerAnimation, value: UUID())
                 .offset(y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
             }
             .introspectScrollView { scrollView in
@@ -205,7 +213,6 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     
     private func snapScrollPosition() {
         guard var contentOffset = uiScrollView?.contentOffset else { return }
-
         let extraSpace: CGFloat = maxHeight - minHeight
         let offset = contentOffset.y
         for i in 0..<headerSnappingPositions.count - 1 {
@@ -289,7 +296,7 @@ extension View {
     }
 }
 
-// MARK: - Modifiers 
+// MARK: - Modifiers
 
 extension ScalingHeaderScrollView {
 
@@ -337,6 +344,15 @@ extension ScalingHeaderScrollView {
         return scalingHeaderScrollView
     }
 
+    /// Сhanging the size of the header at the moment without progress
+    public func modifyHeader(_ isSmallHeader: Binding<Bool>,
+                             animation: Animation = .default) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.headerAnimation = animation
+        scalingHeaderScrollView._headerSizeWasChanged = isSmallHeader
+        return scalingHeaderScrollView
+    }
+    
     /// When scrolling down - enable/disable header scale
     public func allowsHeaderGrowth(_ allows: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
