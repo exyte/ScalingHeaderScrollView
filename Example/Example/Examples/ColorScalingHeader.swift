@@ -15,7 +15,7 @@ struct ColorScalingHeader: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var selectedColor: Color = .green
-    
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             ScalingHeaderScrollView {
