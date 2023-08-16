@@ -14,7 +14,9 @@ struct BookingScreen: View {
     
     @ObservedObject private var viewModel = BookingScreenViewModel()
     @Environment(\.presentationMode) var presentationMode
-    
+
+    @State var snapTo: SnapHeaderState?
+
     var body: some View {
         ZStack {
             ScalingHeaderScrollView {
@@ -30,7 +32,8 @@ struct BookingScreen: View {
             } content: {
                 bookingContentView
             }
-            
+            .snapHeaderToState($snapTo)
+
             topButtons
             footer
         }
@@ -40,15 +43,22 @@ struct BookingScreen: View {
     private var topButtons: some View { 
         VStack {
             HStack(spacing: 16) {
-                Button("", action: { self.presentationMode.wrappedValue.dismiss() })
+                Button("") { self.presentationMode.wrappedValue.dismiss() }
                     .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
                     .padding(.leading, 16)
                 Spacer()
-                Button("", action: { print("Share") })
-                    .buttonStyle(CircleButtonStyle(imageName: "arrowshape.turn.up.forward.fill"))
-                Button("", action: { print("Like") })
-                    .buttonStyle(CircleButtonStyle(imageName: "heart.fill", foreground: .appRed))
-                    .padding(.trailing, 16)
+                Button("") {
+                    print("Share")
+                    snapTo = .collapsed
+                }
+                .buttonStyle(CircleButtonStyle(imageName: "arrowshape.turn.up.forward.fill"))
+
+                Button("") {
+                    print("Like")
+                    snapTo = .expanded
+                }
+                .buttonStyle(CircleButtonStyle(imageName: "heart.fill", foreground: .appRed))
+                .padding(.trailing, 16)
             }
             Spacer()
         }

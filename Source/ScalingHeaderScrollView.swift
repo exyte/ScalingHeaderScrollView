@@ -13,17 +13,6 @@ public enum SnapHeaderState: Equatable {
     case expanded
     case collapsed
     case custom(CGFloat)
-
-    func getSnapValue(_ expandedValue: CGFloat, _ collapsedValue: CGFloat) -> CGFloat {
-        switch self {
-        case .expanded:
-            return expandedValue
-        case .collapsed:
-            return collapsedValue
-        case .custom(let value):
-            return value
-        }
-    }
 }
 
 public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
@@ -50,7 +39,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     @Binding private var progress: CGFloat
 
     /// Use this variable to programmatically change header's visibility state
-    @Binding private var shouldSnapTo: SnapHeaderState
+    @Binding private var shouldSnapTo: SnapHeaderState?
 
     /// Current scroll offset Y value
     @Binding private var scrollOffset: CGFloat
@@ -132,7 +121,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         _scrollOffset = .constant(0)
         _isLoading = .constant(false)
         _scrollToTop = .constant(false)
-        _shouldSnapTo = .constant(.expanded)
+        _shouldSnapTo = .constant(nil)
     }
 
     // MARK: - Body builder
@@ -141,7 +130,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         GeometryReader { globalGeometry in
             ScrollView(showsIndicators: showsIndicators) {
                 content
-                    .offset(y: shouldSnapTo.getSnapValue(minHeight, contentOffset))
+                    .offset(y: contentOffset)
                     .frameGetter($contentFrame.frame)
                     .onChange(of: contentFrame.frame) { frame in
                         isSpinning = frame.minY - globalGeometry.frame(in: .global).minY > 20.0
@@ -149,7 +138,13 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                     .onChange(of: scrollToTop) { value in
                         if value {
                             scrollToTop = false
-                            setScrollPositionToTop()
+                            setScrollPositionTo(.expanded)
+                        }
+                    }
+                    .onChange(of: shouldSnapTo) { value in
+                        if let value = value {
+                            shouldSnapTo = nil
+                            setScrollPositionTo(value)
                         }
                     }
 
@@ -163,7 +158,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                                 .offset(y: getOffsetForHeader() + progressViewOffset)
                         }
                         header
-                            .frame(height: shouldSnapTo.getSnapValue(minHeight, headerHeight), alignment: headerAlignment)
+                            .frame(height: headerHeight, alignment: headerAlignment)
                             .clipped(isClipped: headerIsClipped)
                             .offset(y: getOffsetForHeader())
                             .allowsHitTesting(true)
@@ -217,9 +212,16 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     // MARK: - Private actions
 
-    private func setScrollPositionToTop() {
-        guard var contentOffset = uiScrollView?.contentOffset, contentOffset.y > 0 else { return }
-        contentOffset.y = maxHeight - minHeight
+    private func setScrollPositionTo(_ state: SnapHeaderState) {
+        guard var contentOffset = uiScrollView?.contentOffset else { return }
+        switch state {
+        case .expanded:
+            contentOffset.y = 0
+        case .collapsed:
+            contentOffset.y = maxHeight - minHeight
+        case .custom(let value):
+            contentOffset.y = maxHeight - minHeight + value
+        }
         uiScrollView?.setContentOffset(contentOffset, animated: true)
     }
 
@@ -358,7 +360,7 @@ extension ScalingHeaderScrollView {
     }
 
     /// Сhanging the size of the header at the moment
-    public func snapHeaderToState(_ state: Binding<SnapHeaderState>, animated: Bool = true) -> ScalingHeaderScrollView {
+    public func snapHeaderToState(_ state: Binding<SnapHeaderState?>, animated: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.headerAnimation = animated ? .default : nil
         scalingHeaderScrollView._shouldSnapTo = state
