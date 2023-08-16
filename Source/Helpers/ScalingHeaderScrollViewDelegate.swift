@@ -11,6 +11,7 @@ import UIKit
 final class ScalingHeaderScrollViewDelegate: NSObject, ObservableObject, UIScrollViewDelegate {
     
     var didPullToRefresh: () -> Void = { }
+    var didPullToLoadMore: () -> Void = { }
     var didScroll: () -> Void = {}
     var didEndDragging = {}
 
@@ -24,6 +25,11 @@ final class ScalingHeaderScrollViewDelegate: NSObject, ObservableObject, UIScrol
         if scrollView.contentOffset.y < -60 {
             didPullToRefresh()
         }
+        let maxYOffset = scrollView.contentSize.height - scrollView.bounds.height
+        if scrollView.contentOffset.y > maxYOffset + 60 {
+            didPullToLoadMore()
+        }
+
         didEndDragging()
     }
 

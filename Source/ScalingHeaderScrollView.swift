@@ -23,11 +23,20 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Content on the bottom
     public var content: Content
 
-    /// Should the progress view be showing or not
-    @State private var isSpinning: Bool = false
+    /// Should the progress view be showing or not, when "pull to refresh" action
+    @State private var pullToRefreshInProgress: Bool = false
+
+    /// Should show the progress view during "pull to load more" action
+    @State private var pullToLoadMoreInProgress: Bool = false
 
     /// UIKit's UIScrollView
     @State private var uiScrollView: UIScrollView?
+
+    /// Sets the opacity value for pull-to-load-more progress view
+    @State private var pullToLoadOpacity: CGFloat = 1.0
+
+    /// Sets the opacity value for pull-to-refresh progress view
+    @State private var pullToRefreshOpacity: CGFloat = 1.0
 
     /// UIScrollView delegate, needed for calling didPullToRefresh or didEndDragging
     @StateObject private var scrollViewDelegate = ScalingHeaderScrollViewDelegate()
@@ -53,6 +62,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Called once pull to refresh is triggered
     private var didPullToRefresh: (() -> Void)?
 
+    /// Called once pull to load more is triggered
+    private var didPullToLoadMore: (() -> Void)?
+
     /// Height for uncollapsed state
     private var maxHeight: CGFloat = 350.0
 
@@ -67,6 +79,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Allow enlarging while pulling down
     private var allowsHeaderGrowthFlag: Bool = false
+
+    /// Use this variable to set the padding value of the content from the edge when pull-to-load is active
+    private var pullToLoadMoreContentOffset: CGFloat = 0.0
 
     /// Shows or hides the indicator for the scrollView
     private var showsIndicators: Bool = true
@@ -90,8 +105,16 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         didPullToRefresh != nil
     }
 
+    private var hasPullToLoadMore: Bool {
+        didPullToLoadMore != nil
+    }
+
     private var contentOffset: CGFloat {
-        isLoading && hasPullToRefresh ? maxHeight + 32.0 : maxHeight
+        isLoading && pullToRefreshInProgress ? maxHeight + 32 : pullToLoadMoreContentOffsetValue
+    }
+
+    private var pullToLoadMoreContentOffsetValue: CGFloat {
+        isLoading && pullToLoadMoreInProgress ? pullToLoadMoreContentOffset : maxHeight
     }
 
     private var progressViewOffset: CGFloat {
@@ -108,8 +131,12 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         !hasPullToRefresh && allowsHeaderGrowthFlag ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
     }
 
-    private var needToShowProgressView: Bool {
-        hasPullToRefresh && (isLoading || isSpinning)
+    private var showPullToRefreshProgress: Bool {
+        hasPullToRefresh && (isLoading && pullToRefreshInProgress)
+    }
+    
+    private var showPullToLoadMoreProgress: Bool {
+        hasPullToLoadMore && (isLoading && pullToLoadMoreInProgress)
     }
 
     // MARK: - Init
@@ -133,7 +160,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                     .offset(y: contentOffset)
                     .frameGetter($contentFrame.frame)
                     .onChange(of: contentFrame.frame) { frame in
-                        isSpinning = frame.minY - globalGeometry.frame(in: .global).minY > 20.0
+                        pullToRefreshInProgress = frame.minY - globalGeometry.frame(in: .global).minY > 20.0
                     }
                     .onChange(of: scrollToTop) { value in
                         if value {
@@ -147,14 +174,11 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                             setScrollPositionTo(value)
                         }
                     }
-
                 GeometryReader { scrollGeometry in
                     ZStack(alignment: .topLeading) {
-                        if needToShowProgressView {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                                .frame(width: UIScreen.main.bounds.width, height: getHeightForLoadingView())
-                                .scaleEffect(1.25)
+                        if showPullToRefreshProgress {
+                            progressView
+                                .opacity(pullToRefreshOpacity)
                                 .offset(y: getOffsetForHeader() + progressViewOffset)
                         }
                         header
@@ -177,7 +201,21 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             .onAppear {
                 snapInitialScrollPosition()
             }
+            if showPullToLoadMoreProgress {
+                progressView
+                    .opacity(pullToLoadOpacity)
+                    .offset(y: globalGeometry.size.height - 60)
+            }
         }
+    }
+
+    // MARK: - Private Views
+
+    private var progressView: some View {
+        ProgressView()
+            .progressViewStyle(CircularProgressViewStyle())
+            .frame(width: UIScreen.main.bounds.width, height: getHeightForLoadingView())
+            .scaleEffect(1.25)
     }
 
     // MARK: - Private configure
@@ -186,18 +224,31 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         scrollView.delegate = scrollViewDelegate
         if let didPullToRefresh = didPullToRefresh {
             scrollViewDelegate.didPullToRefresh = {
+                pullToLoadMoreInProgress = false
+                pullToRefreshInProgress = true
                 withAnimation { isLoading = true }
                 didPullToRefresh()
+            }
+        }
+        if let didPullToLoadMore = didPullToLoadMore {
+            scrollViewDelegate.didPullToLoadMore = {
+                pullToLoadMoreInProgress = true
+                pullToRefreshInProgress = false
+                withAnimation { isLoading = true }
+                didPullToLoadMore()
             }
         }
         scrollViewDelegate.didScroll = {
             DispatchQueue.main.async {
                 self.progress = getCollapseProgress()
                 self.scrollOffset = -getScrollOffset()
+                withAnimation {
+                    pullToRefreshOpacity = -getScrollOffset() > 32.0 ? 0 : 1
+                    pullToLoadOpacity = -getScrollOffset() < getMaxYOffset() ? 0 : 1
+                }
             }
         }
         scrollViewDelegate.didEndDragging = {
-            isSpinning = false
             if !headerSnappingPositions.isEmpty {
                 snapScrollPosition()
             }
@@ -260,6 +311,14 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     private func getScrollOffset() -> CGFloat {
         -(uiScrollView?.contentOffset.y ?? 0)
+    }
+
+    private func getMaxYOffset() -> CGFloat {
+        (uiScrollView?.contentSize.height ?? 0.0) - (uiScrollView?.bounds.height ?? 0.0)
+    }
+
+    private func getContentHeight() -> CGFloat {
+        uiScrollView?.contentSize.height ?? 0.0
     }
 
     private func getGeometryReaderVsScrollView(scrollGeometry: GeometryProxy, globalGeometry: GeometryProxy) -> CGFloat {
@@ -334,6 +393,15 @@ extension ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._isLoading = isLoading
         scalingHeaderScrollView.didPullToRefresh = perform
+        return scalingHeaderScrollView
+    }
+
+    /// Allows to set up callback and `isLoading` state for pull-to-load-more action
+    public func pullToLoadMore(isLoading: Binding<Bool>, contentOffset: CGFloat, perform: @escaping () -> Void) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView._isLoading = isLoading
+        scalingHeaderScrollView.pullToLoadMoreContentOffset = contentOffset
+        scalingHeaderScrollView.didPullToLoadMore = perform
         return scalingHeaderScrollView
     }
 
