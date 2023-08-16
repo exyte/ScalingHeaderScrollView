@@ -9,32 +9,49 @@
 import SwiftUI
 import Introspect
 
+public enum SnapHeaderState: Equatable {
+    case expanded
+    case collapsed
+    case custom(CGFloat)
+
+    func getSnapValue(_ expandedValue: CGFloat, _ collapsedValue: CGFloat) -> CGFloat {
+        switch self {
+        case .expanded:
+            return expandedValue
+        case .collapsed:
+            return collapsedValue
+        case .custom(let value):
+            return value
+        }
+    }
+}
+
 public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
-    
+
     /// Content on the top, which will be collapsed
     public var header: Header
 
     /// Content on the bottom
     public var content: Content
-    
+
     /// Should the progress view be showing or not
     @State private var isSpinning: Bool = false
-    
+
     /// UIKit's UIScrollView
     @State private var uiScrollView: UIScrollView?
-    
+
     /// UIScrollView delegate, needed for calling didPullToRefresh or didEndDragging
     @StateObject private var scrollViewDelegate = ScalingHeaderScrollViewDelegate()
-
-    /// ScrollView's header frame, needed for calculation of frame changing
-//    @StateObject private var headerFrame = ViewFrame()
 
     /// ScrollView's content frame, needed for calculation of frame changing
     @StateObject private var contentFrame = ViewFrame()
 
     /// Interpolation from 0 to 1 of current collapse progress
     @Binding private var progress: CGFloat
-    
+
+    /// Use this variable to programmatically change header's visibility state
+    @Binding private var shouldSnapTo: SnapHeaderState
+
     /// Current scroll offset Y value
     @Binding private var scrollOffset: CGFloat
 
@@ -56,9 +73,12 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Allow collapsing while scrolling up
     private var allowsHeaderCollapseFlag: Bool = false
 
+    /// Animation, when header size will be changed
+    private var headerAnimation: Animation?
+
     /// Allow enlarging while pulling down
     private var allowsHeaderGrowthFlag: Bool = false
-    
+
     /// Shows or hides the indicator for the scrollView
     private var showsIndicators: Bool = true
 
@@ -69,23 +89,22 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Use this to set initial scroll position to anything other than fully expanded
     /// Set a value in 0...1, 0 - fully collapsed header, 1 - fully expanded
     private var initialSnapPosition: CGFloat?
-    
+
     /// Alignment for header content
     private var headerAlignment: Alignment = .center
-    
+
     /// Clipped or not header
     private var headerIsClipped: Bool = true
-    
-    /// Private computed properties
 
+    /// Private computed properties
     private var hasPullToRefresh: Bool {
         didPullToRefresh != nil
     }
-    
+
     private var contentOffset: CGFloat {
         isLoading && hasPullToRefresh ? maxHeight + 32.0 : maxHeight
     }
-    
+
     private var progressViewOffset: CGFloat {
         isLoading ? maxHeight + 24.0 : maxHeight
     }
@@ -99,13 +118,13 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     private var headerScaleOnPullDown: CGFloat {
         !hasPullToRefresh && allowsHeaderGrowthFlag ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
     }
-    
+
     private var needToShowProgressView: Bool {
         hasPullToRefresh && (isLoading || isSpinning)
     }
-    
+
     // MARK: - Init
-    
+
     public init(@ViewBuilder header: @escaping () -> Header, @ViewBuilder content: @escaping () -> Content) {
         self.header = header()
         self.content = content()
@@ -113,15 +132,16 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         _scrollOffset = .constant(0)
         _isLoading = .constant(false)
         _scrollToTop = .constant(false)
+        _shouldSnapTo = .constant(.expanded)
     }
-    
+
     // MARK: - Body builder
-    
+
     public var body: some View {
         GeometryReader { globalGeometry in
             ScrollView(showsIndicators: showsIndicators) {
                 content
-                    .offset(y: contentOffset)
+                    .offset(y: shouldSnapTo.getSnapValue(minHeight, contentOffset))
                     .frameGetter($contentFrame.frame)
                     .onChange(of: contentFrame.frame) { frame in
                         isSpinning = frame.minY - globalGeometry.frame(in: .global).minY > 20.0
@@ -142,9 +162,8 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                                 .scaleEffect(1.25)
                                 .offset(y: getOffsetForHeader() + progressViewOffset)
                         }
-
                         header
-                            .frame(height: headerHeight, alignment: headerAlignment)
+                            .frame(height: shouldSnapTo.getSnapValue(minHeight, headerHeight), alignment: headerAlignment)
                             .clipped(isClipped: headerIsClipped)
                             .offset(y: getOffsetForHeader())
                             .allowsHitTesting(true)
@@ -156,6 +175,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                 .frame(height: maxHeight)
                 .offset(y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
             }
+            .animation(headerAnimation, value: shouldSnapTo)
             .introspectScrollView { scrollView in
                 configure(scrollView: scrollView)
             }
@@ -164,9 +184,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             }
         }
     }
-    
+
     // MARK: - Private configure
-    
+
     private func configure(scrollView: UIScrollView) {
         scrollView.delegate = scrollViewDelegate
         if let didPullToRefresh = didPullToRefresh {
@@ -194,15 +214,15 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             }
         }
     }
-    
+
     // MARK: - Private actions
-    
+
     private func setScrollPositionToTop() {
         guard var contentOffset = uiScrollView?.contentOffset, contentOffset.y > 0 else { return }
         contentOffset.y = maxHeight - minHeight
         uiScrollView?.setContentOffset(contentOffset, animated: true)
     }
-    
+
     private func snapScrollPosition() {
         guard var contentOffset = uiScrollView?.contentOffset else { return }
 
@@ -233,21 +253,21 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             uiScrollView?.setContentOffset(contentOffset, animated: true)
         }
     }
-    
+
     // MARK: - Private getters for heights and offsets
-    
+
     private func getScrollOffset() -> CGFloat {
         -(uiScrollView?.contentOffset.y ?? 0)
     }
-    
+
     private func getGeometryReaderVsScrollView(scrollGeometry: GeometryProxy, globalGeometry: GeometryProxy) -> CGFloat {
         getScrollOffset() - scrollGeometry.frame(in: .global).minY + globalGeometry.frame(in: .global).minY
     }
-    
+
     private func getOffsetForHeader() -> CGFloat {
         let offset = getScrollOffset()
         let extraSpace = maxHeight - minHeight
-        
+
         if offset < -extraSpace {
             let imageOffset = abs(min(-extraSpace, offset))
             return allowsHeaderCollapseFlag ? imageOffset : (minHeight - maxHeight) - offset
@@ -256,7 +276,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         }
         return maxHeight - headerHeight
     }
-    
+
     private func getHeightForHeaderView() -> CGFloat {
         let offset = getScrollOffset()
         if hasPullToRefresh {
@@ -265,11 +285,11 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             return max(minHeight, maxHeight + offset)
         }
     }
-    
+
     private func getCollapseProgress() -> CGFloat {
         1 - min(max((getHeightForHeaderView() - minHeight) / (maxHeight - minHeight), 0), 1)
     }
-    
+
     private func getHeightForLoadingView() -> CGFloat {
         max(0, getScrollOffset())
     }
@@ -278,7 +298,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 // MARK: - Extension View
 
 extension View {
-    
+
     @ViewBuilder
     func clipped(isClipped: Bool) -> some View {
         if isClipped {
@@ -289,7 +309,7 @@ extension View {
     }
 }
 
-// MARK: - Modifiers 
+// MARK: - Modifiers
 
 extension ScalingHeaderScrollView {
 
@@ -299,14 +319,14 @@ extension ScalingHeaderScrollView {
         scalingHeaderScrollView._progress = progress
         return scalingHeaderScrollView
     }
-    
+
     /// Passes current scroll offset value into binding
     public func scrollOffset(_ scrollOffset: Binding<CGFloat>) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._scrollOffset = scrollOffset
         return scalingHeaderScrollView
     }
-    
+
     /// Allows to set up callback and `isLoading` state for pull-to-refresh action
     public func pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
@@ -314,14 +334,14 @@ extension ScalingHeaderScrollView {
         scalingHeaderScrollView.didPullToRefresh = perform
         return scalingHeaderScrollView
     }
-    
+
     /// Allows content scroll reset, need to change Binding to `true`
     public func scrollToTop(resetScroll: Binding<Bool>) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._scrollToTop = resetScroll
         return scalingHeaderScrollView
     }
-    
+
     /// Changes min and max heights of Header
     public func height(min: CGFloat = 150.0, max: CGFloat = 350.0) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
@@ -329,11 +349,19 @@ extension ScalingHeaderScrollView {
         scalingHeaderScrollView.maxHeight = max
         return scalingHeaderScrollView
     }
-    
+
     /// When scrolling up - switch between actual header collapse and simply moving it up
     public func allowsHeaderCollapse(_ allows: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.allowsHeaderCollapseFlag = allows
+        return scalingHeaderScrollView
+    }
+
+    /// Сhanging the size of the header at the moment
+    public func snapHeaderToState(_ state: Binding<SnapHeaderState>, animated: Bool = true) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.headerAnimation = animated ? .default : nil
+        scalingHeaderScrollView._shouldSnapTo = state
         return scalingHeaderScrollView
     }
 
@@ -350,7 +378,7 @@ extension ScalingHeaderScrollView {
         scalingHeaderScrollView.headerSnappingPositions = [0, 1]
         return scalingHeaderScrollView
     }
-    
+
     /// Set positions for header snap (once you lift your finger header snaps to closest allowed position)
     public func headerSnappingPositions(snapPositions: [CGFloat]) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
@@ -364,21 +392,21 @@ extension ScalingHeaderScrollView {
         scalingHeaderScrollView.initialSnapPosition = initialSnapPosition
         return scalingHeaderScrollView
     }
-    
+
     /// Hiddes scroll indicators
     public func hideScrollIndicators(_ hide: Bool = false) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.showsIndicators = hide
         return scalingHeaderScrollView
     }
-    
+
     /// Header clipped
     public func headerIsClipped(_ isClipped: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.headerIsClipped = isClipped
         return scalingHeaderScrollView
     }
-    
+
     /// Header alignment
     public func headerAlignment(_ alignment: Alignment) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
