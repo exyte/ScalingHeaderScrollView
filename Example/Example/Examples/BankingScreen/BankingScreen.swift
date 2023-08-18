@@ -10,12 +10,12 @@ import SwiftUI
 import ScalingHeaderScrollView
 
 struct BankingScreen: View {
-    
+
     @Environment(\.presentationMode) var presentationMode
     @State var progress: CGFloat = 0
-    
+
     let service = BankingService()
-    
+
     var body: some View {
         ZStack {
             ScalingHeaderScrollView {
@@ -35,7 +35,6 @@ struct BankingScreen: View {
             .height(min: 220, max: 372)
             .collapseProgress($progress)
             .allowsHeaderCollapse()
-            
             topButtons
 
             VStack {
@@ -47,7 +46,7 @@ struct BankingScreen: View {
         }
         .ignoresSafeArea()
     }
-    
+
     private var topButtons: some View {
         VStack {
             HStack {

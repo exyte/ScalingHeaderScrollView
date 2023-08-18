@@ -12,55 +12,92 @@ import ScalingHeaderScrollView
 struct RequestScalingHeader: View {
 
     @Environment(\.presentationMode) var presentationMode
-    
+
     @State private var isLoading: Bool = false
-    @State private var image: UIImage = UIImage()
-    @ObservedObject private var imageLoader = ImageLoaderService()
-    
+    private let colorSet: [Color] = [.red, .blue, .green, .black, .pink, .purple, .yellow]
+    @State private var displayedColors: [Color] = []
+
+    init() {
+        _displayedColors = State<[Color]>(initialValue: (0..<5).map { _ in colorSet.randomElement() ?? .red })
+    }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             ScalingHeaderScrollView {
                 ZStack {
                     Rectangle()
                         .fill(Color.gray.opacity(0.15))
-                    Image(uiImage: image)
+                    Image("background")
+                        .resizable()
                 }
             } content: {
-                Text("↓ Pull to refresh ↓")
-                    .multilineTextAlignment(.center)
-                    .padding()
+                VStack(alignment: .center) {
+                    InformationLabel(text: "↓ Pull to refresh ↓")
+                    InformationLabel(text: "↑ Pull to load more ↑")
+                    Divider()
+                    Text("Squares")
+                        .font(.largeTitle)
+                        .padding()
+                    scrollContent
+                        .padding()
+                }
+                .padding()
             }
             .pullToRefresh(isLoading: $isLoading) {
-                imageLoader.load()
+                shuffleDataSource(delay: 3)
             }
-            .height(min: 90.0, max: 300.0)
-            .onReceive(imageLoader.$image) { image in
-                isLoading = false
-                self.image = image
+            .pullToLoadMore(isLoading: $isLoading, contentOffset: 32) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    displayedColors += (0..<5).map { _ in colorSet.randomElement() ?? .red }
+                    isLoading = false
+                }
             }
-            .onAppear {
-                imageLoader.load()
-            }
+            .height(min: 90.0, max: 250)
             .ignoresSafeArea()
-            
+
             Button("", action: { self.presentationMode.wrappedValue.dismiss() })
                 .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
                 .padding(.leading, 16)
         }
     }
+
+    private func shuffleDataSource(delay: Double) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            withAnimation(.easeIn(duration: 0.2)) {
+                self.displayedColors.shuffle()
+                self.isLoading = false
+            }
+        }
+    }
+
+    // MARK: - Private
+    private var scrollContent: some View {
+        LazyVStack {
+            ForEach((0...displayedColors.count - 1), id: \.self) { index in
+                Rectangle()
+                    .rotation(.degrees(45), anchor: .bottomLeading)
+                    .scale(sqrt(2), anchor: .bottomLeading)
+                    .frame(width: 200, height: 200)
+                    .background(displayedColors.reversed()[index])
+                    .foregroundColor(displayedColors[index])
+                    .clipped()
+            }
+        }
+    }
 }
 
-final class ImageLoaderService: ObservableObject {
-    
-    @Published var image: UIImage = UIImage()
-    
-    func load() {
-        guard let url = URL(string: "https://picsum.photos/500") else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                self?.image = UIImage(data: data) ?? UIImage()
-            }
-        }.resume()
+// MARK: - Supported Views
+
+struct InformationLabel: View {
+    private var text: String
+
+    init(text: String) {
+        self.text = text
+    }
+
+    var body: some View {
+        Text(text)
+            .multilineTextAlignment(.center)
+            .padding()
     }
 }
