@@ -73,13 +73,13 @@ struct RequestScalingHeader: View {
     // MARK: - Private
     private var scrollContent: some View {
         LazyVStack {
-            ForEach((0...displayedColors.count - 1), id: \.self) { index in
+            ForEach(Array(zip(displayedColors.indices, displayedColors)), id: \.0) { index, color in
                 Rectangle()
                     .rotation(.degrees(45), anchor: .bottomLeading)
                     .scale(sqrt(2), anchor: .bottomLeading)
                     .frame(width: 200, height: 200)
                     .background(displayedColors.reversed()[index])
-                    .foregroundColor(displayedColors[index])
+                    .foregroundColor(color)
                     .clipped()
             }
         }
