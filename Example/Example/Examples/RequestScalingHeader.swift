@@ -43,7 +43,7 @@ struct RequestScalingHeader: View {
             .pullToRefresh(isLoading: $isLoading) {
                 shuffleDataSource(delay: 3)
             }
-            .pullToLoadMore(isLoading: $isLoading, contentOffset: 32) {
+            .pullToLoadMore(isLoading: $isLoading, contentOffset: 50) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     displayedColors += (0..<5).map { _ in colorSet.randomElement() ?? .red }
                     isLoading = false
