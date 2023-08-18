@@ -47,9 +47,6 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Interpolation from 0 to 1 of current collapse progress
     @Binding private var progress: CGFloat
 
-    /// Use this variable to programmatically change header's visibility state
-    @Binding private var shouldSnapTo: SnapHeaderState?
-
     /// Current scroll offset Y value
     @Binding private var scrollOffset: CGFloat
 
@@ -58,6 +55,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Set to true to immediately scroll to top
     @Binding private var scrollToTop: Bool
+
+    /// Use this variable to programmatically change header's visibility state
+    @Binding private var shouldSnapTo: SnapHeaderState?
 
     /// Called once pull to refresh is triggered
     private var didPullToRefresh: (() -> Void)?
@@ -412,6 +412,14 @@ extension ScalingHeaderScrollView {
         return scalingHeaderScrollView
     }
 
+    /// Сhanging the size of the header at the moment
+    public func snapHeaderToState(_ state: Binding<SnapHeaderState?>, animated: Bool = true) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.headerAnimation = animated ? .default : nil
+        scalingHeaderScrollView._shouldSnapTo = state
+        return scalingHeaderScrollView
+    }
+
     /// Changes min and max heights of Header
     public func height(min: CGFloat = 150.0, max: CGFloat = 350.0) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
@@ -424,14 +432,6 @@ extension ScalingHeaderScrollView {
     public func allowsHeaderCollapse(_ allows: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.allowsHeaderCollapseFlag = allows
-        return scalingHeaderScrollView
-    }
-
-    /// Сhanging the size of the header at the moment
-    public func snapHeaderToState(_ state: Binding<SnapHeaderState?>, animated: Bool = true) -> ScalingHeaderScrollView {
-        var scalingHeaderScrollView = self
-        scalingHeaderScrollView.headerAnimation = animated ? .default : nil
-        scalingHeaderScrollView._shouldSnapTo = state
         return scalingHeaderScrollView
     }
 

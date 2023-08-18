@@ -14,12 +14,9 @@ struct RequestScalingHeader: View {
     @Environment(\.presentationMode) var presentationMode
 
     @State private var isLoading: Bool = false
+
     private let colorSet: [Color] = [.red, .blue, .green, .black, .pink, .purple, .yellow]
     @State private var displayedColors: [Color] = []
-
-    init() {
-        _displayedColors = State<[Color]>(initialValue: (0..<5).map { _ in colorSet.randomElement() ?? .red })
-    }
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -54,6 +51,9 @@ struct RequestScalingHeader: View {
             }
             .height(min: 90.0, max: 250)
             .ignoresSafeArea()
+            .onAppear {
+                displayedColors = (0..<5).map { _ in colorSet.randomElement() ?? .red }
+            }
 
             Button("", action: { self.presentationMode.wrappedValue.dismiss() })
                 .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
