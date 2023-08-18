@@ -13,7 +13,8 @@ struct BankingScreen: View {
 
     @Environment(\.presentationMode) var presentationMode
     @State var progress: CGFloat = 0
-
+    @State private var isloading = false
+    
     let service = BankingService()
 
     var body: some View {
@@ -35,6 +36,11 @@ struct BankingScreen: View {
             .height(min: 220, max: 372)
             .collapseProgress($progress)
             .allowsHeaderCollapse()
+            .pullToLoadMore(isLoading: $isloading, contentOffset: 50) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    isloading = false
+                }
+            }
             topButtons
 
             VStack {

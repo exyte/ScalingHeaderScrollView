@@ -114,7 +114,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     }
 
     private var pullToLoadMoreContentOffsetValue: CGFloat {
-        isLoading && pullToLoadMoreInProgress ? pullToLoadMoreContentOffset : maxHeight
+        isLoading && pullToLoadMoreInProgress ? maxHeight - pullToLoadMoreContentOffset : maxHeight
     }
 
     private var progressViewOffset: CGFloat {
