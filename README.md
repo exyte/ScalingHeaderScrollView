@@ -51,14 +51,24 @@ passes current collapse progress value into progress binding: 0 for not collapse
 .collapseProgress(_ progress: Binding<CGFloat>)
 ```
 
-allows set up callback and `isLoading` state for pull-to-refresh action   
+allows to set up callback and `isLoading` state for pull-to-refresh action   
 ```swift
 .pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void)
+```
+
+allows to set up callback and `isLoading` state for pull-to-load-more action   
+```swift
+.pullToLoadMore(isLoading: Binding<Bool>, perform: @escaping () -> Void)
 ```
 
  allows content scroll reset, need to change Binding to `true`  
 ```swift
 .scrollToTop(resetScroll: Binding<Bool>)
+```
+
+ allows to change current header height, need to change state, possible values are .collapsed, .expanded or .custom(CFGloat)
+```swift
+.snapHeaderToState(state: Binding<SnapHeaderState?>, animated: Bool)
 ```
 
  changes min and max heights of Header, default `min = 150.0` and `max = 350.0`  
