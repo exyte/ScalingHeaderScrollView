@@ -23,7 +23,7 @@ public struct AutosizingList<Content: View>: View {
         List {
             content
         }
-        .introspectTableView { tableView in
+        .introspect(.list, on: .iOS(.v15), scope:.receiver) { tableView in
             tableView.backgroundColor = .clear
             tableView.isScrollEnabled = false
             tableContentHeight = tableView.contentSize.height

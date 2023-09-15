@@ -12,7 +12,7 @@
 		5B704CB1280E907C0000C65D /* ScalingHeaderScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B704CAA280E907C0000C65D /* ScalingHeaderScrollView.swift */; };
 		5B704CB2280E907C0000C65D /* ScalingHeaderScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B704CAC280E907C0000C65D /* ScalingHeaderScrollViewDelegate.swift */; };
 		5B704CB3280E907C0000C65D /* FrameGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B704CAD280E907C0000C65D /* FrameGetter.swift */; };
-		5B704CB7280E91460000C65D /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 5B704CB6280E91460000C65D /* Introspect */; };
+		C8EE19672AB46B3600741F46 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = C8EE19662AB46B3600741F46 /* SwiftUIIntrospect */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B704CB7280E91460000C65D /* Introspect in Frameworks */,
+				C8EE19672AB46B3600741F46 /* SwiftUIIntrospect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +42,7 @@
 			children = (
 				5B704CA7280E907C0000C65D /* Source */,
 				5B704C9E280E90640000C65D /* Products */,
+				C8EE19652AB46B3600741F46 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,6 +75,13 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		C8EE19652AB46B3600741F46 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -103,7 +111,7 @@
 			);
 			name = ScalingHeaderScrollView;
 			packageProductDependencies = (
-				5B704CB6280E91460000C65D /* Introspect */,
+				C8EE19662AB46B3600741F46 /* SwiftUIIntrospect */,
 			);
 			productName = ScalingHeaderScrollView;
 			productReference = 5B704C9D280E90640000C65D /* ScalingHeaderScrollView.framework */;
@@ -220,7 +228,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -278,7 +286,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -303,6 +311,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -333,6 +342,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -380,16 +390,16 @@
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.4;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5B704CB6280E91460000C65D /* Introspect */ = {
+		C8EE19662AB46B3600741F46 /* SwiftUIIntrospect */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5B704CB5280E91460000C65D /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
-			productName = Introspect;
+			productName = SwiftUIIntrospect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

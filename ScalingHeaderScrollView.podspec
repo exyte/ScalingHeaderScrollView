@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ScalingHeaderScrollView"
-  s.version          = "1.0.1"
+  s.version          = "1.0.2"
   s.summary          = "A scroll view with a sticky header which shrinks as you scroll. Written with SwiftUI."
 
   s.homepage         = 'https://github.com/exyte/ScalingHeaderScrollView.git'
@@ -20,6 +20,6 @@ Pod::Spec.new do |s|
      'Source/**/*.swift'
   ]
 
-  s.dependency 'Introspect'
+  s.dependency 'SwiftUIIntrospect'
 
 end
