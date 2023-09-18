@@ -38,6 +38,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Sets the opacity value for pull-to-refresh progress view
     @State private var pullToRefreshOpacity: CGFloat = 1.0
 
+    /// Comment here
+    @State private var velocityY: Double = 0
+
     /// UIScrollView delegate, needed for calling didPullToRefresh or didEndDragging
     @StateObject private var scrollViewDelegate = ScalingHeaderScrollViewDelegate()
 
@@ -99,6 +102,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Clipped or not header
     private var headerIsClipped: Bool = true
+
+    /// Comment here
+    private var detectVelocityY: Bool = false
 
     /// Private computed properties
     private var hasPullToRefresh: Bool {
@@ -253,6 +259,19 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                 snapScrollPosition()
             }
         }
+        
+        scrollViewDelegate.willEndDragging = { velocityY in
+            if detectVelocityY {
+                self.velocityY = velocityY
+            }
+        }
+        
+        scrollViewDelegate.didEndDecelerating = {
+            if !headerSnappingPositions.isEmpty, detectVelocityY {
+                snapScrollPosition()
+            }
+        }
+        
         DispatchQueue.main.async {
             if uiScrollView != scrollView {
                 uiScrollView = scrollView
@@ -286,10 +305,18 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             let second = headerSnappingPositions[i+1] * extraSpace
             if offset > first, offset < second {
                 let result: CGFloat
-                if (offset - first) < (second - offset) { // closer to first point
-                    result = first
+                if detectVelocityY == false || fabs(velocityY) < 0.2 {
+                    if (offset - first) < (second - offset) { // closer to first point
+                        result = first
+                    } else {
+                        result = second
+                    }
                 } else {
-                    result = second
+                    if velocityY > 0 {                  // based on direction of scroll
+                        result = second
+                    } else {
+                        result = first
+                    }
                 }
                 contentOffset.y = result
                 uiScrollView?.setContentOffset(contentOffset, animated: true)
@@ -446,6 +473,13 @@ extension ScalingHeaderScrollView {
     public func allowsHeaderSnap() -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.headerSnappingPositions = [0, 1]
+        return scalingHeaderScrollView
+    }
+
+    /// Comment here
+    public func allowsHeaderSnapFromSwipe() -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.detectVelocityY = true
         return scalingHeaderScrollView
     }
 

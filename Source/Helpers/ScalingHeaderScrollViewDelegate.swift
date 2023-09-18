@@ -14,11 +14,17 @@ final class ScalingHeaderScrollViewDelegate: NSObject, ObservableObject, UIScrol
     var didPullToLoadMore: () -> Void = { }
     var didScroll: () -> Void = {}
     var didEndDragging = {}
+    var didEndDecelerating = {}
+    var willEndDragging: (Double) -> Void = {_ in }
 
     // MARK: - UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         didScroll()
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        willEndDragging(velocity.y)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -35,5 +41,9 @@ final class ScalingHeaderScrollViewDelegate: NSObject, ObservableObject, UIScrol
 
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         didEndDragging()
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        didEndDecelerating()
     }
 }
