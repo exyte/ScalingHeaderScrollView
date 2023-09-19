@@ -38,7 +38,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Sets the opacity value for pull-to-refresh progress view
     @State private var pullToRefreshOpacity: CGFloat = 1.0
 
-    /// Comment here
+    /// the velocity on Y axis, it's set in the scroll mode, when user about to end dragging
     @State private var velocityY: Double = 0
 
     /// UIScrollView delegate, needed for calling didPullToRefresh or didEndDragging
@@ -103,7 +103,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Clipped or not header
     private var headerIsClipped: Bool = true
 
-    /// Comment here
+    /// Detects or not detects the velocity on Y axis
     private var detectVelocityY: Bool = false
 
     /// Private computed properties
@@ -255,19 +255,30 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             }
         }
         scrollViewDelegate.didEndDragging = {
-            if !headerSnappingPositions.isEmpty {
-                snapScrollPosition()
+            if detectVelocityY {                    // Scroll mode
+                if !headerSnappingPositions.isEmpty {
+                    // basically just for very small impulses or none,
+                    // and snapScrollPosition() immediately snaps back
+                    if velocityY == 0 {
+                        snapScrollPosition()
+                    }
+                }
+            } else {                                // Snap mode
+                if !headerSnappingPositions.isEmpty {
+                    snapScrollPosition()
+                }
             }
         }
         
         scrollViewDelegate.willEndDragging = { velocityY in
-            if detectVelocityY {
+            if detectVelocityY {                    // Scroll mode
                 self.velocityY = velocityY
             }
         }
         
         scrollViewDelegate.didEndDecelerating = {
-            if !headerSnappingPositions.isEmpty, detectVelocityY {
+            if !headerSnappingPositions.isEmpty,
+                detectVelocityY {                   // Scroll mode
                 snapScrollPosition()
             }
         }
@@ -476,8 +487,9 @@ extension ScalingHeaderScrollView {
         return scalingHeaderScrollView
     }
 
-    /// Comment here
-    public func allowsHeaderSnapFromSwipe() -> ScalingHeaderScrollView {
+    /// Enable/disable header smoother scroll, together with allowsHeaderSnap
+    /// (so that at the end of movement the header snaps to final position,  either to min or max height)
+    public func allowsHeaderScrollFromSwipe() -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.detectVelocityY = true
         return scalingHeaderScrollView
