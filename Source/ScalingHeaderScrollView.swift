@@ -128,7 +128,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Scaling for header: to enlarge while pulling down
     private var headerScaleOnPullDown: CGFloat {
-        !hasPullToRefresh && allowsHeaderGrowthFlag ? max(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
+        !hasPullToRefresh && allowsHeaderGrowthFlag ? fmax(1.0, getHeightForHeaderView() / maxHeight * 0.9) : 1.0
     }
 
     private var showPullToRefreshProgress: Bool {
@@ -330,7 +330,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         let extraSpace = maxHeight - minHeight
 
         if offset < -extraSpace {
-            let imageOffset = abs(min(-extraSpace, offset))
+            let imageOffset = abs(fmin(-extraSpace, offset))
             return allowsHeaderCollapseFlag ? imageOffset : (minHeight - maxHeight) - offset
         } else if offset > 0 {
             return -offset
@@ -341,18 +341,18 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     private func getHeightForHeaderView() -> CGFloat {
         let offset = getScrollOffset()
         if hasPullToRefresh {
-            return min(max(minHeight, maxHeight + offset), maxHeight)
+            return fmin(fmax(minHeight, maxHeight + offset), maxHeight)
         } else {
-            return max(minHeight, maxHeight + offset)
+            return fmax(minHeight, maxHeight + offset)
         }
     }
 
     private func getCollapseProgress() -> CGFloat {
-        1 - min(max((getHeightForHeaderView() - minHeight) / (maxHeight - minHeight), 0), 1)
+        1 - fmin(fmax((getHeightForHeaderView() - minHeight) / (maxHeight - minHeight), 0), 1)
     }
 
     private func getHeightForLoadingView() -> CGFloat {
-        max(0, getScrollOffset())
+        fmax(0, getScrollOffset())
     }
 }
 
