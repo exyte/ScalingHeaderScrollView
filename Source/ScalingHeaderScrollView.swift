@@ -15,6 +15,19 @@ public enum SnapHeaderState: Equatable {
     case custom(CGFloat)
 }
 
+public enum SnapHeaderMode: Int {
+    /// Disable header snap.
+    case disabled
+
+    /// Enable header snap.
+    /// Once you lift your finger header snaps either to min or max height automatically.
+    case immediately
+
+    /// Enable header snap. Smoother scroll mode.
+    /// At the end of scroll view deceleration the header snaps either to min or max height automatically.
+    case afterFinishAccelerating
+}
+
 public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Content on the top, which will be collapsed
@@ -38,8 +51,8 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Sets the opacity value for pull-to-refresh progress view
     @State private var pullToRefreshOpacity: CGFloat = 1.0
 
-    /// the velocity on Y axis, it's set in the scroll mode, when user about to end dragging
-    @State private var velocityY: Double = 0
+    /// Scroll view acceleration value. It's set in the scroll mode, when user about to end dragging
+    @State private var acceleration: Double = 0
 
     /// UIScrollView delegate, needed for calling didPullToRefresh or didEndDragging
     @StateObject private var scrollViewDelegate = ScalingHeaderScrollViewDelegate()
@@ -93,6 +106,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Specify any amount of values in 0...1 to set snapping points, 0 - fully collapsed header, 1 - fully expanded
     private var headerSnappingPositions: [CGFloat] = []
 
+    /// Flag whether the snapping should wait until scrolling has finished accelerating
+    private var headerSnappingShouldWaitFinishAccelerating: Bool = false
+
     /// Use this to set initial scroll position to anything other than fully expanded
     /// Set a value in 0...1, 0 - fully collapsed header, 1 - fully expanded
     private var initialSnapPosition: CGFloat?
@@ -102,9 +118,6 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Clipped or not header
     private var headerIsClipped: Bool = true
-
-    /// Detects or not detects the velocity on Y axis
-    private var detectVelocityY: Bool = false
 
     /// Private computed properties
     private var hasPullToRefresh: Bool {
@@ -201,7 +214,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                 .offset(y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
             }
             .animation(headerAnimation, value: shouldSnapTo)
-            .introspect(.scrollView, on: .iOS(.v15, .v16, .v17), scope: .receiver) { scrollView in
+            .introspect(.scrollView, on: .iOS(.v15, .v16, .v17)) { scrollView in
                 configure(scrollView: scrollView)
             }
             .onAppear {
@@ -255,30 +268,22 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             }
         }
         scrollViewDelegate.didEndDragging = {
-            if detectVelocityY {                    // Scroll mode
-                if !headerSnappingPositions.isEmpty {
-                    // basically just for very small impulses or none,
-                    // and snapScrollPosition() immediately snaps back
-                    if velocityY == 0 {
-                        snapScrollPosition()
-                    }
-                }
-            } else {                                // Snap mode
-                if !headerSnappingPositions.isEmpty {
-                    snapScrollPosition()
-                }
+            guard !headerSnappingPositions.isEmpty else { return }
+
+            // if waiting for acceleration to complete is disabled or if acceleration is very slow
+            if !headerSnappingShouldWaitFinishAccelerating || fabs(acceleration) < 0.2 {
+                snapScrollPosition()
             }
         }
-        
-        scrollViewDelegate.willEndDragging = { velocityY in
-            if detectVelocityY {                    // Scroll mode
-                self.velocityY = velocityY
+
+        scrollViewDelegate.willEndDragging = { acceleration in
+            if headerSnappingShouldWaitFinishAccelerating {
+                self.acceleration = acceleration
             }
         }
         
         scrollViewDelegate.didEndDecelerating = {
-            if !headerSnappingPositions.isEmpty,
-                detectVelocityY {                   // Scroll mode
+            if headerSnappingShouldWaitFinishAccelerating && !headerSnappingPositions.isEmpty {
                 snapScrollPosition()
             }
         }
@@ -316,18 +321,10 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             let second = headerSnappingPositions[i+1] * extraSpace
             if offset > first, offset < second {
                 let result: CGFloat
-                if detectVelocityY == false || fabs(velocityY) < 0.2 {
-                    if (offset - first) < (second - offset) { // closer to first point
-                        result = first
-                    } else {
-                        result = second
-                    }
+                if (offset - first) < (second - offset) { // closer to first point
+                    result = first
                 } else {
-                    if velocityY > 0 {                  // based on direction of scroll
-                        result = second
-                    } else {
-                        result = first
-                    }
+                    result = second
                 }
                 contentOffset.y = result
                 uiScrollView?.setContentOffset(contentOffset, animated: true)
@@ -450,7 +447,7 @@ extension ScalingHeaderScrollView {
         return scalingHeaderScrollView
     }
 
-    /// Сhanging the size of the header at the moment
+    /// Changing the size of the header at the moment
     public func snapHeaderToState(_ state: Binding<SnapHeaderState?>, animated: Bool = true) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.headerAnimation = animated ? .default : nil
@@ -480,18 +477,32 @@ extension ScalingHeaderScrollView {
         return scalingHeaderScrollView
     }
 
-    /// Enable/disable header snap (once you lift your finger header snaps either to min or max height automatically)
+    /// Enable header snap (once you lift your finger header snaps either to min or max height automatically)
+    @available(*, deprecated, message: "Use `setHeaderSnapMode()` instead. Will be removed in future releases.")
     public func allowsHeaderSnap() -> ScalingHeaderScrollView {
-        var scalingHeaderScrollView = self
-        scalingHeaderScrollView.headerSnappingPositions = [0, 1]
-        return scalingHeaderScrollView
+        setHeaderSnapMode(.immediately)
     }
 
-    /// Enable/disable header smoother scroll, together with allowsHeaderSnap
-    /// (so that at the end of movement the header snaps to final position,  either to min or max height)
-    public func allowsHeaderScrollFromSwipe() -> ScalingHeaderScrollView {
+    /// Enable/disable header snap with snap mode selection
+    /// - Parameter mode: Options for modes. Details see in ``SnapHeaderMode``
+    /// - SeeAlso: ``SnapHeaderMode``
+    public func setHeaderSnapMode(_ mode: SnapHeaderMode) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView.detectVelocityY = true
+        switch mode {
+        case .disabled:
+            scalingHeaderScrollView.headerSnappingPositions = []
+            scalingHeaderScrollView.headerSnappingShouldWaitFinishAccelerating = false
+        case .immediately:
+            if scalingHeaderScrollView.headerSnappingPositions.isEmpty {
+                scalingHeaderScrollView.headerSnappingPositions = [0, 1]
+            }
+            scalingHeaderScrollView.headerSnappingShouldWaitFinishAccelerating = false
+        case .afterFinishAccelerating:
+            if scalingHeaderScrollView.headerSnappingPositions.isEmpty {
+                scalingHeaderScrollView.headerSnappingPositions = [0, 1]
+            }
+            scalingHeaderScrollView.headerSnappingShouldWaitFinishAccelerating = true
+        }
         return scalingHeaderScrollView
     }
 
@@ -509,7 +520,7 @@ extension ScalingHeaderScrollView {
         return scalingHeaderScrollView
     }
 
-    /// Hiddes scroll indicators
+    /// Hides scroll indicators
     public func hideScrollIndicators(_ hide: Bool = false) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView.showsIndicators = hide

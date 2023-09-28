@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftUIIntrospect
 
 public struct AutosizingList<Content: View>: View {
     
@@ -23,14 +24,21 @@ public struct AutosizingList<Content: View>: View {
         List {
             content
         }
-        .introspect(.list, on: .iOS(.v15), scope:.receiver) { tableView in
-            tableView.backgroundColor = .clear
-            tableView.isScrollEnabled = false
-            tableContentHeight = tableView.contentSize.height
-            observation = tableView.observe(\.contentSize) { tableView, value in
-                tableContentHeight = tableView.contentSize.height
-            }
+        .introspect(.list, on: .iOS(.v15)) { tableView in
+            introspectScrollView(tableView)
+        }
+        .introspect(.list, on: .iOS(.v16, .v17)) { collectionView in
+            introspectScrollView(collectionView)
         }
         .frame(height: tableContentHeight)
+    }
+
+    private func introspectScrollView(_ scrollView: UIScrollView) {
+        scrollView.backgroundColor = .clear
+        scrollView.isScrollEnabled = false
+        tableContentHeight = scrollView.contentSize.height
+        observation = scrollView.observe(\.contentSize) { scrollView, value in
+            tableContentHeight = scrollView.contentSize.height
+        }
     }
 }
