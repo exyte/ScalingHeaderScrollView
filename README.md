@@ -86,9 +86,12 @@ when scrolling down - enable (disabled by default) header scale
 .allowsHeaderGrowth()
 ```
 
-enable (disabled by default) header snap (once you lift your finger header snaps either to min or max height automatically)     
+Enable/disable (disabled by default) header snap. Available modes:
+- `.disabled` - Disable header snap.
+- `.immediately` - Once you lift your finger header snaps either to min or max height automatically.
+- `.afterFinishAccelerating` - At the end of scroll view deceleration the header snaps either to min or max height automatically.
 ```swift
-.allowsHeaderSnap()
+.setHeaderSnapMode(.immediately)
 ```
 
 Set custom positions for header snap (explained previous point). Specify any amount of values in 0...1 to set snapping points, 0 - fully collapsed header, 1 - fully expanded  
