@@ -203,6 +203,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                         header
                             .frame(height: headerHeight, alignment: headerAlignment)
                             .clipped(isClipped: headerIsClipped)
+                            .contentShape(Rectangle())
                             .offset(y: getOffsetForHeader())
                             .allowsHitTesting(true)
                             .scaleEffect(headerScaleOnPullDown)
