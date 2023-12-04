@@ -36,9 +36,6 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Content on the bottom
     public var content: Content
 
-    /// Scroll view did reach bottom
-    public var didReachBottom: (() -> Void)?
-
     /// Should the progress view be showing or not, when "pull to refresh" action
     @State private var pullToRefreshInProgress: Bool = false
 
@@ -77,6 +74,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Use this variable to programmatically change header's visibility state
     @Binding private var shouldSnapTo: SnapHeaderState?
+
+    /// Scroll view did reach bottom
+    private var didReachBottom: (() -> Void)?
 
     /// Called once pull to refresh is triggered
     private var didPullToRefresh: (() -> Void)?
@@ -164,11 +164,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     // MARK: - Init
 
     public init(@ViewBuilder header: @escaping () -> Header,
-                @ViewBuilder content: @escaping () -> Content,
-                didReachBottom: (() -> Void)? = nil) {
+                @ViewBuilder content: @escaping () -> Content) {
         self.header = header()
         self.content = content()
-        self.didReachBottom = didReachBottom
         _progress = .constant(0)
         _scrollOffset = .constant(0)
         _isLoading = .constant(false)
@@ -431,6 +429,13 @@ extension ScalingHeaderScrollView {
     public func scrollOffset(_ scrollOffset: Binding<CGFloat>) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
         scalingHeaderScrollView._scrollOffset = scrollOffset
+        return scalingHeaderScrollView
+    }
+
+    /// Process the position when scroll view did reach bottom
+    public func scrollViewDidReachBottom(perform: @escaping () -> Void) -> ScalingHeaderScrollView {
+        var scalingHeaderScrollView = self
+        scalingHeaderScrollView.didReachBottom = perform
         return scalingHeaderScrollView
     }
 
