@@ -53,6 +53,11 @@ passes current collapse progress value into progress binding: 0 for not collapse
 .collapseProgress(_ progress: Binding<CGFloat>)
 ```
 
+allows to set up callback for ScrollView reaching the bottom     
+```swift
+.scrollViewDidReachBottom(perform: @escaping () -> Void)
+```
+
 allows to set up callback and `isLoading` state for pull-to-refresh action   
 ```swift
 .pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void)
