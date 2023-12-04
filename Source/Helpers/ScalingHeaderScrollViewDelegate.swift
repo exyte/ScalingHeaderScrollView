@@ -16,11 +16,16 @@ final class ScalingHeaderScrollViewDelegate: NSObject, ObservableObject, UIScrol
     var didEndDragging = {}
     var didEndDecelerating = {}
     var willEndDragging: (Double) -> Void = {_ in }
+    var didReachBottom: () -> Void = {}
 
     // MARK: - UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         didScroll()
+        let maxYOffset = scrollView.contentSize.height - scrollView.bounds.height
+        if scrollView.contentOffset.y >= maxYOffset {
+            didReachBottom()
+        }
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

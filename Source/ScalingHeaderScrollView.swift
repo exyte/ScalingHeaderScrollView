@@ -36,6 +36,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Content on the bottom
     public var content: Content
 
+    /// Scroll view did reach bottom
+    public var didReachBottom: (() -> Void)?
+
     /// Should the progress view be showing or not, when "pull to refresh" action
     @State private var pullToRefreshInProgress: Bool = false
 
@@ -160,9 +163,12 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     // MARK: - Init
 
-    public init(@ViewBuilder header: @escaping () -> Header, @ViewBuilder content: @escaping () -> Content) {
+    public init(@ViewBuilder header: @escaping () -> Header,
+                @ViewBuilder content: @escaping () -> Content,
+                didReachBottom: (() -> Void)? = nil) {
         self.header = header()
         self.content = content()
+        self.didReachBottom = didReachBottom
         _progress = .constant(0)
         _scrollOffset = .constant(0)
         _isLoading = .constant(false)
@@ -275,6 +281,10 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
             if !headerSnappingShouldWaitFinishAccelerating || fabs(acceleration) < 0.2 {
                 snapScrollPosition()
             }
+        }
+
+        scrollViewDelegate.didReachBottom = {
+            didReachBottom?()
         }
 
         scrollViewDelegate.willEndDragging = { acceleration in
