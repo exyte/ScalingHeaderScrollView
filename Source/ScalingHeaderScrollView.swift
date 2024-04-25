@@ -43,7 +43,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     @State private var pullToLoadMoreInProgress: Bool = false
 
     /// UIKit's UIScrollView
-    @State private var uiScrollView: UIScrollView?
+    private var uiScrollView: UIScrollView? { scrollViewDelegate.uiScrollView }
 
     /// Sets the opacity value for pull-to-load-more progress view
     @State private var pullToLoadOpacity: CGFloat = 1.0
@@ -299,7 +299,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         
         DispatchQueue.main.async {
             if uiScrollView != scrollView {
-                uiScrollView = scrollView
+                scrollViewDelegate.uiScrollView = scrollView
                 snapInitialScrollPosition()
             }
         }

@@ -17,6 +17,9 @@ final class ScalingHeaderScrollViewDelegate: NSObject, ObservableObject, UIScrol
     var didEndDecelerating = {}
     var willEndDragging: (Double) -> Void = {_ in }
     var didReachBottom: () -> Void = {}
+    
+    // weak to prevent memory leaks on iOS > 17.0 with UIScrollView in ScalingHeaderScrollView
+    weak var uiScrollView: UIScrollView?
 
     // MARK: - UIScrollViewDelegate
 
