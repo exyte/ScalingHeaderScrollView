@@ -8,7 +8,6 @@
 
 import SwiftUI
 import ScalingHeaderScrollView
-import SwiftUIIntrospect
 
 struct ColorScalingHeader: View {
 
