@@ -158,6 +158,7 @@ github "Exyte/ScalingHeaderScrollView"
 
 ## Our other open source SwiftUI libraries
 [PopupView](https://github.com/exyte/PopupView) - Toasts and popups library    
+[AnchoredPopup](https://github.com/exyte/AnchoredPopup) - Anchored Popup grows "out" of a trigger view (similar to Hero animation)    
 [Grid](https://github.com/exyte/Grid) - The most powerful Grid container     
 [AnimatedTabBar](https://github.com/exyte/AnimatedTabBar) - A tabbar with a number of preset animations   
 [MediaPicker](https://github.com/exyte/mediapicker) - Customizable media picker     
