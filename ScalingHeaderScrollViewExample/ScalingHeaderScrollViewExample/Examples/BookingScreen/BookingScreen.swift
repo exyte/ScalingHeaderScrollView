@@ -20,13 +20,15 @@ struct BookingScreen: View {
     var body: some View {
         ZStack {
             ScalingHeaderScrollView {
-                Map(coordinateRegion: $viewModel.mapCenterRegion, annotationItems: viewModel.hotels) { place in
-                    MapAnnotation(coordinate: place.coordinate) {
-                        mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
-                            .offset(y: -15)
-                            .onTapGesture {
-                                viewModel.select(hotel: place)
-                            }
+                Map(position: $viewModel.mapPosition) {
+                    ForEach(viewModel.hotels) { place in
+                        Annotation(place.id.uuidString, coordinate: place.coordinate) {
+                            mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
+                                .offset(y: -15)
+                                .onTapGesture {
+                                    viewModel.select(hotel: place)
+                                }
+                        }
                     }
                 }
             } content: {

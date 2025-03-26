@@ -116,8 +116,5 @@ extension Hotel {
 }
 
 struct MapService {
-    
     let hotels: [Hotel] = [.capoBayHotel, .figTreeBayVilla, .protarasPlazaHotel]
-    
-    let mapCenterRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude:  35.01266423456241, longitude: 34.057450219436646), latitudinalMeters: 400, longitudinalMeters: 400)
 }

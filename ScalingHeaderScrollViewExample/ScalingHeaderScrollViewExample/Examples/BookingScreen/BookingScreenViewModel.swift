@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import MapKit
 import Combine
+import _MapKit_SwiftUI
 
 class BookingScreenViewModel: ObservableObject {
     
@@ -22,7 +22,14 @@ class BookingScreenViewModel: ObservableObject {
     
     @Published private(set) var currentHotel: Hotel = .capoBayHotel
     
-    @Published var mapCenterRegion = MKCoordinateRegion()
+    @Published var mapPosition: MapCameraPosition = .region(
+        MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 35.01266423456241, longitude: 34.057450219436646),
+            latitudinalMeters: 400,
+            longitudinalMeters: 400
+        )
+    )
+
     @Published var hotels: [Hotel] = []
     
     private var mapService = MapService()
@@ -59,9 +66,7 @@ class BookingScreenViewModel: ObservableObject {
         $currentHotel
             .map(\.description)
             .assign(to: &$description)
-        
-        mapCenterRegion = mapService.mapCenterRegion
-        
+
         mapService.hotels.publisher
             .collect()
             .assign(to: &$hotels)

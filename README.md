@@ -14,11 +14,11 @@
 
 <a href="https://exyte.com/blog/swiftui-tutorial-scaling-header">Read Article »</a>
 
+![](https://img.shields.io/github/v/tag/exyte/ScalingHeaderScrollView?label=Version)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fexyte%2FScalingHeaderScrollView%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/exyte/ScalingHeaderScrollView)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fexyte%2FScalingHeaderScrollView%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/exyte/ScalingHeaderScrollView)
-[![SPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swiftpackageindex.com/exyte/ScalingHeaderScrollView)
-[![Cocoapods Compatible](https://img.shields.io/badge/cocoapods-Compatible-brightgreen.svg)](https://cocoapods.org/pods/ScalingHeaderScrollView)
-[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![SPM](https://img.shields.io/badge/SPM-Compatible-brightgreen.svg)](https://swiftpackageindex.com/exyte/ScalingHeaderScrollView)
+[![Cocoapods](https://img.shields.io/badge/Cocoapods-Deprecated%20after%201.1.4-yellow.svg)](https://cocoapods.org/pods/ScalingHeaderScrollView)
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](https://opensource.org/licenses/MIT)
 
 # Usage
@@ -118,11 +118,9 @@ hide scroll indicators (false by default)
 
 ## Examples
 
-To try ScalingHeaderScrollView examples:
+To try the ScalingHeaderScrollView examples:
 - Clone the repo `https://github.com/exyte/ScalingHeaderScrollView.git`
-- Open terminal and run `cd <ScalingHeaderScrollViewRepo>/Example/`
-- Run `pod install` to install all dependencies
-- Run open `Example.xcworkspace/` to open project in the Xcode
+- Open `ScalingHeaderScrollViewExample.xcodeproj` in the Xcode
 - Try it!
 
 ## Installation
@@ -135,22 +133,6 @@ dependencies: [
 ]
 ```
 
-### [CocoaPods](http://cocoapods.org)
-
-To install `ScalingHeaderScrollView`, simply add the following line to your Podfile:
-
-```ruby
-pod 'ScalingHeaderScrollView'
-```
-
-### [Carthage](http://github.com/Carthage/Carthage)
-
-To integrate `ScalingHeaderScrollView` into your Xcode project using Carthage, specify it in your `Cartfile`
-
-```ogdl
-github "Exyte/ScalingHeaderScrollView"
-```
-
 ## Requirements
 
 * iOS 14+
@@ -158,6 +140,7 @@ github "Exyte/ScalingHeaderScrollView"
 
 ## Our other open source SwiftUI libraries
 [PopupView](https://github.com/exyte/PopupView) - Toasts and popups library    
+[AnchoredPopup](https://github.com/exyte/AnchoredPopup) - Popup that grows "out" of a trigger view   
 [Grid](https://github.com/exyte/Grid) - The most powerful Grid container     
 [AnimatedTabBar](https://github.com/exyte/AnimatedTabBar) - A tabbar with a number of preset animations   
 [MediaPicker](https://github.com/exyte/mediapicker) - Customizable media picker     

@@ -15,14 +15,18 @@ struct MapScalingHeader: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var isLoading: Bool = false
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
-        span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1))
-    
+
+    @State private var mapPosition: MapCameraPosition = .region(
+        MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
+            span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+        )
+    )
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             ScalingHeaderScrollView {
-                Map(coordinateRegion: $region)
+                Map(position: $mapPosition)
             } content: {
                 Text(defaultDescription)
                     .padding()
@@ -46,9 +50,14 @@ struct MapScalingHeader: View {
     
     private func updateRegion() {
         DispatchQueue.main.async {
-            region.center = CLLocationCoordinate2D(
-                latitude: Double.random(in: -90...90),
-                longitude: Double.random(in: -180...180)
+            mapPosition = .region(
+                MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(
+                        latitude: Double.random(in: -90...90),
+                        longitude: Double.random(in: -180...180)
+                    ),
+                    span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+                )
             )
             isLoading = false
         }
