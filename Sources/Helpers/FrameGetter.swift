@@ -33,7 +33,7 @@ extension View {
 }
 
 struct FrameRectPreferenceKey: PreferenceKey {
-    static var defaultValue: CGRect = .zero
+    static let defaultValue: CGRect = .zero
     static func reduce(value: inout CGRect, nextValue: () -> CGRect) {}
 }
 
@@ -50,8 +50,10 @@ struct FrameGetter: ViewModifier {
                 }
             )
             .onPreferenceChange(FrameRectPreferenceKey.self) { rect in
-                if rect.integral != self.frame.integral {
-                    self.frame = rect
+                DispatchQueue.main.async {
+                    if rect.integral != self.frame.integral {
+                        self.frame = rect
+                    }
                 }
             }
     }

@@ -9,6 +9,7 @@
 import SwiftUI
 import SwiftUIIntrospect
 
+@MainActor
 public struct AutosizingList<Content: View>: View {
     
     var content: Content
@@ -38,7 +39,9 @@ public struct AutosizingList<Content: View>: View {
         scrollView.isScrollEnabled = false
         tableContentHeight = scrollView.contentSize.height
         observation = scrollView.observe(\.contentSize) { scrollView, value in
-            tableContentHeight = scrollView.contentSize.height
+            DispatchQueue.main.async {
+                tableContentHeight = scrollView.contentSize.height
+            }
         }
     }
 }
