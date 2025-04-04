@@ -43,6 +43,12 @@ struct ContentView: View {
 }
 ```
 
+## TabView won't work
+
+Please note that `ScalingScrollview` is just a `ScrollView` under the hood, so it works very similar to it. If content's height changes between tabs inside the scroll view, there is no way to keep scroll position nice and stable. Usually when using a `TabView`, you put separate `ScrollView`s on every tab, not the other way around. And if you were to put a `TabView` inside a `ScrollView`, it wouldn't work as you expect, and neither will putting it inside a `ScalingScrollview`.  
+
+Moreover, `TabView` gives almost no control over itself (getting/setting its current position, getting tab's content height, etc.), so there is no way to manually mess with its `scrollOffset`, which is what this library relies heavily upon.  
+
 ### Required parameters 
 `header` - `@ViewBuilder` for your header  
 `content` - `@ViewBuilder` for your content  
