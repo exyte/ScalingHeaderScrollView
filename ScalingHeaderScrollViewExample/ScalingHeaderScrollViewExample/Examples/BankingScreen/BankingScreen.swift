@@ -36,7 +36,7 @@ struct BankingScreen: View {
             .height(min: 220, max: 372)
             .collapseProgress($progress)
             .allowsHeaderCollapse()
-            .pullToLoadMore(isActive: $isActive, contentOffset: 50) {
+            .pullToLoadMore(isActive: isActive, contentOffset: 50) {
                 isActive = false
                 try? await Task.sleep(for: .seconds(2))
                 Task.detached {

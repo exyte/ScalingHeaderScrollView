@@ -64,15 +64,19 @@ allows to set up callback for ScrollView reaching the bottom
 .scrollViewDidReachBottom(perform: @escaping () -> Void)
 ```
 
-allows to set up callback and `isLoading` state for pull-to-refresh action   
+allows to set up an action for pull-to-refresh; if not set up loading indicator on pull-to-refresh will never be displayed
 ```swift
-.pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void)
+.pullToRefresh(isActive: Bool, perform: () async -> Void)
 ```
-
-allows to set up callback and `isLoading` state for pull-to-load-more action   
+`isActive` - dynamically enable/disable pull-to-refresh, if disabled, loading indicator won't be displayed on pull-to-refresh   
+`perform` - async closure to be performed on pull-to-refresh, after the closure is done loading indicator will be hidden automatically     
+ 
+allows to set up an action for pull-to-load-more; if not set up loading indicator on pull-to-load-more will never be displayed
 ```swift
-.pullToLoadMore(isLoading: Binding<Bool>, perform: @escaping () -> Void)
+.pullToLoadMore(isActive: Bool, contentOffset: CGFloat, perform: () async -> Void)
 ```
+`isActive` - dynamically enable/disable pull-to-load-more, if disabled, loading indicator won't be displayed on pull-to-load-more   
+`perform` - async closure to be performed on pull-to-load-more, after the closure is done loading indicator will be hidden automatically   
 
  allows content scroll reset, need to change Binding to `true`  
 ```swift

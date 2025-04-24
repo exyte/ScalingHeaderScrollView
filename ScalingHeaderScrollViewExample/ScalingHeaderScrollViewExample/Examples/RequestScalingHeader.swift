@@ -40,7 +40,7 @@ struct RequestScalingHeader: View {
                 }
                 .padding()
             }
-            .pullToRefresh(isActive: $isActive) {
+            .pullToRefresh(isActive: isActive) {
                 await shuffleDataSource(delay: 3)
             }
             .pullToLoadMore(contentOffset: 50) {
