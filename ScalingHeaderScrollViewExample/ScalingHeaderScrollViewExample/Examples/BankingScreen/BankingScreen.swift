@@ -37,13 +37,14 @@ struct BankingScreen: View {
             .collapseProgress($progress)
             .allowsHeaderCollapse()
             .pullToLoadMore(isActive: $isActive, contentOffset: 50) {
-                do {
-                    isActive = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                isActive = false
+                try? await Task.sleep(for: .seconds(2))
+                Task.detached {
+                    try? await Task.sleep(for: .seconds(4))
+                    await MainActor.run {
                         isActive = true
                     }
-                    try await Task.sleep(for: .seconds(2))
-                } catch { }
+                }
             }
             topButtons
 

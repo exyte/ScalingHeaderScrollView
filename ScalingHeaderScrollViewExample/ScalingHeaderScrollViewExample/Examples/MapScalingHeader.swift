@@ -33,7 +33,7 @@ struct MapScalingHeader: View {
             .headerSnappingPositions(snapPositions: [0, 0.5, 1])
             .initialSnapPosition(initialSnapPosition: 0.5)
             .pullToRefresh() {
-                await updateRegion()
+                updateRegion()
             }
             .ignoresSafeArea()
 
@@ -45,7 +45,7 @@ struct MapScalingHeader: View {
     
     // MARK: - Private
     
-    private func updateRegion() async {
+    private func updateRegion() {
         DispatchQueue.main.async {
             mapPosition = .region(
                 MKCoordinateRegion(

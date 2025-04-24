@@ -44,10 +44,8 @@ struct RequestScalingHeader: View {
                 await shuffleDataSource(delay: 3)
             }
             .pullToLoadMore(contentOffset: 50) {
-                do {
-                    try await Task.sleep(for: .seconds(3))
-                    displayedColors += (0..<5).map { _ in colorSet.randomElement() ?? .red }
-                } catch { }
+                try? await Task.sleep(for: .seconds(3))
+                displayedColors += (0..<5).map { _ in colorSet.randomElement() ?? .red }
             }
             .height(min: 90.0, max: 250)
             .ignoresSafeArea()
@@ -62,16 +60,18 @@ struct RequestScalingHeader: View {
     }
 
     private func shuffleDataSource(delay: Double) async {
-        do {
-            isActive = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+        isActive = false
+        try? await Task.sleep(for: .seconds(delay))
+        withAnimation(.easeIn(duration: 0.2)) {
+            self.displayedColors.shuffle()
+        }
+
+        Task.detached {
+            try? await Task.sleep(for: .seconds(6))
+            await MainActor.run {
                 isActive = true
             }
-            try await Task.sleep(for: .seconds(delay))
-            withAnimation(.easeIn(duration: 0.2)) {
-                self.displayedColors.shuffle()
-            }
-        } catch { }
+        }
     }
 
     // MARK: - Private

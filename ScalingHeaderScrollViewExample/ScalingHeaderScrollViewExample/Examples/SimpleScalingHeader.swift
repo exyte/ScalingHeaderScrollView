@@ -27,7 +27,7 @@ struct SimpleScalingHeader: View {
                     .padding()
             }
             .pullToRefresh() {
-                await changeImage()
+                changeImage()
             }
             .allowsHeaderCollapse()
             .ignoresSafeArea()
@@ -40,7 +40,7 @@ struct SimpleScalingHeader: View {
     
     // MARK: - Private
     
-    private func changeImage() async {
+    private func changeImage() {
         selectedImage = selectedImage == "image_1" ? "image_2" : "image_1"
     }
 }
