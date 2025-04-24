@@ -76,6 +76,7 @@ allows to set up an action for pull-to-load-more; if not set up loading indicato
 .pullToLoadMore(isActive: Bool, contentOffset: CGFloat, perform: () async -> Void)
 ```
 `isActive` - dynamically enable/disable pull-to-load-more, if disabled, loading indicator won't be displayed on pull-to-load-more   
+`contentOffset` - padding value of the content from the bottom edge when pull-to-load is active    
 `perform` - async closure to be performed on pull-to-load-more, after the closure is done loading indicator will be hidden automatically   
 
  allows content scroll reset, need to change Binding to `true`  
