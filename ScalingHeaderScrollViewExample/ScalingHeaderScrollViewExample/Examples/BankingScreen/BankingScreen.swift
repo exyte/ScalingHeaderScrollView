@@ -13,7 +13,7 @@ struct BankingScreen: View {
 
     @Environment(\.presentationMode) var presentationMode
     @State var progress: CGFloat = 0
-    @State private var isloading = false
+    @State private var isActive = true
     
     let service = BankingService()
 
@@ -36,10 +36,14 @@ struct BankingScreen: View {
             .height(min: 220, max: 372)
             .collapseProgress($progress)
             .allowsHeaderCollapse()
-            .pullToLoadMore(isLoading: $isloading, contentOffset: 50) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    isloading = false
-                }
+            .pullToLoadMore(isActive: $isActive, contentOffset: 50) {
+                do {
+                    isActive = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                        isActive = true
+                    }
+                    try await Task.sleep(for: .seconds(2))
+                } catch { }
             }
             topButtons
 

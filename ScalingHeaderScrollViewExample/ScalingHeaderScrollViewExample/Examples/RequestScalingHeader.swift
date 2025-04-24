@@ -13,7 +13,7 @@ struct RequestScalingHeader: View {
 
     @Environment(\.presentationMode) var presentationMode
 
-    @State private var isLoading: Bool = false
+    @State private var isActive: Bool = true
 
     private let colorSet: [Color] = [.red, .blue, .green, .black, .pink, .purple, .yellow]
     @State private var displayedColors: [Color] = []
@@ -40,14 +40,14 @@ struct RequestScalingHeader: View {
                 }
                 .padding()
             }
-            .pullToRefresh(isLoading: $isLoading) {
-                shuffleDataSource(delay: 3)
+            .pullToRefresh(isActive: $isActive) {
+                await shuffleDataSource(delay: 3)
             }
-            .pullToLoadMore(isLoading: $isLoading, contentOffset: 50) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            .pullToLoadMore(contentOffset: 50) {
+                do {
+                    try await Task.sleep(for: .seconds(3))
                     displayedColors += (0..<5).map { _ in colorSet.randomElement() ?? .red }
-                    isLoading = false
-                }
+                } catch { }
             }
             .height(min: 90.0, max: 250)
             .ignoresSafeArea()
@@ -61,13 +61,17 @@ struct RequestScalingHeader: View {
         }
     }
 
-    private func shuffleDataSource(delay: Double) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+    private func shuffleDataSource(delay: Double) async {
+        do {
+            isActive = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                isActive = true
+            }
+            try await Task.sleep(for: .seconds(delay))
             withAnimation(.easeIn(duration: 0.2)) {
                 self.displayedColors.shuffle()
-                self.isLoading = false
             }
-        }
+        } catch { }
     }
 
     // MARK: - Private

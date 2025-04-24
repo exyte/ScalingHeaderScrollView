@@ -41,7 +41,10 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
 
     /// Should show the progress view during "pull to load more" action
     @State private var pullToLoadMoreInProgress: Bool = false
-
+    
+    /// Automatically sets to true, if pull to refresh is triggered.
+    @State private var isLoading: Bool = false
+    
     /// UIKit's UIScrollView
     private var uiScrollView: UIScrollView? { scrollViewDelegate.uiScrollView }
 
@@ -66,8 +69,11 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     /// Current scroll offset Y value
     @Binding private var scrollOffset: CGFloat
 
-    /// Automatically sets to true, if pull to refresh is triggered. Manually set to false to hide loading indicator.
-    @Binding private var isLoading: Bool
+    /// Set to false to disable pull-to-refresh
+    @Binding private var isPullToRefreshEnabled: Bool
+    
+    /// Set to false to disable pull-to-load-more
+    @Binding private var isPullToLoadMoreEnabled: Bool
 
     /// Set to true to immediately scroll to top
     @Binding private var scrollToTop: Bool
@@ -79,10 +85,10 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
     private var didReachBottom: (() -> Void)?
 
     /// Called once pull to refresh is triggered
-    private var didPullToRefresh: (() -> Void)?
+    private var didPullToRefresh: (() async -> Void)?
 
     /// Called once pull to load more is triggered
-    private var didPullToLoadMore: (() -> Void)?
+    private var didPullToLoadMore: (() async -> Void)?
 
     /// Height for uncollapsed state
     private var maxHeight: CGFloat = 350.0
@@ -169,9 +175,10 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         self.content = content()
         _progress = .constant(0)
         _scrollOffset = .constant(0)
-        _isLoading = .constant(false)
         _scrollToTop = .constant(false)
         _shouldSnapTo = .constant(nil)
+        _isPullToRefreshEnabled = .constant(true)
+        _isPullToLoadMoreEnabled = .constant(true)
     }
 
     // MARK: - Body builder
@@ -248,18 +255,26 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         scrollView.delegate = scrollViewDelegate
         if let didPullToRefresh = didPullToRefresh {
             scrollViewDelegate.didPullToRefresh = {
-                pullToLoadMoreInProgress = false
-                pullToRefreshInProgress = true
-                withAnimation { isLoading = true }
-                didPullToRefresh()
+                if !isPullToRefreshEnabled { return }
+                Task {
+                    pullToLoadMoreInProgress = false
+                    pullToRefreshInProgress = true
+                    withAnimation { isLoading = true }
+                    await didPullToRefresh()
+                    isLoading = false
+                }
             }
         }
         if let didPullToLoadMore = didPullToLoadMore {
             scrollViewDelegate.didPullToLoadMore = {
-                pullToLoadMoreInProgress = true
-                pullToRefreshInProgress = false
-                withAnimation { isLoading = true }
-                didPullToLoadMore()
+                if !isPullToLoadMoreEnabled { return }
+                Task {
+                    pullToLoadMoreInProgress = true
+                    pullToRefreshInProgress = false
+                    withAnimation { isLoading = true }
+                    await didPullToLoadMore()
+                    isLoading = false
+                }
             }
         }
         scrollViewDelegate.didScroll = {
@@ -440,17 +455,17 @@ extension ScalingHeaderScrollView {
     }
 
     /// Allows to set up callback and `isLoading` state for pull-to-refresh action
-    public func pullToRefresh(isLoading: Binding<Bool>, perform: @escaping () -> Void) -> ScalingHeaderScrollView {
+    public func pullToRefresh(isActive: Binding<Bool> = .constant(true), perform: @escaping () async -> Void) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView._isLoading = isLoading
+        scalingHeaderScrollView._isPullToRefreshEnabled = isActive
         scalingHeaderScrollView.didPullToRefresh = perform
         return scalingHeaderScrollView
     }
 
     /// Allows to set up callback and `isLoading` state for pull-to-load-more action
-    public func pullToLoadMore(isLoading: Binding<Bool>, contentOffset: CGFloat, perform: @escaping () -> Void) -> ScalingHeaderScrollView {
+    public func pullToLoadMore(isActive: Binding<Bool> = .constant(true), contentOffset: CGFloat, perform: @escaping () async -> Void) -> ScalingHeaderScrollView {
         var scalingHeaderScrollView = self
-        scalingHeaderScrollView._isLoading = isLoading
+        scalingHeaderScrollView._isPullToLoadMoreEnabled = isActive
         scalingHeaderScrollView.pullToLoadMoreContentOffset = contentOffset
         scalingHeaderScrollView.didPullToLoadMore = perform
         return scalingHeaderScrollView

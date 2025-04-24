@@ -13,8 +13,6 @@ import MapKit
 struct MapScalingHeader: View {
 
     @Environment(\.presentationMode) var presentationMode
-    
-    @State private var isLoading: Bool = false
 
     @State private var mapPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
@@ -34,9 +32,8 @@ struct MapScalingHeader: View {
             .height(min: 150.0, max: UIScreen.main.bounds.height - 150)
             .headerSnappingPositions(snapPositions: [0, 0.5, 1])
             .initialSnapPosition(initialSnapPosition: 0.5)
-            .pullToRefresh(isLoading: $isLoading) {
-                updateRegion()
-                isLoading = false
+            .pullToRefresh() {
+                await updateRegion()
             }
             .ignoresSafeArea()
 
@@ -48,7 +45,7 @@ struct MapScalingHeader: View {
     
     // MARK: - Private
     
-    private func updateRegion() {
+    private func updateRegion() async {
         DispatchQueue.main.async {
             mapPosition = .region(
                 MKCoordinateRegion(
@@ -59,7 +56,6 @@ struct MapScalingHeader: View {
                     span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
                 )
             )
-            isLoading = false
         }
     }
 }

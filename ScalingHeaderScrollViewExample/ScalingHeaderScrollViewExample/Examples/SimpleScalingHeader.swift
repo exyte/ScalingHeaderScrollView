@@ -14,7 +14,6 @@ struct SimpleScalingHeader: View {
     @Environment(\.presentationMode) var presentationMode
 
     @State private var selectedImage: String = "image_1"
-    @State private var isLoading: Bool = false
     
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -27,8 +26,8 @@ struct SimpleScalingHeader: View {
                 Text(defaultDescription)
                     .padding()
             }
-            .pullToRefresh(isLoading: $isLoading) {
-                changeImage()
+            .pullToRefresh() {
+                await changeImage()
             }
             .allowsHeaderCollapse()
             .ignoresSafeArea()
@@ -41,8 +40,7 @@ struct SimpleScalingHeader: View {
     
     // MARK: - Private
     
-    private func changeImage() {
+    private func changeImage() async {
         selectedImage = selectedImage == "image_1" ? "image_2" : "image_1"
-        isLoading = false
     }
 }
