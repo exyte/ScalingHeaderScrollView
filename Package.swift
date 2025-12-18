@@ -14,7 +14,7 @@ let package = Package(
             targets: ["ScalingHeaderScrollView"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.4.0-beta.3"),
+        .package(url: "https://github.com/siteline/swiftui-introspect", from: "26.0.0"),
     ],
     targets: [
         .target(
