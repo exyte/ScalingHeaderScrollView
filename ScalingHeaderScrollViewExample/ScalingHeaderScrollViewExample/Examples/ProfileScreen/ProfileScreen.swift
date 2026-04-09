@@ -68,7 +68,7 @@ struct ProfileScreen: View {
                     Button("Hire", action: { print("hire") })
                         .buttonStyle(HireButtonStyle())
                         .padding(.horizontal, 15)
-                        .frame(width: 396, height: 60, alignment: .bottom)
+                        .frame(height: 60, alignment: .bottom)
                 }
             }
         }
