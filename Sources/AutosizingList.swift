@@ -28,7 +28,7 @@ public struct AutosizingList<Content: View>: View {
         .introspect(.list, on: .iOS(.v15)) { tableView in
             introspectScrollView(tableView)
         }
-        .introspect(.list, on: .iOS(.v16, .v17, .v18)) { collectionView in
+        .introspect(.list, on: .iOS(.v16, .v17, .v18, .v26)) { collectionView in
             introspectScrollView(collectionView)
         }
         .frame(height: tableContentHeight)
@@ -38,8 +38,8 @@ public struct AutosizingList<Content: View>: View {
         scrollView.backgroundColor = .clear
         scrollView.isScrollEnabled = false
         tableContentHeight = scrollView.contentSize.height
-        observation = scrollView.observe(\.contentSize) { scrollView, value in
-            DispatchQueue.main.async {
+        observation = scrollView.observe(\.contentSize) { scrollView, _ in
+            Task { @MainActor in
                 tableContentHeight = scrollView.contentSize.height
             }
         }

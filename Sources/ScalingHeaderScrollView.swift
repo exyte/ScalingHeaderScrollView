@@ -256,7 +256,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         if let didPullToRefresh = didPullToRefresh {
             scrollViewDelegate.didPullToRefresh = {
                 if !isPullToRefreshEnabled { return }
-                Task {
+                Task { @MainActor in
                     pullToLoadMoreInProgress = false
                     pullToRefreshInProgress = true
                     withAnimation { isLoading = true }
@@ -268,7 +268,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
         if let didPullToLoadMore = didPullToLoadMore {
             scrollViewDelegate.didPullToLoadMore = {
                 if !isPullToLoadMoreEnabled { return }
-                Task {
+                Task { @MainActor in
                     pullToLoadMoreInProgress = true
                     pullToRefreshInProgress = false
                     withAnimation { isLoading = true }
