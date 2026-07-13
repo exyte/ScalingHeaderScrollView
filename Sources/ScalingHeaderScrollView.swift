@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import SwiftUIIntrospect
 
 public enum SnapHeaderState: Equatable {
     case expanded
@@ -189,6 +188,9 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                 content
                     .offset(y: contentOffset)
                     .frameGetter($contentFrame.frame)
+                    .background(
+                        ScrollViewResolver { configure(scrollView: $0) }
+                    )
                     .onChange(of: contentFrame.frame) { frame in
                         pullToRefreshInProgress = frame.minY - globalGeometry.frame(in: .global).minY > 20.0
                     }
@@ -226,9 +228,6 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                 .offset(y: -(contentFrame.startingRect?.maxY ?? UIScreen.main.bounds.height))
             }
             .animation(headerAnimation, value: shouldSnapTo)
-            .introspect(.scrollView, on: .iOS(.v15, .v16, .v17, .v18, .v26)) { scrollView in
-                configure(scrollView: scrollView)
-            }
             .onAppear {
                 snapInitialScrollPosition()
             }

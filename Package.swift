@@ -13,15 +13,9 @@ let package = Package(
             name: "ScalingHeaderScrollView",
             targets: ["ScalingHeaderScrollView"]),
     ],
-    dependencies: [
-        .package(url: "https://github.com/siteline/swiftui-introspect", from: "26.0.0"),
-    ],
     targets: [
         .target(
-            name: "ScalingHeaderScrollView", 
-            dependencies: [
-                .product(name: "SwiftUIIntrospect", package: "swiftui-introspect")
-            ],
+            name: "ScalingHeaderScrollView",
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency")
             ]
