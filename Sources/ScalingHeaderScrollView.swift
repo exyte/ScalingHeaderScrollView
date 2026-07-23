@@ -190,6 +190,7 @@ public struct ScalingHeaderScrollView<Header: View, Content: View>: View {
                     .frameGetter($contentFrame.frame)
                     .background(
                         ScrollViewResolver { configure(scrollView: $0) }
+                            .allowsHitTesting(false)
                     )
                     .onChange(of: contentFrame.frame) { frame in
                         pullToRefreshInProgress = frame.minY - globalGeometry.frame(in: .global).minY > 20.0
