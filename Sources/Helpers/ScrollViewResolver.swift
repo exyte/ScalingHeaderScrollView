@@ -11,7 +11,10 @@ struct ScrollViewResolver: UIViewRepresentable {
     var onResolve: (UIScrollView) -> Void
 
     func makeUIView(context: Context) -> UIView {
-        UIView()
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        view.backgroundColor = .clear
+        return view
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {

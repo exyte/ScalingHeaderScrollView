@@ -24,7 +24,7 @@ public struct AutosizingList<Content: View>: View {
         List {
             content
         }
-        .background(ScrollViewResolver { configure(scrollView: $0) })
+        .background(ScrollViewResolver { configure(scrollView: $0) }.allowsHitTesting(false))
         .frame(height: tableContentHeight)
     }
 
