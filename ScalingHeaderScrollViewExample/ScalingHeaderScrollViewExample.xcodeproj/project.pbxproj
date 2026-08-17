@@ -7,16 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B19A0F1302F060400CA0DD7 /* BookingMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B19A0F0302F060400CA0DD7 /* BookingMapView.swift */; };
+		5B5AB203302AE4B4009BD9D1 /* ClippedMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5AB202302AE4B4009BD9D1 /* ClippedMap.swift */; };
 		5B92B5082D9A74BE007CAF13 /* BankingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4E22D9A74BE007CAF13 /* BankingScreen.swift */; };
 		5B92B5092D9A74BE007CAF13 /* BankingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4E32D9A74BE007CAF13 /* BankingService.swift */; };
 		5B92B50A2D9A74BE007CAF13 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4E42D9A74BE007CAF13 /* CardView.swift */; };
 		5B92B50B2D9A74BE007CAF13 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4E52D9A74BE007CAF13 /* TransactionView.swift */; };
 		5B92B50C2D9A74BE007CAF13 /* BookingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4E72D9A74BE007CAF13 /* BookingModel.swift */; };
 		5B92B50D2D9A74BE007CAF13 /* BookingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4E82D9A74BE007CAF13 /* BookingScreen.swift */; };
-		5B92B50E2D9A74BE007CAF13 /* BookingScreenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4E92D9A74BE007CAF13 /* BookingScreenHelper.swift */; };
+		5B92B50E2D9A74BE007CAF13 /* BookingHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4E92D9A74BE007CAF13 /* BookingHelpers.swift */; };
 		5B92B50F2D9A74BE007CAF13 /* BookingScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4EA2D9A74BE007CAF13 /* BookingScreenViewModel.swift */; };
-		5B92B5102D9A74BE007CAF13 /* Color+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4EC2D9A74BE007CAF13 /* Color+hex.swift */; };
-		5B92B5112D9A74BE007CAF13 /* CommonHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4EE2D9A74BE007CAF13 /* CommonHelpers.swift */; };
+		5B92B5102D9A74BE007CAF13 /* Color+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4EC2D9A74BE007CAF13 /* Color+extension.swift */; };
+		5B92B5112D9A74BE007CAF13 /* StyleUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4EE2D9A74BE007CAF13 /* StyleUtils.swift */; };
 		5B92B5122D9A74BE007CAF13 /* ProfileHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4F02D9A74BE007CAF13 /* ProfileHelpers.swift */; };
 		5B92B5132D9A74BE007CAF13 /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4F12D9A74BE007CAF13 /* ProfileScreen.swift */; };
 		5B92B5142D9A74BE007CAF13 /* ProfileScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B92B4F22D9A74BE007CAF13 /* ProfileScreenViewModel.swift */; };
@@ -39,6 +41,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B19A0F0302F060400CA0DD7 /* BookingMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingMapView.swift; sourceTree = "<group>"; };
+		5B5AB202302AE4B4009BD9D1 /* ClippedMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClippedMap.swift; sourceTree = "<group>"; };
 		5B92B4932D9A7403007CAF13 /* ScalingHeaderScrollViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScalingHeaderScrollViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B92B4E22D9A74BE007CAF13 /* BankingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankingScreen.swift; sourceTree = "<group>"; };
 		5B92B4E32D9A74BE007CAF13 /* BankingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankingService.swift; sourceTree = "<group>"; };
@@ -46,10 +50,10 @@
 		5B92B4E52D9A74BE007CAF13 /* TransactionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		5B92B4E72D9A74BE007CAF13 /* BookingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingModel.swift; sourceTree = "<group>"; };
 		5B92B4E82D9A74BE007CAF13 /* BookingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingScreen.swift; sourceTree = "<group>"; };
-		5B92B4E92D9A74BE007CAF13 /* BookingScreenHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingScreenHelper.swift; sourceTree = "<group>"; };
+		5B92B4E92D9A74BE007CAF13 /* BookingHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingHelpers.swift; sourceTree = "<group>"; };
 		5B92B4EA2D9A74BE007CAF13 /* BookingScreenViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingScreenViewModel.swift; sourceTree = "<group>"; };
-		5B92B4EC2D9A74BE007CAF13 /* Color+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+hex.swift"; sourceTree = "<group>"; };
-		5B92B4EE2D9A74BE007CAF13 /* CommonHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonHelpers.swift; sourceTree = "<group>"; };
+		5B92B4EC2D9A74BE007CAF13 /* Color+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+extension.swift"; sourceTree = "<group>"; };
+		5B92B4EE2D9A74BE007CAF13 /* StyleUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleUtils.swift; sourceTree = "<group>"; };
 		5B92B4F02D9A74BE007CAF13 /* ProfileHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHelpers.swift; sourceTree = "<group>"; };
 		5B92B4F12D9A74BE007CAF13 /* ProfileScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 		5B92B4F22D9A74BE007CAF13 /* ProfileScreenViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileScreenViewModel.swift; sourceTree = "<group>"; };
@@ -116,36 +120,32 @@
 		5B92B4EB2D9A74BE007CAF13 /* BookingScreen */ = {
 			isa = PBXGroup;
 			children = (
-				5B92B4E72D9A74BE007CAF13 /* BookingModel.swift */,
 				5B92B4E82D9A74BE007CAF13 /* BookingScreen.swift */,
-				5B92B4E92D9A74BE007CAF13 /* BookingScreenHelper.swift */,
 				5B92B4EA2D9A74BE007CAF13 /* BookingScreenViewModel.swift */,
+				5B92B4E72D9A74BE007CAF13 /* BookingModel.swift */,
+				5B19A0F0302F060400CA0DD7 /* BookingMapView.swift */,
+				5B92B4E92D9A74BE007CAF13 /* BookingHelpers.swift */,
 			);
 			path = BookingScreen;
 			sourceTree = "<group>";
 		};
-		5B92B4ED2D9A74BE007CAF13 /* Extensions */ = {
+		5B92B4ED2D9A74BE007CAF13 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				5B92B4EC2D9A74BE007CAF13 /* Color+hex.swift */,
+				5B92B4EC2D9A74BE007CAF13 /* Color+extension.swift */,
+				5B92B4EE2D9A74BE007CAF13 /* StyleUtils.swift */,
+				5B92B4F62D9A74BE007CAF13 /* MockData.swift */,
+				5B5AB202302AE4B4009BD9D1 /* ClippedMap.swift */,
 			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		5B92B4EF2D9A74BE007CAF13 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				5B92B4EE2D9A74BE007CAF13 /* CommonHelpers.swift */,
-			);
-			path = Helpers;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		5B92B4F32D9A74BE007CAF13 /* ProfileScreen */ = {
 			isa = PBXGroup;
 			children = (
-				5B92B4F02D9A74BE007CAF13 /* ProfileHelpers.swift */,
 				5B92B4F12D9A74BE007CAF13 /* ProfileScreen.swift */,
 				5B92B4F22D9A74BE007CAF13 /* ProfileScreenViewModel.swift */,
+				5B92B4F02D9A74BE007CAF13 /* ProfileHelpers.swift */,
 			);
 			path = ProfileScreen;
 			sourceTree = "<group>";
@@ -153,16 +153,14 @@
 		5B92B4FA2D9A74BE007CAF13 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				5B92B4E62D9A74BE007CAF13 /* BankingScreen */,
-				5B92B4EB2D9A74BE007CAF13 /* BookingScreen */,
-				5B92B4ED2D9A74BE007CAF13 /* Extensions */,
-				5B92B4EF2D9A74BE007CAF13 /* Helpers */,
 				5B92B4F32D9A74BE007CAF13 /* ProfileScreen */,
-				5B92B4F42D9A74BE007CAF13 /* ColorScalingHeader.swift */,
-				5B92B4F52D9A74BE007CAF13 /* MapScalingHeader.swift */,
-				5B92B4F62D9A74BE007CAF13 /* MockData.swift */,
-				5B92B4F72D9A74BE007CAF13 /* RequestScalingHeader.swift */,
+				5B92B4EB2D9A74BE007CAF13 /* BookingScreen */,
+				5B92B4E62D9A74BE007CAF13 /* BankingScreen */,
+				5B92B4ED2D9A74BE007CAF13 /* Utils */,
 				5B92B4F82D9A74BE007CAF13 /* SimpleScalingHeader.swift */,
+				5B92B4F52D9A74BE007CAF13 /* MapScalingHeader.swift */,
+				5B92B4F42D9A74BE007CAF13 /* ColorScalingHeader.swift */,
+				5B92B4F72D9A74BE007CAF13 /* RequestScalingHeader.swift */,
 				5B92B4F92D9A74BE007CAF13 /* TabScalingHeader.swift */,
 			);
 			path = Examples;
@@ -287,7 +285,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B92B50E2D9A74BE007CAF13 /* BookingScreenHelper.swift in Sources */,
+				5B5AB203302AE4B4009BD9D1 /* ClippedMap.swift in Sources */,
+				5B92B50E2D9A74BE007CAF13 /* BookingHelpers.swift in Sources */,
+				5B19A0F1302F060400CA0DD7 /* BookingMapView.swift in Sources */,
 				5B92B5092D9A74BE007CAF13 /* BankingService.swift in Sources */,
 				5B92B5162D9A74BE007CAF13 /* MapScalingHeader.swift in Sources */,
 				5B92B50B2D9A74BE007CAF13 /* TransactionView.swift in Sources */,
@@ -298,12 +298,12 @@
 				5B92B50F2D9A74BE007CAF13 /* BookingScreenViewModel.swift in Sources */,
 				5B92B5152D9A74BE007CAF13 /* ColorScalingHeader.swift in Sources */,
 				5B92B5082D9A74BE007CAF13 /* BankingScreen.swift in Sources */,
-				5B92B5102D9A74BE007CAF13 /* Color+hex.swift in Sources */,
+				5B92B5102D9A74BE007CAF13 /* Color+extension.swift in Sources */,
 				5B92B5132D9A74BE007CAF13 /* ProfileScreen.swift in Sources */,
 				5B92B51A2D9A74BE007CAF13 /* TabScalingHeader.swift in Sources */,
 				5B92B5182D9A74BE007CAF13 /* RequestScalingHeader.swift in Sources */,
 				5B92B50C2D9A74BE007CAF13 /* BookingModel.swift in Sources */,
-				5B92B5112D9A74BE007CAF13 /* CommonHelpers.swift in Sources */,
+				5B92B5112D9A74BE007CAF13 /* StyleUtils.swift in Sources */,
 				5B92B5172D9A74BE007CAF13 /* MockData.swift in Sources */,
 				5B92B5232D9A74BE007CAF13 /* ExampleApp.swift in Sources */,
 				5B92B50D2D9A74BE007CAF13 /* BookingScreen.swift in Sources */,

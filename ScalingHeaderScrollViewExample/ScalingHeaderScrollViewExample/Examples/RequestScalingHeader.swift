@@ -13,14 +13,11 @@ struct RequestScalingHeader: View {
 
     @Environment(\.presentationMode) var presentationMode
 
-    @State private var isActive: Bool = true
-
-    private let colorSet: [Color] = [.red, .blue, .green, .black, .pink, .purple, .yellow]
     @State private var displayedColors: [Color] = []
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderScrollView {
+            ScalingHeaderScrollView(minHeight: 120.0, maxHeight: 250) { _, _ in
                 ZStack {
                     Rectangle()
                         .fill(Color.gray.opacity(0.15))
@@ -40,17 +37,16 @@ struct RequestScalingHeader: View {
                 }
                 .padding()
             }
-            .pullToRefresh(isActive: isActive) {
+            .pullToRefresh {
                 await shuffleDataSource(delay: 3)
             }
             .pullToLoadMore(contentOffset: 50) {
                 try? await Task.sleep(for: .seconds(3))
-                displayedColors += (0..<5).map { _ in colorSet.randomElement() ?? .red }
+                displayedColors += (0..<5).map { _ in samplePalette.randomElement()?.color ?? .gray }
             }
-            .height(min: 90.0, max: 250)
             .ignoresSafeArea()
             .onAppear {
-                displayedColors = (0..<5).map { _ in colorSet.randomElement() ?? .red }
+                displayedColors = (0..<5).map { _ in samplePalette.randomElement()?.color ?? .gray }
             }
 
             Button("", action: { self.presentationMode.wrappedValue.dismiss() })
@@ -60,17 +56,9 @@ struct RequestScalingHeader: View {
     }
 
     private func shuffleDataSource(delay: Double) async {
-        isActive = false
         try? await Task.sleep(for: .seconds(delay))
         withAnimation(.easeIn(duration: 0.2)) {
             self.displayedColors.shuffle()
-        }
-
-        Task.detached {
-            try? await Task.sleep(for: .seconds(6))
-            await MainActor.run {
-                isActive = true
-            }
         }
     }
 

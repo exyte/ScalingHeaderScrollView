@@ -21,14 +21,6 @@ class BookingScreenViewModel: ObservableObject {
     @Published var description: String = ""
     
     @Published private(set) var currentHotel: Hotel = .capoBayHotel
-    
-    @Published var mapPosition: MapCameraPosition = .region(
-        MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 35.01266423456241, longitude: 34.057450219436646),
-            latitudinalMeters: 400,
-            longitudinalMeters: 400
-        )
-    )
 
     @Published var hotels: [Hotel] = []
     

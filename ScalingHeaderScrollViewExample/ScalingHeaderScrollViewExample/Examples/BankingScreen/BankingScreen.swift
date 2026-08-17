@@ -12,14 +12,13 @@ import ScalingHeaderScrollView
 struct BankingScreen: View {
 
     @Environment(\.presentationMode) var presentationMode
-    @State var progress: CGFloat = 0
     @State private var isActive = true
-    
+
     let service = BankingService()
 
     var body: some View {
         ZStack {
-            ScalingHeaderScrollView {
+            ScalingHeaderScrollView(minHeight: 220, maxHeight: 372) { _, progress in
                 ZStack {
                     Color.hex("#EFF3F5").edgesIgnoringSafeArea(.all)
                     CardView(progress: progress)
@@ -27,14 +26,13 @@ struct BankingScreen: View {
                         .padding(.bottom, 40)
                 }
             } content: {
-                Color.white.frame(height: 15)
-                ForEach(service.transactions) { transaction in
-                    TransactionView(transaction: transaction)
+                VStack {
+                    ForEach(service.transactions) { transaction in
+                        TransactionView(transaction: transaction)
+                    }
                 }
-                Color.white.frame(height: 15)
+                .padding(.vertical, 15)
             }
-            .height(min: 220, max: 372)
-            .collapseProgress($progress)
             .allowsHeaderCollapse()
             .pullToLoadMore(isActive: isActive, contentOffset: 50) {
                 isActive = false
@@ -46,6 +44,7 @@ struct BankingScreen: View {
                     }
                 }
             }
+
             topButtons
 
             VStack {

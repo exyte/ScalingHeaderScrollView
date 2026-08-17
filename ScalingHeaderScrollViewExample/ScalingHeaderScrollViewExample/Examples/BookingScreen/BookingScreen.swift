@@ -8,29 +8,18 @@
 
 import SwiftUI
 import ScalingHeaderScrollView
-import MapKit
 
 struct BookingScreen: View {
-    
-    @ObservedObject private var viewModel = BookingScreenViewModel()
+
+    @StateObject private var viewModel = BookingScreenViewModel()
     @Environment(\.presentationMode) var presentationMode
 
     @State var snapTo: SnapHeaderState?
 
     var body: some View {
         ZStack {
-            ScalingHeaderScrollView {
-                Map(position: $viewModel.mapPosition) {
-                    ForEach(viewModel.hotels) { place in
-                        Annotation(place.id.uuidString, coordinate: place.coordinate) {
-                            mapMarker(isSelected: place == viewModel.currentHotel, price: place.price)
-                                .offset(y: -15)
-                                .onTapGesture {
-                                    viewModel.select(hotel: place)
-                                }
-                        }
-                    }
-                }
+            ScalingHeaderScrollView { _, _ in
+                BookingMapView(viewModel: viewModel)
             } content: {
                 bookingContentView
             }
@@ -41,8 +30,8 @@ struct BookingScreen: View {
         }
         .ignoresSafeArea()
     }
-    
-    private var topButtons: some View { 
+
+    private var topButtons: some View {
         VStack {
             HStack(spacing: 16) {
                 Button("") { self.presentationMode.wrappedValue.dismiss() }
@@ -67,7 +56,7 @@ struct BookingScreen: View {
         .padding(.top, 45)
         .ignoresSafeArea()
     }
-    
+
     private var footer: some View {
         VStack {
             Spacer()
@@ -86,7 +75,7 @@ struct BookingScreen: View {
         .ignoresSafeArea()
         .padding(.bottom, 40)
     }
-    
+
     private var price: some View {
         HStack {
             Text("$ \(viewModel.price)")
@@ -96,14 +85,14 @@ struct BookingScreen: View {
         }
         .padding(.leading, 16)
     }
-    
+
     private var bookButton: some View {
         Button("Book now", action: { print("book") })
             .buttonStyle(BookButtonStyle())
             .padding(.trailing, 16)
             .frame(width: 211, height: 60, alignment: .bottom)
     }
-    
+
     private var bookingContentView: some View {
         VStack {
             contentHeader
@@ -113,7 +102,7 @@ struct BookingScreen: View {
         .padding(.top, 40)
         .padding(.horizontal, 24)
     }
-    
+
     private var contentHeader: some View {
         VStack(spacing: 0) {
             HStack {
@@ -124,12 +113,12 @@ struct BookingScreen: View {
             address
         }
     }
-    
+
     private var placeName: some View {
         Text(viewModel.placeName)
             .fontBold(color: .appDarkGray, size: 24)
     }
-    
+
     private var stars: some View {
         HStack(alignment: .center , spacing: 8) {
             Image("Star")
@@ -138,7 +127,7 @@ struct BookingScreen: View {
                 .fontBold(color: .appYellow, size: 18)
         }
     }
-    
+
     private var address: some View {
         HStack(spacing: 6.5) {
             Image(systemName: "mappin")
@@ -149,7 +138,7 @@ struct BookingScreen: View {
             Spacer()
         }
     }
-    
+
     private var details: some View {
         VStack(spacing: -2) {
             detailsHeader
@@ -159,7 +148,7 @@ struct BookingScreen: View {
         }
         .padding(.top, 30)
     }
-    
+
     private var detailsHeader: some View {
         HStack {
             Text("Details")
@@ -167,7 +156,7 @@ struct BookingScreen: View {
             Spacer()
         }
     }
-    
+
     private var roomDesription: some View {
         HStack {
             Text(viewModel.roomDesription)
@@ -175,7 +164,7 @@ struct BookingScreen: View {
             Spacer()
         }
     }
-    
+
     private var badges: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -186,7 +175,7 @@ struct BookingScreen: View {
         }
         .padding(.top, 20)
     }
-    
+
     private func badgeView(image: String, title: String) -> some View {
         RoundedRectangle(cornerRadius: 16)
             .fill(Color.black.opacity(0.04))
@@ -203,29 +192,13 @@ struct BookingScreen: View {
             )
             .frame(width: 80, height: 80)
     }
-    
+
     private var description: some View {
         Text(viewModel.description)
             .fontRegular(color: .appGray, size: 16)
             .padding(.top, 32)
     }
-    
-    private func mapMarker(isSelected: Bool = false, price: Int) -> some View {
-        Text("$ \(price)")
-            .padding(.horizontal, 12)
-            .padding(.vertical, 5)
-            .fontBold(color: isSelected ? .white : .black, size: 14)
-            .background(
-                ZStack {
-                    Triangle()
-                        .fill(isSelected ? Color.appBookingBlue : .white)
-                        .offset(y: 16)
-                        .frame(width: 12, height: 8)
-                    RoundedRectangle(cornerRadius: 30)
-                        .fill(isSelected ? Color.appBookingBlue : .white)
-                }
-            )
-    }
+
 }
 
 struct BookingScreen_Previews: PreviewProvider {

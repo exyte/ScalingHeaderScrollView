@@ -10,29 +10,26 @@ import SwiftUI
 import ScalingHeaderScrollView
 
 struct ProfileScreen: View {
-    
+
     @ObservedObject private var viewModel = ProfileScreenViewModel()
     @Environment(\.presentationMode) var presentationMode
 
-    @State var progress: CGFloat = 0
-    
     private let minHeight = 110.0
     private let maxHeight = 372.0
 
     var body: some View {
         ZStack {
-            ScalingHeaderScrollView {
+            ScalingHeaderScrollView(minHeight: minHeight, maxHeight: maxHeight) { _, progress in
                 ZStack {
                     Color.white.edgesIgnoringSafeArea(.all)
                     largeHeader(progress: progress)
                 }
             } content: {
-                profilerContentView
+                profileDetailsView
             }
-            .height(min: minHeight, max: maxHeight)
-            .collapseProgress($progress)
             .allowsHeaderGrowth()
-            
+            .headerAlignment(.bottom)
+
             topButtons
             hireButton
         }
@@ -44,14 +41,15 @@ struct ProfileScreen: View {
             HStack {
                 Button("", action: { self.presentationMode.wrappedValue.dismiss() })
                     .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
-                    .padding(.leading, 17)
-                    .padding(.top, 50)
+
                 Spacer()
+
                 Button("", action: { print("Info") })
                     .buttonStyle(CircleButtonStyle(imageName: "ellipsis"))
-                    .padding(.trailing, 17)
-                    .padding(.top, 50)
             }
+            .padding(.horizontal, 17)
+            .padding(.top, 50)
+
             Spacer()
         }
         .ignoresSafeArea()
@@ -60,22 +58,19 @@ struct ProfileScreen: View {
     private var hireButton: some View {
         VStack {
             Spacer()
-            ZStack {
-                VisualEffectView(effect: UIBlurEffect(style: .regular))
-                    .frame(height: 180)
-                    .padding(.bottom, -100)
-                HStack {
-                    Button("Hire", action: { print("hire") })
-                        .buttonStyle(HireButtonStyle())
-                        .padding(.horizontal, 15)
-                        .frame(height: 60, alignment: .bottom)
+            Button("Hire", action: { print("hire") })
+                .buttonStyle(HireButtonStyle())
+                .padding(.horizontal, 15)
+                .frame(height: 60)
+                .padding(.top, 10)
+                .padding(.bottom, 50)
+                .background {
+                    VisualEffectView(effect: UIBlurEffect(style: .regular))
+                        .ignoresSafeArea()
                 }
-            }
         }
-        .ignoresSafeArea()
-        .padding(.bottom, 40)
     }
-    
+
     private var smallHeader: some View {
         HStack(spacing: 12.0) {
             Image(viewModel.avatarImage)
@@ -87,7 +82,7 @@ struct ProfileScreen: View {
                 .fontRegular(color: .appDarkGray, size: 17)
         }
     }
-    
+
     private func largeHeader(progress: CGFloat) -> some View {
         ZStack {
             Image(viewModel.avatarImage)
@@ -95,26 +90,25 @@ struct ProfileScreen: View {
                 .scaledToFill()
                 .frame(height: maxHeight)
                 .opacity(1 - progress)
-            
+
             VStack {
                 Spacer()
-                
+
                 HStack(spacing: 4.0) {
                     Capsule()
                         .frame(width: 40.0, height: 3.0)
                         .foregroundColor(.white)
-                    
+
                     Capsule()
                         .frame(width: 40.0, height: 3.0)
                         .foregroundColor(.white.opacity(0.2))
-                    
+
                     Capsule()
                         .frame(width: 40.0, height: 3.0)
                         .foregroundColor(.white.opacity(0.2))
                 }
-                
-                ZStack(alignment: .leading) {
 
+                ZStack(alignment: .leading) {
                     VisualEffectView(effect: UIBlurEffect(style: .regular))
                         .mask(Rectangle().cornerRadius(40, corners: [.topLeft, .topRight]))
                         .offset(y: 10.0)
@@ -126,7 +120,8 @@ struct ProfileScreen: View {
                             LinearGradient(gradient: Gradient(colors: [.white.opacity(0.0), .white]), startPoint: .top, endPoint: .bottom)
                         )
 
-                    userName
+                    Text(viewModel.userName)
+                        .fontBold(color: .appDarkGray, size: 24)
                         .padding(.leading, 24.0)
                         .padding(.top, 10.0)
                         .opacity(1 - max(0, min(1, (progress - 0.75) * 4.0)))
@@ -140,62 +135,39 @@ struct ProfileScreen: View {
             }
         }
     }
-    
-    private var profilerContentView: some View {
-        VStack {
-            HStack {
-                VStack(alignment: .leading, spacing: 20) {
-                    personalInfo
-                    reviews
-                    skills
-                    description
-                    portfolio
-                    Color.clear.frame(height: 100)
-                }
-                .padding(.horizontal, 24)
-            }
+
+    private var profileDetailsView: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text(viewModel.profession)
+                .fontRegular(color: .appGray, size: 16)
+
+            Text(viewModel.address)
+                .fontRegular(color: .appLightGray, size: 16)
+
+            reviews
+
+            skills
+
+            Text(viewModel.description)
+                .fontRegular(color: .appGray, size: 15)
+
+            portfolio
+
+            Color.clear.frame(height: 100)
         }
-    }
-
-    private var personalInfo: some View {
-        VStack(alignment: .leading) {
-            profession
-            address
-        }
-    }
-
-    private var userName: some View {
-        Text(viewModel.userName)
-            .fontBold(color: .appDarkGray, size: 24)
-    }
-
-    private var profession: some View {
-        Text(viewModel.profession)
-            .fontRegular(color: .appGray, size: 16)
-    }
-
-    private var address: some View {
-        Text(viewModel.address)
-            .fontRegular(color: .appLightGray, size: 16)
+        .padding(.horizontal, 24)
+        .padding(.top, 10)
     }
 
     private var reviews: some View {
-        HStack(alignment: .center , spacing: 8) {
+        HStack(spacing: 8) {
             Image("Star")
                 .offset(y: -3)
-            grade
-            reviewCount
+            Text(String(format: "%.1f", viewModel.grade))
+                .fontBold(color: .appYellow, size: 18)
+            Text("\(viewModel.reviewCount) reviews")
+                .fontRegular(color: .appLightGray, size: 16)
         }
-    }
-
-    private var grade: some View {
-        Text(String(format: "%.1f", viewModel.grade))
-            .fontBold(color: .appYellow, size: 18)
-    }
-
-    private var reviewCount: some View {
-        Text("\(viewModel.reviewCount) reviews")
-            .fontRegular(color: .appLightGray, size: 16)
     }
 
     private var skills: some View {
@@ -215,7 +187,7 @@ struct ProfileScreen: View {
         }
     }
 
-    func skillView(for skill: String) -> some View {
+    private func skillView(for skill: String) -> some View {
         Text(skill)
             .padding(.vertical, 5)
             .padding(.horizontal, 14)
@@ -226,11 +198,6 @@ struct ProfileScreen: View {
                     .fill(Color.appProfileBlue.opacity(0.08))
                     .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.appProfileBlue))
             )
-    }
-
-    private var description: some View {
-        Text(viewModel.description)
-            .fontRegular(color: .appGray, size: 15)
     }
 
     private var portfolio: some View {

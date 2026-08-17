@@ -12,31 +12,30 @@ import ScalingHeaderScrollView
 struct ColorScalingHeader: View {
 
     @Environment(\.presentationMode) var presentationMode
-    
-    @State private var selectedColor: Color = .green
+
+    @State private var selectedColor: Color = samplePalette[0].color
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderScrollView {
+            ScalingHeaderScrollView(minHeight: 110) { _, _ in
                 selectedColor
             } content: {
                 scrollContent
                     .padding()
             }
-            .height(min: 110)
             .ignoresSafeArea()
-            
+
             Button("", action: { self.presentationMode.wrappedValue.dismiss() })
                 .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
                 .padding(.leading, 16)
         }
     }
-    
+
     // MARK: - Private
-    
+
     private var scrollContent: some View {
         LazyVStack {
-            ForEach((0...colorSet.count - 1), id: \.self) { index in
+            ForEach(samplePalette.indices, id: \.self) { index in
                 colorRow(index: index)
             }
             .background(
@@ -46,29 +45,19 @@ struct ColorScalingHeader: View {
             )
         }
     }
-    
+
     private func colorRow(index: Int) -> some View {
         HStack {
-            Text(colorSet[index].name)
+            Text(samplePalette[index].name)
             Spacer()
-            colorSet[index]
+            samplePalette[index].color
                 .clipShape(Circle())
                 .frame(width: 30.0, height: 30.0)
         }
         .padding()
         .contentShape(Rectangle())
         .onTapGesture {
-            selectedColor = colorSet[index]
+            selectedColor = samplePalette[index].color
         }
-    }
-}
-
-
-let colorSet: [Color] = [.red, .blue, .green, .black, .pink, .purple, .yellow,
-                         .red, .blue, .green, .black, .pink, .purple, .yellow]
-
-extension Color {
-    var name: String {
-        UIColor(self).accessibilityName
     }
 }

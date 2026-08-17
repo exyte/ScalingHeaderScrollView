@@ -13,12 +13,10 @@ struct SimpleScalingHeader: View {
 
     @Environment(\.presentationMode) var presentationMode
 
-    @State private var selectedImage: String = "image_1"
-    
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderScrollView {
-                Image(selectedImage)
+            ScalingHeaderScrollView { _, _ in
+                Image("image_1")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .clipped()
@@ -26,9 +24,7 @@ struct SimpleScalingHeader: View {
                 Text(defaultDescription)
                     .padding()
             }
-            .pullToRefresh() {
-                changeImage()
-            }
+            .allowsHeaderGrowth()
             .allowsHeaderCollapse()
             .ignoresSafeArea()
 
@@ -36,11 +32,5 @@ struct SimpleScalingHeader: View {
                 .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
                 .padding(.leading, 16)
         }
-    }
-    
-    // MARK: - Private
-    
-    private func changeImage() {
-        selectedImage = selectedImage == "image_1" ? "image_2" : "image_1"
     }
 }

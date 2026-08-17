@@ -10,83 +10,83 @@ import SwiftUI
 import ScalingHeaderScrollView
 
 struct TabScalingHeader: View {
-    
-    enum Screen {
-        case first, second, third
+
+    enum Tab: String, CaseIterable {
+        case one, two, three
+        var title: String { rawValue.capitalized }
     }
-    
+
     @Environment(\.presentationMode) var presentationMode
-    
-    @State private var selectedScreen: Screen = .first
-    @State private var scrollToTop: Bool = false
-    
+
+    @State private var selectedTab: Tab = .one
+
+    private static let tabBarHeight: CGFloat = 50
+    private static let maxHeight: CGFloat = 300
+
+    private static var safeAreaTop: CGFloat {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first?.windows.first { $0.isKeyWindow }?.safeAreaInsets.top ?? 44
+    }
+
+    private static var minHeight: CGFloat { (tabBarHeight + safeAreaTop) * 2 }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
-            ScalingHeaderScrollView {
+            ScalingHeaderTabView(
+                selection: $selectedTab,
+                minHeight: Self.minHeight,
+                maxHeight: Self.maxHeight
+            ) { height, _ in
                 VStack(spacing: 0) {
                     Image("image_1")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                    
+                        .frame(height: max(0, height - Self.tabBarHeight))
+                        .clipped()
+
                     tabBar
                 }
-                .frame(width: UIScreen.main.bounds.width)
-            } content: {
-                content
+            } pageContent: { tab in
+                pageContent(for: tab)
             }
-            .scrollToTop(resetScroll: $scrollToTop)
-            .ignoresSafeArea()
-            
-            Button("", action: { self.presentationMode.wrappedValue.dismiss() })
+
+            Button("", action: { presentationMode.wrappedValue.dismiss() })
                 .buttonStyle(CircleButtonStyle(imageName: "arrow.backward"))
                 .padding(.leading, 16)
+                .padding(.top, Self.safeAreaTop + 8)
         }
+        .ignoresSafeArea()
     }
-    
+
     // MARK: - Private
-    
+
     private var tabBar: some View {
         ZStack {
             Color.white
             Color.gray.opacity(0.15)
-            HStack {
-                Spacer()
-                Text("One")
-                    .onTapGesture {
-                        selectedScreen = .first
-                        scrollToTop = true
-                    }
-                Spacer()
-                Text("Two")
-                    .onTapGesture {
-                        selectedScreen = .second
-                        scrollToTop = true
-                    }
-                Spacer()
-                Text("Three")
-                    .onTapGesture {
-                        selectedScreen = .third
-                        scrollToTop = true
-                    }
-                Spacer()
+            HStack(spacing: 0) {
+                ForEach(Tab.allCases, id: \.self) { tab in
+                    Text(tab.title)
+                        .fontWeight(selectedTab == tab ? .semibold : .regular)
+                        .frame(maxWidth: .infinity)
+                        .onTapGesture { selectedTab = tab }
+                }
             }
         }
-        .frame(height: 50.0)
+        .frame(height: Self.tabBarHeight)
     }
-    
-    private var content: some View {
-        ZStack {
-            switch selectedScreen {
-            case .first:
-                Text("1\n\n" + defaultDescription)
-                    .padding()
-            case .second:
-                Text("2\n\n" + defaultDescription)
-                    .padding()
-            case .third:
-                Text("3\n\n" + defaultDescription)
-                    .padding()
-            }
+
+    private func pageContent(for tab: Tab) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(tab.rawValue.uppercased())
+                .fontBold(size: 24)
+                .padding(.bottom, 8)
+
+            Text(defaultDescription)
+                .fontRegular(size: 16)
         }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
